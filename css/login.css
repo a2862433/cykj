@@ -1,0 +1,26 @@
+.logo-div{
+	margin-top: 50px;
+	text-align: center;
+}
+
+.app-logo{
+	width:150px;
+	height: 133px;
+}
+.main{
+	margin-top: 50px;
+	text-align: center;
+}
+.field{
+	margin-left: 40px;
+	margin-right: 40px;
+}
+.btn-style{
+	background: #007AFF;
+}
+.footer{
+	margin-top:30px;
+	
+	text-align: center;
+	
+}

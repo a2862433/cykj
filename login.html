@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript" src="js/boot.js" ></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/login.css" rel="stylesheet"/>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			function callback(xhr) {
+				if (xhr.status == 200) {
+					
+					var jso=eval("("+xhr.responseText+")")
+					//alert(jso.state);
+					if (jso.result) {
+						//存储企业ID 和  用户ID
+						var cw = plus.webview.currentWebview();
+						plus.storage.setItem( "userId", jso.userId);
+						var login = plus.webview.currentWebview();
+						var index = plus.webview.create("index.html","index.html");
+						index.show();
+						//login.close();
+						return true;
+					} else {
+						mui.toast('用户和密码错误');
+					}
+					nWaiting.close();
+				} else {
+					mui.toast('网络未连接，请检查网络');
+				}
+				boot.xhrAbort();
+				plus.nativeUI.closeWaiting();
+				
+			}
+			
+			function login() {
+				plus.nativeUI.showWaiting( "正在登录..." );
+				var name = document.getElementById("userName").value;
+				var pwd = document.getElementById("userPass").value;
+				boot.xhrCreate(boot.url.login + "?username=" + name + "&password=" + pwd, callback);
+			}
+			
+			mui.plusReady(function() {
+					if(plus.storage.getItem("userId")!=null){
+						var index = plus.webview.create("index.html","index.html");
+						index.show();
+					}else{
+						plus.navigator.closeSplashscreen();
+					}
+			});    
+		</script>
+	</head>
+
+	<body style="font-family: '微软雅黑';color:#0099FF;background: #FAFAFA;">
+
+		<div class="logo-div">
+			<img class="app-logo" src="img/logo.png">
+			<div>中航建筑质量监督平台</div>
+		</div>
+		<div class='main'>
+			<div class='field'>
+				<input type="text" name="userName" id="userName" value="" placeholder="请输入用户名" />
+			</div>
+			<div class='field'>
+				<input type="password" name="userPass" id="userPass" value="" placeholder="请输入密码"/>
+			</div>
+			<div class='field'>
+				<button class="mui-btn" style="width:100%;background: #007AFF;color: #fff;height: 40px;" onclick="login();">登 录</button>
+			</div>
+
+		</div>
+		<div class='footer' ">
+
+		<P >卓越天成 版权所有  </P>
+
+		<p>2014-2020</p>
+
+	</div>
+
+</body>
+
+</html>

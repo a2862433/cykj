@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.js"></script>
+		<link href="../css/mui.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<ul id="list" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" id="setPerson">
+
+						个人设置
+
+					</a>
+				</li>
+			</ul>
+			<button style="margin-left: 5%;width:90%;margin-top: 20px;height: 40px;background: #4BBB7B;border: 0px;color: #fff;font-size: 20px;" onclick="logout();">注销</button>
+			<button style="margin-left: 5%;width:90%;margin-top: 20px;height: 40px;background: #DD524D;border: 0px;color: #fff;font-size: 20px;" id="exit">退出</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			//首页返回键处理
+			//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+			var first = null;
+			document.getElementById("exit").addEventListener('tap', function() {
+				//首次按键，提示‘再按一次退出应用’
+				if (!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if (new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			});
+			
+			document.getElementById("setPerson").addEventListener('tap', function() {
+				//首次按键，提示‘再按一次退出应用’
+				var user = plus.webview.create("user.html","user.html");
+				user.show();
+			});
+		});
+
+		function logout() {
+			if (confirm('确认注销？')) {
+				plus.storage.clear();
+				plus.storage.setItem("firstIn","true");
+				var wvs = plus.webview.all(); //alert(wvs.length);
+				for (var i = 0; i < wvs.length; i++) { //关闭所有页面，login除外
+					console.log(wvs[i].id + "," + wvs[i].getURL());
+					if (wvs[i].id != "HBuilder"&&wvs[i].id != "login.html") {
+						plus.webview.close(wvs[i]);
+					}
+				}
+				var login = plus.webview.getWebviewById("login.html");
+				login.close();
+				login = plus.webview.create("login.html","login.html");
+				login.show();
+				
+			}
+		}
+	</script>
+
+</html>

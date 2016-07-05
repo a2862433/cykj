@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.js"></script>
+		<script src="../js/boot.js"></script>
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link href="../css/fontstyle.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/time-line.css" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			
+			function callback(xhr){
+	  			if (xhr.status == 200) {
+					var ja = eval("("+xhr.responseText+")");
+					console.log("请求成功：" + xhr.responseText);
+					var live = "r";
+					var body = document.body;
+					body.innerHTML='<div style="width:100%;text-align: center;">'+
+								   '	<div class="timline-top">'+
+								   '		<div id="projName" style="margin-top: 10px;color: #fff;"></div>'+
+								   '	</div>'+
+								   '</div>'+
+								   '<div id="commonProjectInfo" class="timeline-container" ></div>';
+					var commonProjectInfo = document.getElementById("commonProjectInfo");
+					commonProjectInfo.innerHTML="";
+					for(var i = 0;i < ja[0].length;i++){
+						var projName = document.getElementById("projName");
+						projName.innerText = ja[0][0].projName;
+						
+						
+						var divContainer = document.createElement("div");
+						var cycleId = ja[0][i].id;
+						var remark = ja[0][i].remark;
+						if(remark == null  || remark == undefined){
+							remark = "";
+						}
+						divContainer.setAttribute("id",cycleId);
+						divContainer.setAttribute("class","container");
+						var startData = ja[0][i].startDate;
+						if(startData == null || startData == undefined){
+							startData = "&nbsp;&nbsp;&nbsp;&nbsp;";
+						}
+						var html = "";
+						if(live == "r"){
+								html = 	 "<div class='container' >"
+									+"	<div class='container-piece container-right'>"
+									+"		<div class='container-content' style='margin-top:10px ;right: 10px;'>"
+									+"			<div class='icon-clock2' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+									+"			<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+									+"				起始:" + startData + ""
+									+"			</div>"
+									+"		</div>"
+									+"		<div class='container-content' style='margin-top:35px ;right:10px;width:150px;white-space:normal'>"
+									+"			<p style='white-space:normal'>说明：" + remark + "</p>"
+									+"		</div>"
+									+"		<div class='point' style='left:-13px;background: #DD524D;'></div>"
+									+"		<div class='container-line' style='left:-32px;top:20px'></div>"
+									+"		<div class='container-title' style='left: -133px;top: 4px;background: #DD524D;'>"
+									+"			<b style='color: #fff;'>" + ja[0][i].name + "</b>"
+									+"  	</div>"
+									+"	</div>"
+									+"</div> ";
+							live = "l";
+						}else if(live == "l"){
+							html = 	 "<div class='container' >"
+								+"	<div class='container-piece'>"
+								+"		<div class='container-content' style='margin-top:10px ;left:10px;'>"
+								+"			<div class='icon-clock2' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+								+"			<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+								+"				起始:" + startData + ""
+								+"			</div>"
+								+"		</div>"
+								+"		<div class='container-content' style='margin-top:35px ;width:150px;left:10px;white-space:normal'>"
+								+"			<p style='white-space:normal'>说明：" + remark + "</p>"
+								+"		</div>"
+								+"		<div class='point'  style='float: right;left:15px;background:#DD524D'></div>"
+								+"		<div class='container-line' style='float: right;left: 62px;margin-top: 49px;'></div>"
+								+"		<div class='container-title' style='float: right;left:183px;top: 33px;background: #DD524D;'>"
+								+"			<b style='color: #fff;'>" + ja[0][i].name + "</b>"
+								+"		</div>"
+								+"	</div>"
+								+"</div> ";
+							live = "r";
+						}
+						divContainer.innerHTML = html;	
+						commonProjectInfo.appendChild(divContainer);
+						
+						var childs = ja[0][i].children;
+						if(childs != null && childs != undefined){
+							for(var j = 0; j < childs.length; j++){
+								var divContainerChild = document.createElement("div");
+								var cycleIdChild = childs[j].id;
+								var startData = childs[j].startDate;
+								if(startData == null || startData == undefined){
+									startData = "";
+								}
+								divContainerChild.setAttribute("id",cycleIdChild);
+								divContainerChild.setAttribute("class","container");
+								
+								var htmlChild = "";
+								if(live == "r"){
+									htmlChild =  " <div class='container-piece container-right click'>"
+												+"		<div class='container-content' style='margin-top:10px ;right: 10px;'>"
+												+"			<div class='icon-clock2' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+												+"			<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+												+"				起始:" + startData + ""
+												+"			</div>"
+												+"		</div>"
+												+"		<div class='container-content' style='margin-top:35px ;right: 10px;'>"
+												+"			<div class='icon-laptop' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+												+"			<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+												+"				已通过：<span style='margin-left: 28px;'>" + childs[j].pass + "个</span>"
+												+"			</div>"
+												+"		</div>"
+												+"		<div class='container-content' style='margin-top:60px ;right: 10px;color: #DD524D;'>"
+												+"			<div class='icon-laptop' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+												+"			<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+												+"				未通过：<span style='margin-left: 28px;'>" + childs[j].unPass + "个"
+												+"			</div>"
+												+"		</div>"
+												+"		<div class='point' style='left:-13px;background: #4BBB7B;'></div>"
+												+"		<div class='container-line' style='left:-32px;top:20px'></div>"
+												+"		<div class='container-title click' style='left: -133px;top: 4px;background: #4BBB7B;'>" + childs[j].name + " </div>"
+												+"	</div>";
+									live = "l";												
+								}else if(live == "l"){
+									htmlChild =  "<div class='container-piece container-left click'>"
+												+"	<div class='container-content' style='margin-top:10px ;left:10px;'>"
+												+"		<div class='icon-clock2' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+												+"		<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+												+"			起始:" + startData + ""
+												+"		</div>"
+												+"	</div>"
+												+"	<div class='container-content' style='margin-top:35px ;left:10px;'>"
+												+"		<div class='icon-laptop' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+												+"		<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+												+"			已通过：<span style='margin-left: 28px;'>" + childs[j].pass + "个"
+												+"		</div>"
+												+"	</div>"
+												+"	<div class='container-content' style='margin-top:60px ;left:10px;color: #DD524D;'>"
+												+"		<div class='icon-laptop' style='float: left;margin-top: 3px;font-size: 14px;'></div>"
+												+"		<div style='float: left;font-size: 14px;margin-left: 8px;'>"
+												+"			未通过：<span style='margin-left: 28px;'>" + childs[j].unPass + "个"
+												+"		</div>"
+												+"	</div>"
+												+"	<div class='point' style='float: right;left:15px;background: #4BBB7B;'></div>"
+												+"	<div class='container-line' style='float: right;left: 62px;margin-top: 49px;'></div>"
+												+"	<div class='container-title' style='float: right;left:183px;top: 33px;background: #4BBB7B;'>"
+												+" 		 " + childs[j].name + ""
+												+"	</div>"
+												+"</div>";
+									live = "r";			
+								}
+								divContainerChild.innerHTML = htmlChild;
+								commonProjectInfo.appendChild(divContainerChild);
+						
+								
+							}
+						}
+						
+					}
+					
+				mui('.click').on('tap', '.point', function(e) {
+					var cycleId = this.parentNode.parentNode.getAttribute("id");
+					plus.storage.setItem("cycleId",cycleId);
+						mui.openWindow({
+					    	url:'shoot.html',
+					    	id:'shoot',
+					    	show:{
+					    		aniShow:'slide-in-bottom',
+					    		duration:'300'
+					    	}
+						});
+			
+				});
+				} else {
+					var body = document.body;
+					body.innerHTML="<div style='text-align: center;margin-top: 20px;'>未连接服务器<br/><button id='unload'>重新加载</button></div>";
+				}
+				plus.nativeUI.closeWaiting();
+      		}
+			
+			mui.plusReady(function() {
+				var body = document.querySelector("body");
+				var projectId = plus.storage.getItem("projectId");
+				if(body){
+					if(projectId){
+							var url = boot.url.projectInfo + "?projectId="+projectId;
+							console.log(url);
+							boot.xhrCreate(url, callback);
+					}else{
+						var body = document.querySelector("body");
+						body.innerHTML="<div style='text-align: center;margin-top: 20px;'>未选择项目，请选择<br/><button id='goToProject'>选择项目</button></div>";
+						imgLoaded();
+						//plus.nativeUI.closeWaiting();
+					}
+				}else{
+					document.addEventListener("DOMContentLoaded",function(){
+						if(projectId){
+							var url = boot.url.projectInfo + "?projectId="+projectId;
+							boot.xhrCreate(url, callback);
+						}else{
+							var body = document.querySelector("body");
+							body.innerHTML="<div style='text-align: center;margin-top: 20px;'>未选择项目，请选择<br/><button id='goToProject'>选择项目</button></div>";
+							imgLoaded();
+							//plus.nativeUI.closeWaiting();
+						}
+					});
+				}
+			});
+			function imgLoaded(){
+				document.getElementById("goToProject").addEventListener('tap', function(e) {
+					var cw = plus.webview.currentWebview();
+					var p_cw = cw.parent();
+					p_cw.evalJS("queryProject()");
+				});
+				var loadbtn = document.getElementById("unload");
+				if(loadbtn){
+					loadbtn.addEventListener('tap', function(e) {
+						var projectId = plus.storage.getItem("projectId");
+						if(projectId){
+							var url = boot.url.projectInfo + "?projectId="+projectId;
+							boot.xhrCreate(url, callback);
+						}else{
+							var info = document.getElementById("commonProjectInfo");
+							info.innerHTML="<div style='text-align: center;margin-top: 20px;'>请选择项目<br/><button id='goToProject'>选择项目</button></div>";
+							plus.nativeUI.closeWaiting();
+						}
+					});
+				}
+				plus.nativeUI.closeWaiting();
+			}
+			function load(id){
+				plus.nativeUI.showWaiting( "数据等待中..." );
+				var url = boot.url.projectInfo + "?projectId="+id;
+				boot.xhrCreate(url, callback);
+			};
+			
+		</script>
+	</head>
+
+	<body>
+		
+		<!--<div style="width:100%;text-align: center;">
+			<div class="timline-top">
+				<div id="projName" style="margin-top: 10px;color: #fff;"></div>
+			</div>
+		</div>
+		<div id="commonProjectInfo" class="timeline-container" >-->
+			<!--div class="container" >
+				<div class="container-piece container-right">
+					<div class="container-content" style="margin-top:10px ;right: 10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;right: 10px;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							已通过：<span style="margin-left: 28px;">3个</span>
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:60px ;right: 10px;color: #DD524D;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							未通过：<span style="margin-left: 28px;">3个
+						</div>
+					</div>
+					<div class="point" style="left:-13px;background: #DD524D;"></div>
+					<div class="container-line" style="left:-32px;top:20px"></div>
+					<div class="container-title" style="left: -133px;top: 4px;background: #DD524D;">周围环境</div>
+				</div>
+			</div> 
+			
+			<div class="container">
+				<div class="container-piece container-right">
+					<div class="container-content" style="margin-top:10px ;right: 10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;right: 10px;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							已通过：<span style="margin-left: 28px;">3个</span>
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:60px ;right: 10px;color: #DD524D;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							未通过：<span style="margin-left: 28px;">3个
+						</div>
+					</div>
+					<div class="point" style="left:-13px;background: #4BBB7B;"></div>
+					<div class="container-line" style="left:-32px;top:20px"></div>
+					<div class="container-title" style="left: -133px;top: 4px;background: #4BBB7B;">周围环境</div>
+				</div>
+			</div>
+			
+			<div class="container">
+				<div class="container-piece container-left">
+					<div class="container-content" style="margin-top:10px ;left:10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;left:10px;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							已通过：<span style="margin-left: 28px;">3个
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:60px ;left:10px;color: #DD524D;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							未通过：<span style="margin-left: 28px;">0个
+						</div>
+					</div>
+					<div class="point" style="float: right;left:15px;background: #4BBB7B;"></div>
+					<div class="container-line" style="float: right;left: 62px;margin-top: 49px;"></div>
+					<div class="container-title" style="float: right;left:183px;top: 33px;background: #4BBB7B;">
+						地下结构
+					</div>
+				</div>
+			</div> 
+			
+			<div class="container">
+				<div class="container-piece container-right">
+					<div class="container-content" style="margin-top:10px ;right: 10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;right: 10px;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							已通过：<span style="margin-left: 28px;">3个</span>
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:60px ;right: 10px;color: #DD524D;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							未通过：<span style="margin-left: 28px;">3个
+						</div>
+					</div>
+					<div class="point" style="left:-13px;background: #4BBB7B;"></div>
+					<div class="container-line" style="left:-32px;top:20px"></div>
+					<div class="container-title" style="left: -133px;top: 4px;background: #4BBB7B;">周围环境</div>
+				</div>
+			</div>
+			
+			<div class="container" style="text-align: center;">
+				<div class="container-piece container-left">
+					<div class="container-content" style="margin-top:10px ;left:10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;left:10px;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							已通过：<span style="margin-left: 28px;">3个
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:60px ;left:10px;color: #DD524D;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							未通过：<span style="margin-left: 28px;">0个
+						</div>
+					</div>
+					<div class="point" style="float: right;left:15px;background: #4BBB7B;"></div>
+					<div class="container-line" style="float: right;left: 62px;margin-top: 49px;"></div>
+					<div class="container-title" style="float: right;left:183px;top: 33px;background: #4BBB7B;">
+						地下结构
+					</div>
+				</div>
+			</div> 
+			
+				<div class="container" >
+				<div class="container-piece ">
+					<div class="container-content" style="margin-top:10px ;left:10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;left:10px;">
+						<p>说明：该周期考察周<br/>边的环境和地理条件</p>
+					</div>
+					<div class="point"  style="float: right;left:15px;background:#DD524D"></div>
+					<div class="container-line" style="float: right;left: 62px;margin-top: 49px;"></div>
+					<div class="container-title" style="float: right;left:183px;top: 33px;background: #DD524D;">
+						<b style="color: #fff;">前期考察</b>
+					</div>
+				</div>
+			</div> 
+			<div class="container">
+				<div class="container-piece container-right">
+					<div class="container-content" style="margin-top:10px ;right: 10px;">
+						<div class="icon-clock2" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							起始:2014-10-21
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:35px ;right: 10px;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							已通过：<span style="margin-left: 28px;">3个</span>
+						</div>
+					</div>
+					<div class="container-content" style="margin-top:60px ;right: 10px;color: #DD524D;">
+						<div class="icon-laptop" style="float: left;margin-top: 3px;font-size: 14px;"></div>
+						<div style="float: left;font-size: 14px;margin-left: 8px;">
+							未通过：<span style="margin-left: 28px;">3个
+						</div>
+					</div>
+					<div class="point" style="left:-13px;background: #4BBB7B;"></div>
+					<div class="container-line" style="left:-32px;top:20px"></div>
+					<div class="container-title" style="left: -133px;top: 4px;background: #4BBB7B;">周围环境</div>
+				</div>
+			</div-->
+	
+		</div>
+	</body>
+</html>

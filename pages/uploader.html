@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.js"></script>
+    <script type="text/javascript" src="../js/boot.js" ></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+  			var files={key:'',path:''};
+    		mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+      		mui.plusReady(function(){
+      				var wb = plus.webview.currentWebview();
+      				document.getElementById("imgModel").src=wb.path;
+      				files.key="uploadkey";
+      				files.path=wb.path;
+	      	});
+      		function quit(){
+      			var wb = plus.webview.currentWebview();
+      			var par = plus.webview.getWebviewById("uploader");
+      			par.evalJS("refresh();");
+      			wb.close();
+      		}
+      		//var server="http://192.168.2.100:8081/siims/app/jzzljd/shootImgUpload.jspx";
+      		var server = boot.url.shootImgUpload;
+			// 上传文件
+			function upload(){
+				
+				var wt=plus.nativeUI.showWaiting();
+				var task=plus.uploader.createUpload(server,
+					{method:"POST"},
+					function(t,status){ //上传完成
+						if(status==200){
+							alert("上传完成");
+							wt.close();
+							quit();
+						}else{
+							wt.close();
+							quit();
+						}
+					}
+				);
+				var imageFileName = document.getElementById("imgModel").src;
+				imageFileName = imageFileName.substring(imageFileName.lastIndexOf("/") + 1,imageFileName.length);
+				var imgTitle = document.getElementById("imgTitle");
+				var imgInfo = document.getElementById("imgInfo");
+/*				server += "?shootId=" + plus.storage.getItem("pointId");
+				server += "&imageFileName=" + imageFileName;
+				server += "&title=" + imgTitle.value;
+				server += "&description=" + imgInfo.value;*/
+				task.addData("shootId",plus.storage.getItem("pointId"));
+				task.addData("imageFileName",imageFileName);
+				task.addData("title",imgTitle.value);
+				task.addData("description",imgInfo.value);
+				task.addFile(files.path,{key:'file'});
+				task.start();
+			}
+			
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav" style=" background: #15A0F5;">
+			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 18px;color: #fff;">图片上传</h1>
+			<a class=" mui-icon mui-pull-left" style="color: #fff;" onclick="quit();"><p style="font-size: 18px;color: #fff;margin-top: 3px;">返回</p></a>
+		</header>
+	<div class="mui-content" style="margin-top: 20px;">
+		<div  style="text-align: center;">
+			<img id="imgModel" style="width:200px;height:200px" src="" />
+		<div>
+		<div style="padding: 10px;">
+			<input type="text" id="imgTitle"  placeholder="标题：请输入10位以内文字"/>
+			<textarea  rows="3" id="imgInfo" placeholder="简介：请输入100位以内文字"></textarea>
+			<button class="mui-btn" style="width:100%;border: 0px;background: #007AFF;color: #fff;height: 40px;" onclick="upload()">上传图片</button>
+		</div>
+	</div>
+</body>
+</html>

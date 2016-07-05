@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/upload.js"></script>
+		<script src="../js/boot.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/shoot/shoot.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+					swipeBack:true //启用右滑关闭功能
+				});
+				
+			function callback(xhr){
+	  			if (xhr.status == 200) {
+					var ja = eval("("+xhr.responseText+")");
+					console.log("请求成功：" + xhr.responseText);
+					var commonTotal = ja[0].length;
+					var unUpload = 0;
+					var unPass = 0;
+					for(var i = 0;i < ja[0].length;i++){
+						var id = ja[0][i].id;
+						var name = ja[0][i].name;
+						var total = ja[0][i].total;
+						var state = ja[0][i].state;
+						var imgPath = ja[0][i].imgPath;
+						
+						var commonShoot = document.getElementById("commonShoot"); 
+						var liNode = document.createElement("li");
+						liNode.setAttribute("class","mui-table-view-cell mui-media mui-col-xs-6");
+						var html = "";
+						if(state == 1){
+							html =   " <a id=" + id + " state=" + state + " href='#flagged'>"
+									+"	<img class='mui-media-object' style='max-height: 160px;' src='../images/177X177CAM2.jpg'>" 
+									+"		<div class='mui-media-body'>" + name + "</div>"      
+									+"		<div class='mui-media-body'>"
+									+"			<span style='color: #EC971F;'>状态：未上传</span>"
+									+"		</div>"
+									+"		<div class='mui-media-body'>图片：" + total + "张</div>"
+									+"	</a>";
+							unUpload++ ;
+												
+						}
+						if(state == 2){
+							html =   " <a id=" + id + " state=" + state + " href='#'>"
+									+"	<img class='mui-media-object' style='max-height: 160px;' src='../images/177X177CAM2.jpg'>" 
+									+"		<div class='mui-media-body'>" + name + "</div>"      
+									+"		<div class='mui-media-body'>"
+									+"			<span style='color: #EC971F;'>状态：待审核</span>"
+									+"		</div>"
+									+"		<div class='mui-media-body'>图片：" + total + "张</div>"
+									+"	</a>";
+						}
+						if(state == 3){
+							html = 	 " <a id=" + id + " state=" + state + " href='#'>"
+									+"		<img class='mui-media-object' style='height:160px' src='../images/177X177CAM2.jpg'>" 
+									+"		<div class='mui-media-body'>" + name + "</div>"
+									+"		<div class='mui-media-body'>状态：已通过</div>"
+									+"		<div class='mui-media-body'>图片：" + total + "张</div>"
+									+" </a>";
+						}
+						if(state == 4){
+							html = 	 " <a id=" + id + " state=" + state + " href='#'>"
+									+"		<img class='mui-media-object' style='max-height: 160px;' src='../images/177X177CAM2.jpg'>" 
+									+"		<div class='mui-media-body'>" + name + "</div>"
+									+"		<div class='mui-media-body'>状态："
+									+"			<span style='color: #CF2D28;'>未通过</span>"
+									+"		</div>"
+									+"		<div class='mui-media-body'>图片：" + total + "张</div>"
+									+" </a>";
+							unPass++;
+						}
+						liNode.innerHTML = html;
+						commonShoot.appendChild(liNode);
+						if(imgPath != null || imgPath != undefined){
+							document.getElementById(id).getElementsByTagName("img")[0].setAttribute("src",base._path + "/projectimg/" + imgPath);							
+						}
+					}
+					document.getElementById("commonTotal").innerText = "全部（" + commonTotal + "）"; 
+					document.getElementById("unUpload").innerText = "未上传（" + unUpload + "）";
+					document.getElementById("unPass").innerText = "未通过（" + unPass + "）";
+					
+					mui('.mui-grid-view').on('tap', 'a', function(e) {
+						var pointId = this.getAttribute("id");
+						plus.storage.setItem("pointId",pointId);
+						if(this.getAttribute('href')!='#flagged'){
+							mui.openWindow({
+						    	url:'gallery.html',
+						    	id:'uploader',
+						    	show:{
+						    		aniShow:'fade-in'
+						    	}
+							});
+						}
+				
+					});
+					document.getElementById("popoverCancel").addEventListener('tap', function(e) {
+						mui('.mui-popover').popover('toggle');
+						 
+					});
+					mui('.mui-segmented-control').on('tap', 'a', function(e) {
+						var hrefItem = this.getAttribute("href");
+						var as = document.getElementById("commonShoot").getElementsByTagName("a");
+					    for (var i = 0; i < as.length; i++) {
+					        var ast = as[i];
+					       	var astate = ast.getAttribute("state");
+					       	if(hrefItem == "#item1"){
+								ast.parentNode.setAttribute("style","");
+							}else if(hrefItem == "#item2"){
+								if(astate != 1){
+									ast.parentNode.setAttribute("style","display:none");
+								}else{
+									ast.parentNode.setAttribute("style","");
+								}
+							}else if(hrefItem == "#item3"){
+								if(astate != 4){
+									ast.parentNode.setAttribute("style","display:none");
+								}else{
+									ast.parentNode.setAttribute("style","");
+								}
+							}
+					    }
+						
+					});
+					
+				} else {
+					var content = document.querySelector("body");
+					content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请从新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
+				}
+      		}
+			
+			mui.plusReady(function() {
+				var cycleId = plus.storage.getItem("cycleId");
+				if(cycleId != null && cycleId != undefined){
+					var url = boot.url.shootList + "?cycleId=" + cycleId;
+					console.log(url);
+					boot.xhrCreate(url, callback);
+				}
+			});		
+			
+			function loadData(){
+				nWaiting.open(plus);
+				var cycleId = plus.storage.getItem("cycleId");
+				if(cycleId != null && cycleId != undefined){
+					var url = boot.url.shootList + "?cycleId=" + cycleId;
+					boot.xhrCreate(url, callback);
+				}
+			};
+			
+			function refresh(){
+				window.location.reload();
+			};
+			
+			function quit(){
+				var wb = plus.webview.currentWebview();
+				var par = plus.webview.getWebviewById("index.html");
+				par.evalJS("refresh();");
+				wb.close();
+			};
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style=" background: #15A0F5;">
+			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 18px;color: #fff;">拍摄点列表</h1>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;" onclick="quit()"></a>
+		</header>
+		<div class="mui-content">
+			<div style="padding: 10px 10px;">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a id="commonTotal" class="mui-control-item mui-active" href="#item1">
+						全部（0）
+					</a>
+					<a id="unUpload" class="mui-control-item" href="#item2">
+						未上传（0）
+					</a>
+					<a id="unPass" class="mui-control-item" href="#item3">
+						未通过（0）
+					</a>
+				</div>
+			</div>
+			<ul id="commonShoot" class="mui-table-view mui-grid-view">
+				<!--li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#flagged">
+						<img class="mui-media-object" style="max-height: 120px;" src="../images/177X177CAM2.jpg">
+						<div class="mui-media-body">周围建筑</div>
+						<div class="mui-media-body">
+							<span style="color: #EC971F;">状态：未上传</span>
+						</div>
+						<div class="mui-media-body">图片：0张</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" style="max-height: 120px;" src="../images/PIC-177X177 (5).jpg">
+						<div class="mui-media-body">影响建筑</div>
+						<div class="mui-media-body">状态：
+							<span style="color: #CF2D28;">未通过</span>
+						</div>
+						<div class="mui-media-body">图片：10张</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" style="height:120px" src="../images/PIC-177X177 (1).jpg">
+						<div class="mui-media-body">影响交通</div>
+						<div class="mui-media-body">状态：已通过</div>
+						<div class="mui-media-body">图片：10张</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" style="height:120px" src="../images/../images/PIC-177X177 (3).jpg">
+						<div class="mui-media-body">影响管道</div>
+						<div class="mui-media-body">状态：已通过</div>
+						<div class="mui-media-body">图片：10张</div>
+					</a>
+				</li-->
+			</ul>
+		</div>
+		<div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="dlist">
+				<li class="ditem" onclick="appendByCamera()">拍照添加文件</li>
+				<li class="ditem" onclick="appendByGallery()">相册添加文件</li>
+			</ul>
+			<div style="width:100%;padding: 1em;">
+				<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
+			</div>
+		</div>
+	</body>
+
+</html>

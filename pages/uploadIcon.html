@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.js"></script>
+    <script src="../js/boot.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+  			var files={key:'',path:''};
+    		mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+      		mui.plusReady(function(){
+      				var wb = plus.webview.currentWebview();
+      				document.getElementById("imgModel").src=wb.path;
+      				files.key="uploadkey";
+      				files.path=wb.path;
+	      	});
+      		function quit(){
+      			var wc = plus.webview.currentWebview();
+      			var wb = plus.webview.getWebviewById("user.html");
+				wb.evalJS('refresh();');
+      			wc.close();
+      		}
+//      		var server = "http://192.168.2.101:8081/siims/app/jzzljd/myTestAdd.jspx";
+			// 上传文件
+			function upload(){
+				var userId = plus.storage.getItem("userId");
+				var server = boot.url.personIconUpload + "?userId=" + userId;
+				var task=plus.uploader.createUpload(server,
+					{method:"POST"},
+					function(t,status){ //上传完成
+						if(status==200){
+							alert("上传完成");
+							wt.close();
+							quit();
+						}else{
+							wt.close();
+							quit();
+						}
+					}
+				);
+				var filePath = files.path.substring(files.path.indexOf(".")+1,files.path.length);	
+				filePath = filePath.toLocaleLowerCase();
+			/*	if(filePath != "jpg"){
+					alert("仅支持后缀名为jpg的图片！");
+				}else{*/
+				var wt = plus.nativeUI.showWaiting();
+				task.addFile(files.path,{key:'file'});
+				task.start();
+				//}
+			}
+			
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav" style=" background: #15A0F5;">
+			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 18px;color: #fff;">图片上传</h1>
+			<a class=" mui-icon mui-pull-left" style="color: #fff;" onclick="quit();"><p style="font-size: 18px;color: #fff;margin-top: 3px;">返回</p></a>
+		</header>
+	<div class="mui-content" style="margin-top: 20px;">
+		<div  style="text-align: center;">
+			<img id="imgModel" style="width:200px;height:200px" src="" />
+		<div>
+		<div style="padding: 10px;">
+			<button class="mui-btn" style="width:100%;border: 0px;background: #007AFF;color: #fff;height: 40px;" onclick="upload()">上传图片</button>
+		</div>
+	</div>
+</body>
+</html>

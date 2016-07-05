@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <script type="text/javascript" src="../js/mui.min.js" ></script>
+    <script type="text/javascript" src="../js/boot.js" ></script>
+    <script type="text/javascript" src="../js/app.js" ></script>
+    <script type="text/javascript" src="../js/photogallery.js" ></script>
+    <script type="text/javascript" charset="utf-8">
+//    	mui.init();
+//    	
+//    	function callback(xhr){
+//			if (xhr.status == 200) {
+//				var ja = eval("("+xhr.responseText+")");
+//				console.log("请求成功：" + xhr.responseText);
+//				for(var i = 0;i < ja[0].length;i++){
+//					var pointName = ja[0][i].pointName;//区域
+//					var projectName = ja[0][i].projectName;//项目名称
+//					var cycleName = ja[0][i].cycleName;//周期名称
+//					var imgPath=ja[0][i].imgPath;//图片路径
+//					var time = ja[0][i].uploadDate;//更新时间   
+//					var uploadRow=ja[0][i].uploadRow;//已上传
+//					var noPass=ja[0][i].noPass;//未通过
+//					var project = document.getElementById("project");
+//					var liNode = document.createElement("li");
+//					liNode.setAttribute("class","mui-table-view-cell mui-media");
+//					console.log(base._path +imgPath);
+//					var html = "";
+//					html="<a >"
+//			          +"<img class='mui-media-object mui-pull-left' style='max-width:82px;height:82px' src='"+base._path +imgPath+"'> "
+//			          +"<div class='mui-media-body'>"
+//			          +pointName
+//			          +"<p>项目："+projectName+"  </p>"
+//			          +"<p style='color: #F0AD4E;'>周期："+cycleName+"</p>"
+//			          +"<p>更新时间："+time+"</p>"
+//			          +"</div>"
+//			          +"</a>"
+//			          +"<p style='color: #007AFF;margin-top: 2px;'>已上传："+uploadRow+"张；未通过："+noPass+"张</p>"; 
+//					liNode.innerHTML = html;
+//					project.appendChild(liNode);
+//				}
+//			} else {
+//				var content = document.querySelector("body");
+//				content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请从新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
+//			}
+//			plus.nativeUI.closeWaiting();
+//    	}
+//    	
+//    	mui.plusReady(function() {
+//			plus.nativeUI.showWaiting( "数据等待中..." );
+//			var userId = plus.storage.getItem("userId");
+//			var _url=boot.url.getshootList+"?userId="+userId;
+//			boot.xhrCreate(_url, callback);
+//		});
+//		function loadData(){
+//			plus.nativeUI.showWaiting( "数据等待中..." );
+////			boot.xhrCreate(boot.url.getshootList, callback);
+//		    var userId = plus.storage.getItem("userId");
+//			var _url=boot.url.getshootList+"?userId="+userId;
+//			boot.xhrCreate(_url, callback);
+//		}
+    </script>
+</head>
+<body>
+<div class="mui-content" >
+    <div id="pullrefresh" class="mui-card" style="margin-top: 0px;padding:0;">
+        <ul id="project" class="mui-table-view mui-table-view-chevron" style="margin-top: 0px;padding:0;">
+            <!--<li class="mui-table-view-cell mui-media" style="padding-right:2px;">
+                <a >
+                    <img class="mui-media-object mui-pull-left" style="max-width:82px;height:82px" src="../images/shuijiao.jpg">
+                    <div class="mui-media-body">
+                    	外墙施工
+                        <p>项目：云岩区云岩广场改造项目  </p>
+                        <p style="color: #F0AD4E;">周期：外墙施工</p>
+                        <p>更新时间：2014-2-20</p>
+                    </div>
+                  
+                </a>
+                   <p style="color: #007AFF;margin-top: 2px;">已上传：8张；未通过：2张</p>
+            </li>-->
+        </ul>
+    </div>
+</div>
+</body>
+</html>

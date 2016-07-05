@@ -1,0 +1,21 @@
+{
+	"boot.html": {
+		"resources": [
+			"images/527X412leader2.jpg",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"images/527X412leader1.jpg"
+		],
+		"refer": [
+			"login.html"
+		]
+	},
+	"login.html": {
+		"resources": [
+			"css/login.css",
+			"js/boot.js",
+			"img/logo.png",
+			"js/mui.js"
+		]
+	}
+}

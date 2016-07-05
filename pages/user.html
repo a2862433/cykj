@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title >个人信息管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/user/user.css">
+		<link rel="stylesheet" href="../css/shoot/shoot.css">
+		<script type="text/javascript" src="../js/uploadIcon.js" ></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/boot.js"></script> 
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+		</style>
+		<script type="application/javascript">
+			mui.init();
+			function callback(xhr){
+	  			if (xhr.status == 200) {
+	  				console.log("请求成功：" + xhr.responseText);
+					var jo = eval("("+xhr.responseText+")");
+					var iconPath = jo.iconPath;
+					console.log(base._path + iconPath);
+					document.getElementsByTagName("form")[0].setAttribute("id",jo.id);
+					document.getElementById("name").setAttribute("value",jo.name);
+					document.getElementById("email").setAttribute("value",jo.email);						
+					document.getElementById("tel").setAttribute("value",jo.tel);					
+					document.getElementById("mobile").setAttribute("value",jo.mobile);
+					document.getElementById("remark").setAttribute("value",jo.remark);
+					if(iconPath == null || iconPath == undefined){
+						document.getElementById("personIcon").setAttribute("src","../images/touxiang_moren.jpg");
+					}else{
+						document.getElementById("personIcon").setAttribute("src",base._path + iconPath);
+					}
+				} else {
+					console.log("请求失败：" + xhr.responseText);
+					var content = document.querySelector("body");
+					content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请从新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
+				}
+				plus.nativeUI.closeWaiting();
+      		};
+      		
+      		
+      		function submitUser(){
+      			var form = document.getElementsByTagName("form")[0];
+      			var xmlhttp = new XMLHttpRequest();
+      			var url = boot.url.editeUser;
+      			xmlhttp.open("post",url,false);
+      			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      			var id = form.getAttribute("id");
+      			var name =	document.getElementById("name").value;
+				var email = document.getElementById("email").value;			
+				var tel = document.getElementById("tel").value;			
+				var mobile = document.getElementById("mobile").value;
+				var remark = document.getElementById("remark").value;
+				xmlhttp.send("id="+id+"&email="+email+"&tel="+tel+"&mobile="+mobile+"&remark="+remark);
+      			if(xmlhttp.responseText == "1")alert("修改成功！");
+      		};
+      		
+			
+			mui.plusReady(function() {
+				plus.nativeUI.showWaiting( "正在加载数据..." );
+				var userId = plus.storage.getItem("userId");
+				var url = boot.url.userInfo + "?userId=" + userId;
+				boot.xhrCreate(url, callback);  
+				document.getElementById("popoverCancel").addEventListener('tap', function(e) {
+					mui('.mui-popover').popover('toggle');
+				});
+			});
+			
+			function loadData(){
+				boot.xhrCreate(boot.url.userInfo, callback);
+			}
+			
+			function refresh(){
+				plus.nativeUI.showWaiting( "正在刷新..." );
+				window.location.reload();
+			}
+		</script>
+	</head>
+
+	<body>
+
+<header class="mui-bar mui-bar-nav"  style="background:  rgba(21, 160, 245, 0.98);">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+    <h1 class="mui-title" style="font-family: '微软雅黑';font-size: 18px;color: #fff;">个人信息管理</h1>
+    <h2 class="mui-title" style="text-align: right;">   
+    	<div class="mui-content-padded" style="margin-left: 37%;">
+    		<a  href="#" mui-icon icon-camera mui-pull-right style="width:37%" onclick="submitUser()">
+					<span style="color:#fff">确定</span>
+			</a>
+        </div>
+    </h2>
+</header>
+<div class="mui-content">
+    <div class="mui-content-padded">
+        <form class="mui-input-group">
+        	<div>
+        		<div class="user-img"> 
+					<a href="#flagged">
+						<label>个人头像:</label><img id="personIcon" style="height:200px;width:200px">
+					</a>
+				</div>
+	        	<div class="mui-input-row">
+	                <label>姓名:</label><input id="name" name="id" type="text" readonly="true">
+	            </div>
+	            <div class="mui-input-row">
+	                <label>邮箱:</label><input id="email" type="email" class="mui-input-clear">
+	            </div>
+	            <div class="mui-input-row">
+	                <label>手机:</label><input id="mobile" type="tel" class="mui-input-clear">
+	            </div>
+	             <div class="mui-input-row">
+	                <label>电话:</label><input id="tel" type="tel" class="mui-input-clear">
+	            </div>
+	             <div class="mui-input-row">
+	                <label>备注:</label><input id="remark" type="text" class="mui-input-clear">
+	            </div>
+	            <div class="mui-input-row"></div>
+            </div>
+            
+            <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="dlist">
+					<li class="ditem" onclick="appendByCamera()">拍照添加文件</li>
+					<li class="ditem" onclick="appendByGallery()">相册添加文件</li>
+				</ul>
+				<div style="width:100%;padding: 1em;">
+					<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
+				</div>
+			</div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
