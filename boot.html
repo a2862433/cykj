@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			function plusReady() {
+				if (plus.storage.getItem("firstIn") != null) {
+					var login = plus.webview.getWebviewById("login.html");
+					if(login){
+						login.show();
+					}else{
+						var clogin = plus.webview.create('login.html', 'login.html');
+						clogin.show();
+					}
+					
+				}else{
+					plus.navigator.closeSplashscreen();
+				}
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+			function insys(){
+				plus.storage.setItem("firstIn","true");
+				var boot = plus.webview.create('login.html', 'login.html');
+				boot.show();
+			}
+			
+		</script>
+	</head>
+
+	<body style="background: #fff;">
+
+		<div class="mui-content" style="background: #fff;">
+
+			<div id="slider" class="mui-slider" style="margin-top: 100px;">
+				<div class="mui-slider-group mui-slider-loop" style="height: 400px;">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<img src="images/527X412leader2.jpg">
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<img src="images/527X412leader1.jpg">
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<img src="images/527X412leader2.jpg">
+
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<img src="images/527X412leader1.jpg">
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active" style=""></div>
+				<div class="mui-indicator"></div>
+			</div>
+			</div>
+			<div style="text-align: center;">
+				<button onclick="insys()">进入平台</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" charset="utf-8">
+		/*document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+				  //注意slideNumber是从0开始的；
+			alert(1);
+		});*/
+	</script>
+
+</html>
