@@ -13,30 +13,34 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav" style=" background: #15A0F5;">
-			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 20px;color: #fff;">项目情况</h1>
+		<header class="mui-bar mui-bar-nav" style="background: #1E1F20;">
+			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 20px;color: #fff;">首页</h1>
 		</header>
 
 		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" href="pages/projectinfo.html">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="pages/home.html">
 				<span class="mui-icon mui-icon-pengyouquan"></span>
-				<span class="mui-tab-label">项目情况</span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="pages/creativeDesign_main.html">
+				<span class="mui-icon mui-icon-bars"></span>
+				<span class="mui-tab-label">创意设计</span>
 			</a>
 			<a class="mui-tab-item" href="pages/myproject.html">
 				<span class="mui-icon mui-icon-bars"></span>
-				<span class="mui-tab-label">项目列表</span>
+				<span class="mui-tab-label">发现创意</span>
 			</a>
 			<a class="mui-tab-item" href="pages/photogallery.html">
 				<span class="mui-icon mui-icon-image"></span>
-				<span class="mui-tab-label">图片库</span>
+				<span class="mui-tab-label">个人中心</span>
 			</a>
-			<a class="mui-tab-item" href="pages/systemset.html">
+			<a class="mui-tab-item" href="pages/communication.html">
 				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">系统设置</span>
+				<span class="mui-tab-label">论坛</span>
 			</a>
 		</nav>
 		<script type="text/javascript" charset="utf-8">
-			var subpages = ['pages/projectinfo.html','pages/myproject.html','pages/photogallery.html','pages/systemset.html'];
+			var subpages = ['pages/home.html','pages/creativeDesign_main.html','pages/myproject.html','pages/photogallery.html','pages/communication.html'];
 			var subpage_style = {
 				top: '44px',
 				bottom: '51px'
@@ -48,9 +52,9 @@
 				//处理逻辑：1秒内，连续两次按返回键，则退出应用；
 			
 				var self = plus.webview.currentWebview();
-				for(var i=0;i<4;i++){
+				for(var i=0; i < 5; i++){
 					var sub = plus.webview.create(subpages[i],subpages[i],subpage_style);
-					if(i>0){
+					if(i > 0){
 						sub.hide();
 					}
 					self.append(sub);
@@ -70,7 +74,7 @@
 					return;
 				} 
 				//更改选项卡header内容
-				document.getElementById("titleContent").innerHTML=this.getElementsByTagName("span")[1].innerHTML;
+				document.getElementById("titleContent").innerHTML = this.getElementsByTagName("span")[1].innerHTML;
 				//先隐藏当前的
 				plus.webview.hide(activeTab);
 				//再显示目标
@@ -81,21 +85,21 @@
 			function addTapProjectLineTime(id){
 				var tabAll = document.querySelectorAll('.mui-tab-item');
 				var projectInfo = tabAll[0];
-				addClass(projectInfo,"mui-active");
-				removeClass(tabAll[1],"mui-active");
+				addClass(projectInfo, "mui-active");
+				removeClass(tabAll[1], "mui-active");
 				var targetTab = projectInfo.getAttribute('href');
 				if (targetTab == activeTab) {
 					return;
 				} 
 				//更改选项卡header内容
-				document.getElementById("titleContent").innerHTML=projectInfo.getElementsByTagName("span")[1].innerHTML;
+				document.getElementById("titleContent").innerHTML = projectInfo.getElementsByTagName("span")[1].innerHTML;
 				//先隐藏当前的
 				
 				plus.webview.hide(activeTab);
 				//再显示目标
-				plus.webview.show(targetTab,'auto','5000');
+				plus.webview.show(targetTab, 'auto', '5000');
 				var targetCW = plus.webview.getWebviewById(targetTab);
-				plus.storage.setItem("projectId",id);
+				plus.storage.setItem("projectId", id);
 				targetCW.evalJS("load('"+id+"')");
 				//更改当前活跃的选项卡
 				activeTab = targetTab;
@@ -104,18 +108,18 @@
 			function queryProject(){
 				var tabAll = document.querySelectorAll('.mui-tab-item');
 				var myproject = tabAll[1];
-				addClass(myproject,"mui-active");
-				removeClass(tabAll[0],"mui-active");
+				addClass(myproject, "mui-active");
+				removeClass(tabAll[0], "mui-active");
 				var targetTab = myproject.getAttribute('href');
 				if (targetTab == activeTab) {
 					return;
 				} 
 				//更改选项卡header内容
-				document.getElementById("titleContent").innerHTML=myproject.getElementsByTagName("span")[1].innerHTML;
+				document.getElementById("titleContent").innerHTML = myproject.getElementsByTagName("span")[1].innerHTML;
 				//先隐藏当前的
 				plus.webview.hide(activeTab);
 				//再显示目标
-				plus.webview.show(targetTab,"auto",'1500');
+				plus.webview.show(targetTab, "auto", '1500');
 				var targetCW = plus.webview.getWebviewById(targetTab);
 				//更改当前活跃的选项卡
 				activeTab = targetTab;

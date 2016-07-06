@@ -1,7 +1,7 @@
 {
     "@platforms": ["android", "iPhone", "iPad"],
-    "id": "H513B3102",/*应用的标识，创建应用时自动生成，勿手动修改*/
-    "name": "中航质检平台",/*应用名称，程序桌面图标名称*/
+    "id": "H53DD786F",/*应用的标识，创建应用时自动生成，勿手动修改*/
+    "name": "创意空间",/*应用名称，程序桌面图标名称*/
     "version": {
         "name": "1.0.0 ",/*应用版本名称*/
         "code": "83"
@@ -68,9 +68,7 @@
         "Storage": {
             "description": "管理应用本地数据"
         },
-        "UI": {
-            "description": "管理系统原生控件"
-        },
+        "UI": {},
         "Uploader": {
             "description": "管理文件上传任务"
         },
@@ -103,7 +101,7 @@
         },
         "Statistic": {
             "description": "管理统计插件"
-        }
+        },"Webview":{},"NativeUI":{},"Navigator":{}
     },
     "plus": {
         "splashscreen": {
@@ -209,7 +207,8 @@
 					"images/527X412leader1.jpg"
 				],
 				"refer": [
-					"login.html"
+					"login.html",
+					"index.html"
 				],
 				"priority": 0
 			},
@@ -222,31 +221,153 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"pages/myproject.html": {
+				"resources": [
+					"css/myproject/myproject.css",
+					"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+					"css/mui.min.css",
+					"js/mui.js",
+					"js/boot.js",
+					"fonts/mui.ttf",
+					"p_img/160X160proj-02.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"index.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/boot.js",
+					"pages/projectinfo.html",
+					"js/mui.js",
+					"css/mui.min.css",
+					"pages/home.html"
+				],
+				"refer": [
+					"pages/systemset.html",
+					"pages/myproject.html",
+					"pages/photogallery.html",
+					"pages/communication.html",
+					"pages/creativeDesign_main.html"
+				],
+				"priority": 0
+			},
+			"pages/projectinfo.html": {
+				"resources": [
+					"css/fontstyle.css",
+					"css/mui.css",
+					"css/time-line.css",
+					"js/boot.js",
+					"js/mui.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/photogallery.html": {
+				"resources": [
+					"js/app.js",
+					"js/photogallery.js",
+					"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/systemset.html": {
+				"resources": [
+					"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+					"css/mui.css"
+				],
+				"refer": [
+					"pages/user.html"
+				],
+				"priority": 0
+			},
+			"pages/user.html": {
+				"resources": [
+					"js/uploadIcon.js",
+					"css/shoot/shoot.css",
+					"css/user/user.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/boot.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/home.html": {
+				"resources": [
+					"css/myproject/myproject.css",
+					"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+					"p_img/160X160proj-02.png",
+					"images/muwu.jpg",
+					"images/shuijiao.jpg",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/boot.js",
+					"js/mui.js",
+					"css/cqsp_css/home.css",
+					"images/touxiang_ruanmeizhi.jpg",
+					"images/yuantiao.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/communication.html": {
+				"resources": [
+					"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/boot.js",
+					"fonts/mui.ttf",
+					"css/cqsp_css/communication.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/creativeDesign_sub.html": {
+				"resources": [
+					"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/touxiang_ruanmeizhi.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/creativeDesign_main.html": {
+				"resources": [
+					"pages/creativeDesign_sub.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
 			}
 		},
 		"idle": {
 			"resources": [
 				"p_img/160X160proj-04.png",
-				"css/myproject/myproject.css",
 				"pages/gallery.html",
 				"images/cbd.jpg",
 				"js/upload.js",
-				"css/fontstyle.css",
 				"fonts/icomoon.ttf",
 				"p_img/160X160proj-06.png",
-				"images/shuijiao.jpg",
 				"fonts/icomoon.woff",
 				"p_img/160X160proj-13.png",
 				"images/guide2.jpg",
 				"images/pull_arrow.png",
-				"pages/systemset.html",
 				"js/common.js",
 				"images/160X160proj-09.png",
 				"p_img/160X160proj-07.png",
 				"images/160X160proj-04.png",
 				"images/touxiang_moren.jpg",
-				"js/uploadIcon.js",
-				"images/touxiang_ruanmeizhi.jpg",
 				"images/160X160proj-10.png",
 				"p_img/160X160proj-08.png",
 				"images/60x60.gif",
@@ -255,26 +376,17 @@
 				"images/down-1708-oekrbxepi5p_1.jpg",
 				"fonts/icomoon.eot",
 				"images/177X177CAM.jpg",
-				"pages/user.html",
-				"js/app.js",
 				"p_img/160X160proj-12.png",
-				"fonts/mui.ttf",
 				"images/pull_fresh.png",
-				"css/mui.css",
 				"images/PIC-177X177 (4).jpg",
 				"ERROR.MD",
 				"images/160X160proj-07.png",
 				"p_img/160X160proj-03.png",
-				"index.html",
 				"css/shoot/gallery.css",
 				"fonts/icomoon.svg",
-				"css/shoot/shoot.css",
 				"images/160X160proj-03.png",
 				"p_img/160X160proj-10.png",
-				"css/user/user.css",
 				"images/PIC-177X177 (3).jpg",
-				"pages/myproject.html",
-				"images/muwu.jpg",
 				"images/160X160proj-12.png",
 				"p_img/160X160proj-09.png",
 				"images/177X177CAM2.jpg",
@@ -293,8 +405,6 @@
 				"js/mui.tpl.min.js",
 				"images/IMG_20141022_152024.jpg",
 				"images/160X160proj-06.png",
-				"p_img/160X160proj-02.png",
-				"js/photogallery.js",
 				"fonts/muiicons.ttf",
 				"images/u18.png",
 				"p_img/160X160proj-14.png",
@@ -304,17 +414,13 @@
 				"p_img/160X160proj-05.png",
 				"images/160X160proj-11.png",
 				"images/160X160proj-02.png",
-				"pages/photogallery.html",
 				"pages/shoot.html",
 				"images/80X60.png",
 				"images/160X160proj-08.png",
-				"images/yuantiao.jpg",
 				"images/PIC-177X177 (5).jpg",
 				"images/160X160proj-14.png",
 				"images/model-img4.png",
 				"p_img/160X160proj-11.png",
-				"pages/projectinfo.html",
-				"css/time-line.css",
 				"images/160X160proj-13.png"
 			]
 		}

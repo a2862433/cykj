@@ -47,8 +47,8 @@
 					commonProject.appendChild(liNode);
 				}
 			} else {
-				var content = document.querySelector("body");
-				content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请从新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
+			//	var content = document.querySelector("body");
+			//	content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请重新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
 			}
 			plus.nativeUI.closeWaiting();
       	}
@@ -68,34 +68,41 @@
 </head>
 <body>
 	<div class="mui-content">
-    <ul id="commonProject" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
-       
-    </ul>   
+	    <ul id="commonProject" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+	       <li class="mui-table-view-cell mui-media mui-col-xs-6">
+	       	<a href='#' id="+id+">
+				<div class='mui-icon mui-icon-pengyouquan project-choose'></div>
+				<img class='mui-media-object project-img-choose'  src='../p_img/160X160proj-02.png'>
+				<div class='mui-media-body'><p>projectName </p></div>
+				<div class='mui-media-body'><p>cycleName</p></div>
+				</a>
+	       </li>
+	    </ul>   
 	</div>	
 	<!--<div style="position: absolute;width: 100%;height: 100%;background: rgba(11, 10, 10, 0.3);top: 0px;left: 0px;">
 		<div>asd</div>
 	</div>-->
 </body>
 	<script type="text/javascript">
-	mui('.mui-content').on('tap', 'a', function(e) {
-		document.createElement("div"); 
-		var defualtP=document.querySelector(".project-img-choose");
-		var defualtIcon=document.querySelector(".mui-icon-pengyouquan");
-		if(defualtP!=null){
-			removeClass(defualtP,"project-img-choose");
-			addClass(defualtP,"project-img-border");
-			defualtIcon.remove();
-		}
-		var img = this.querySelector("img");
-		removeClass(img,"project-img-border");
-		addClass(img,"project-img-choose");
-		var div=document.createElement("div");  
-		div.setAttribute("class","mui-icon mui-icon-pengyouquan project-choose");
-		this.appendChild(div); 
-		plus.storage.setItem("defaultProject",this.getAttribute("id"));
-		var cw = plus.webview.currentWebview();
-		var p_cw = cw.parent();
-		p_cw.evalJS("addTapProjectLineTime('"+this.getAttribute("id")+"')");
-	});
+		mui('.mui-content').on('tap', 'a', function(e) {
+			document.createElement("div"); 
+			var defualtP=document.querySelector(".project-img-choose");
+			var defualtIcon=document.querySelector(".mui-icon-pengyouquan");
+			if(defualtP!=null){
+				removeClass(defualtP,"project-img-choose");
+				addClass(defualtP,"project-img-border");
+				defualtIcon.remove();
+			}
+			var img = this.querySelector("img");
+			removeClass(img,"project-img-border");
+			addClass(img,"project-img-choose");
+			var div=document.createElement("div");  
+			div.setAttribute("class","mui-icon mui-icon-pengyouquan project-choose");
+			this.appendChild(div); 
+			plus.storage.setItem("defaultProject",this.getAttribute("id"));
+			var cw = plus.webview.currentWebview();
+			var p_cw = cw.parent();
+			p_cw.evalJS("addTapProjectLineTime('"+this.getAttribute("id")+"')");
+		});
 	</script>
 </html>

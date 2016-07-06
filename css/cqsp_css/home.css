@@ -1,0 +1,77 @@
+.project-choose{
+	position: absolute;
+	top:20px;
+	right:10px;
+	color: #DD524D;
+}
+
+.project-img-choose{
+	border: 1px #FFB771  solid;
+	-webkit-border-radius: 7px;
+}
+
+.project-img-border{
+	border: 1px #F3F3F3  solid;
+	-webkit-border-radius: 7px;
+	padding: 15px;
+}
+
+.font-black{
+	color: black;
+}
+.font-size-13{
+	font-size : 13px
+}
+
+.project-img-normal{
+	border: 1px #EBEBEB solid;
+	-webkit-border-radius: 7px;
+	padding: 15px;
+}
+
+.wp-name{
+	position: absolute;
+    bottom: 26px;
+    /* left: 0; */
+     width: 50%; 
+     height: 30px; 
+    /* margin: 0; */
+    /* line-height: 30px; */
+    /* text-align: left; */
+    text-indent: 26px;
+    /* opacity: .8; */
+    color: white;
+    font-size: 20px;
+}
+
+.wp-desc{
+	position: absolute;
+    bottom: 40px;
+    /* left: 0; */
+    /* width: 100%; */
+    /* height: 30px; */
+    /* margin: 0; */
+    /* line-height: 30px; */
+    /* text-align: left; */
+    text-indent: 26px;
+    /* opacity: .8; */
+    color: white;
+    font-size: 12px;
+}
+
+.wp-button{
+	position: absolute;
+    z-index: 1;
+    bottom: 8px;
+    margin-right: 20px;
+    width: 96%;
+    text-align: right;
+}
+
+.list-top{
+    height: 26px;
+    position: absolute;
+    padding: 9px;
+    margin-left: 5px;
+    color:rgba(34, 34, 34, 0.57);
+}

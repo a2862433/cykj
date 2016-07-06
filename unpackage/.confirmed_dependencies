@@ -7,7 +7,8 @@
 			"images/527X412leader1.jpg"
 		],
 		"refer": [
-			"login.html"
+			"login.html",
+			"index.html"
 		]
 	},
 	"login.html": {
@@ -16,6 +17,121 @@
 			"js/boot.js",
 			"img/logo.png",
 			"js/mui.js"
+		]
+	},
+	"pages/myproject.html": {
+		"resources": [
+			"css/myproject/myproject.css",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"css/mui.min.css",
+			"js/mui.js",
+			"js/boot.js",
+			"fonts/mui.ttf",
+			"p_img/160X160proj-02.png"
+		]
+	},
+	"index.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/boot.js",
+			"pages/projectinfo.html",
+			"js/mui.js",
+			"css/mui.min.css",
+			"pages/home.html"
+		],
+		"refer": [
+			"pages/systemset.html",
+			"pages/myproject.html",
+			"pages/projectinfo.html",
+			"pages/photogallery.html",
+			"pages/home.html",
+			"pages/communication.html",
+			"pages/creativeDesign_main.html"
+		]
+	},
+	"pages/projectinfo.html": {
+		"resources": [
+			"css/fontstyle.css",
+			"css/mui.css",
+			"css/time-line.css",
+			"js/boot.js",
+			"js/mui.js"
+		]
+	},
+	"pages/photogallery.html": {
+		"resources": [
+			"js/app.js",
+			"js/photogallery.js",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	},
+	"pages/systemset.html": {
+		"refer": [
+			"pages/user.html"
+		],
+		"resources": [
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"css/mui.css"
+		]
+	},
+	"pages/user.html": {
+		"resources": [
+			"js/uploadIcon.js",
+			"css/shoot/shoot.css",
+			"css/user/user.css",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/boot.js"
+		]
+	},
+	"pages/home.html": {
+		"resources": [
+			"css/myproject/myproject.css",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"p_img/160X160proj-02.png",
+			"images/muwu.jpg",
+			"images/shuijiao.jpg",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/boot.js",
+			"js/mui.js",
+			"css/cqsp_css/home.css",
+			"images/touxiang_ruanmeizhi.jpg",
+			"images/yuantiao.jpg"
+		]
+	},
+	"pages/communication.html": {
+		"resources": [
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/boot.js",
+			"fonts/mui.ttf",
+			"css/cqsp_css/communication.css"
+		]
+	},
+	"pages/creativeDesign_sub.html": {
+		"resources": [
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"images/touxiang_ruanmeizhi.jpg"
+		]
+	},
+	"pages/creativeDesign_main.html": {
+		"resources": [
+			"pages/creativeDesign_sub.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"pages/creativeDesign_sub.html"
 		]
 	}
 }

@@ -11,12 +11,12 @@
 			mui.init();
 			function plusReady() {
 				if (plus.storage.getItem("firstIn") != null) {
-					var login = plus.webview.getWebviewById("login.html");
-					if(login){
-						login.show();
+					var index = plus.webview.getWebviewById("index.html");
+					if(index){
+						index.show();
 					}else{
-						var clogin = plus.webview.create('login.html', 'login.html');
-						clogin.show();
+						var cindex = plus.webview.create('index.html', 'index.html');
+						cindex.show();
 					}
 					
 				}else{
@@ -30,7 +30,7 @@
 			}
 			function insys(){
 				plus.storage.setItem("firstIn","true");
-				var boot = plus.webview.create('login.html', 'login.html');
+				var boot = plus.webview.create('index.html', 'index.html');
 				boot.show();
 			}
 			

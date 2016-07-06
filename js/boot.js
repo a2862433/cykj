@@ -1,6 +1,6 @@
 /**
- * 作者：wucx
- * 时间：2014-08-31
+ * 作者：administrator
+ * 时间：2016-07-31
  * 描述：
  * 	统一URL管理
  */
@@ -41,8 +41,8 @@ base = base || {
 	plusReady: function() {
 	},
 	/**
-	 * 作者：wucx
-	 * 时间：2014-08-31
+	 * 作者：administrator
+	 * 时间：2016-07-31
 	 * 描述：
 	 * 	初始化window.plus
 	 */
@@ -76,8 +76,8 @@ boot = boot || {
 		viewImageByApp:base._path + '/siims/jzzljd/mobile/viewImageByApp.jspx'
 	},
 	/**
-	 * 作者：wucx
-	 * 时间：2014-08-27
+	 * 作者：administrator
+	 * 时间：2016-07-27
 	 * 描述：
 	 * 	实现跨域请求（为了避免方法冲突，封装这个方法）
 	 * 	请求者必须自己实现callback函数
@@ -86,7 +86,7 @@ boot = boot || {
 	 * 		// 根据自己的业务来编写
 	 *	}
 	 * 参数：
-	 * 	url：请求地址（格式如：'http://192.168.0.107:8081/siims/app/test/toLogin.jspx?name=wucx&pass=123456'）
+	 * 	url：请求地址（格式如：'http://192.168.0.107:8081/siims/app/test/toLogin.jspx?name=administrator&pass=123456'）
 	 */
 	xhrCreate: function(url, callback) {
 		var obj = this;
@@ -141,8 +141,8 @@ boot = boot || {
 		}
 	},
 	/**
-	 * 作者：wucx
-	 * 时间：2014-08-31
+	 * 作者：administrator
+	 * 时间：2016-07-31
 	 * 描述：
 	 * 	这个方法实现获取html之间传递的参数
 	 * 使用如：
