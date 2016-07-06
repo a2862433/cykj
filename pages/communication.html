@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<!--页面自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/cqsp_css/communication.css"/>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/boot.js"></script> 
+		
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			
+/*		mui('.mui-content').on('tap', 'a', function(e) {
+			document.createElement("div"); 
+			var defualtP=document.querySelector(".project-img-choose");
+			var defualtIcon=document.querySelector(".mui-icon-pengyouquan");
+			if(defualtP!=null){
+				removeClass(defualtP,"project-img-choose");
+				addClass(defualtP,"project-img-border");
+				defualtIcon.remove();
+			}
+			var img = this.querySelector("img");
+			removeClass(img,"project-img-border");
+			addClass(img,"project-img-choose");
+			var div=document.createElement("div");  
+			div.setAttribute("class","mui-icon mui-icon-pengyouquan project-choose");
+			this.appendChild(div); 
+			plus.storage.setItem("defaultProject",this.getAttribute("id"));
+			var cw = plus.webview.currentWebview();
+			var p_cw = cw.parent();
+			p_cw.evalJS("addTapProjectLineTime('"+this.getAttribute("id")+"')");
+		});*/
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+		    <ul class="mui-table-view  mui-table-view-condensed">
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-9">
+		                    <h4 class="mui-ellipsis">交流标题</h4>
+		                    <h5>李四</h5>
+		                    <p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">11:12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-9">
+		                    <h4 class="mui-ellipsis">交流标题</h4>
+		                    <h5>李四</h5>
+		                    <p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">11:12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-9">
+		                    <h4 class="mui-ellipsis">交流标题</h4>
+		                    <h5>李四</h5>
+		                    <p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">11:12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		       <li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-9">
+		                    <h4 class="mui-ellipsis">交流标题</h4>
+		                    <h5>李四</h5>
+		                    <p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">11:12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-10">
+		                    <h4 class="mui-ellipsis-2">信息化推进办公室张彦合同付款信息化推进办公室张彦合同付款信息化推进办公室张彦合同付款</h4>
+		                    <h5>李四</h5>
+		                    <p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">12:25</span>
+		                     
+		                </div>
+		            </div>
+		        </li>
+		    </ul>
+		</div>
+	</body>
+	
+</html>
