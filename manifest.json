@@ -255,7 +255,8 @@
 					"pages/communication.html",
 					"pages/creativeDesign_main.html",
 					"pages/discoverDesign.html",
-					"pages/user.html"
+					"pages/user.html",
+					"pages/communication_main.html"
 				],
 				"priority": 0
 			},
@@ -368,6 +369,22 @@
 					"js/boot.js",
 					"js/mui.js",
 					"css/cqsp_css/discoverDesign.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/communication_main.html": {
+				"resources": [
+					"pages/communication_sub.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/communication_sub.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
