@@ -1,0 +1,18 @@
+.list-top-dis{
+    height: 26px;
+    padding: 9px;
+    margin-left: 5px;
+    position: absolute;
+    color:rgba(34, 34, 34, 0.57);
+}
+
+.list-top-dis-r{
+    padding: 12px;
+    margin-left: 1px;
+    position: absolute;
+    color: rgba(34, 34, 34, 0.57);
+}
+
+.li-top-size{
+	margin-top: 26px;
+}
