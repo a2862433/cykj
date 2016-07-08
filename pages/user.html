@@ -9,7 +9,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../css/mui.min.css">
-		<link rel="stylesheet" href="../css/user/user.css">
+		<link rel="stylesheet" href="../css/cqsp_css/user.css">
 		<link rel="stylesheet" href="../css/shoot/shoot.css">
 		<script type="text/javascript" src="../js/uploadIcon.js" ></script>
 		<script src="../js/mui.min.js"></script>
@@ -22,7 +22,7 @@
 		</style>
 		<script type="application/javascript">
 			mui.init();
-			function callback(xhr){
+		/*	function callback(xhr){
 	  			if (xhr.status == 200) {
 	  				console.log("请求成功：" + xhr.responseText);
 					var jo = eval("("+xhr.responseText+")");
@@ -82,50 +82,99 @@
 			function refresh(){
 				plus.nativeUI.showWaiting( "正在刷新..." );
 				window.location.reload();
-			}
+			}*/
 		</script>
 	</head>
 
 	<body>
 
-<header class="mui-bar mui-bar-nav"  style="background:  rgba(21, 160, 245, 0.98);">
-    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
-    <h1 class="mui-title" style="font-family: '微软雅黑';font-size: 18px;color: #fff;">个人信息管理</h1>
-    <h2 class="mui-title" style="text-align: right;">   
-    	<div class="mui-content-padded" style="margin-left: 37%;">
-    		<a  href="#" mui-icon icon-camera mui-pull-right style="width:37%" onclick="submitUser()">
-					<span style="color:#fff">确定</span>
-			</a>
-        </div>
-    </h2>
-</header>
 <div class="mui-content">
     <div class="mui-content-padded">
         <form class="mui-input-group">
-        	<div>
-        		<div class="user-img"> 
-					<a href="#flagged">
-						<label>个人头像:</label><img id="personIcon" style="height:200px;width:200px">
-					</a>
-				</div>
-	        	<div class="mui-input-row">
-	                <label>姓名:</label><input id="name" name="id" type="text" readonly="true">
-	            </div>
-	            <div class="mui-input-row">
-	                <label>邮箱:</label><input id="email" type="email" class="mui-input-clear">
-	            </div>
-	            <div class="mui-input-row">
-	                <label>手机:</label><input id="mobile" type="tel" class="mui-input-clear">
-	            </div>
-	             <div class="mui-input-row">
-	                <label>电话:</label><input id="tel" type="tel" class="mui-input-clear">
-	            </div>
-	             <div class="mui-input-row">
-	                <label>备注:</label><input id="remark" type="text" class="mui-input-clear">
-	            </div>
-	            <div class="mui-input-row"></div>
-            </div>
-            
+    	    <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+		       <li class="mui-table-view-cell mui-media mui-col-xs-4" style="margin-left: 10px;">
+		       	<a href="#" id="+id+" class="user-top-a-img">
+					<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
+				</a>
+		       </li>
+		        <li class="mui-table-view-cell mui-media mui-col-xs-7">
+		       	    <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+		                    <span class="mui-h5" style="color: #4D4D4E">真实姓名：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">张三</span>
+		                </div>
+		            </div>
+		             <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+		                    <span class="mui-h5" style="color: #4D4D4E">性别：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">女</span>
+		                </div>
+		            </div>
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+		                    <span class="mui-h5" style="color: #4D4D4E">出生年月：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">2000-01-02</span>
+		                </div>
+		            </div>
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+		                    <span class="mui-h5" style="color: #4D4D4E">工作时间：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">1年</span>
+		                </div>
+		            </div>
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+		                    <span class="mui-h5" style="color: #4D4D4E">学历：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">大学本科</span>
+		                </div>
+		            </div>
+		       </li>
+		       
+		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+		       	    <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5" style="color: #4D4D4E">工作经历：</span>
+		                </div>
+		            </div>
+		             <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">XXXXXXXXXXXXXXXXXXXXXX</span>
+		                </div>
+		            </div>
+		       </li>
+		       
+		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+		       	    <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5" style="color: #4D4D4E">我的特长：</span>
+		                </div>
+		            </div>
+		             <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5">XXXXXXXXXXXXXXXXXXXXXXX</span>
+		                </div>
+		            </div>
+		       </li>
+		       
+		        <li class="mui-table-view-cell mui-media mui-col-xs-12">
+		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+	                    <span class="mui-h5" style="color: #4D4D4E">我的创意设计：</span>
+	                </div>
+	                <div class="mui-table-cell mui-col-xs-7 mui-text-left">
+	                    <img src="../images/add.png" style="width:25px"></img>
+	                </div>
+		        </li>
+		    </ul>
             <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom">
 				<ul class="dlist">
 					<li class="ditem" onclick="appendByCamera()">拍照添加文件</li>

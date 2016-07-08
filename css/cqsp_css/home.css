@@ -75,3 +75,11 @@
     margin-left: 5px;
     color:rgba(34, 34, 34, 0.57);
 }
+
+.list-top-r{
+    height: 26px;
+    position: absolute;
+    padding: 8px;
+    margin-left: 303px;
+    color: rgba(34, 34, 34, 0.57);
+}
