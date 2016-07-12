@@ -39,12 +39,12 @@
 								li.className = 'mui-table-view-cell mui-media mui-col-xs-12';
 								li.innerHTML = 	 " <div class='mui-table'>                                                "
 												 +"     <div class='mui-table-cell mui-col-xs-4 mui-text-left'>            "
-												 +"         <span class='mui-h5' style='color: #4D4D4E'> " + data.forumTitle + "</span>   "
+												 +"         <span class='mui-h5' style='color: #4D4D4E'> " + data.forumtitle.forumTitle + "</span>   "
 												 +"     </div>                                                             "
 												 +" </div>                                                                 "
 												 +"  <div class='mui-table'>                                               "
 												 +"     <div class='mui-table-cell mui-col-xs-1 mui-text-center'>          "
-												 +"         <span class='mui-h5'>" + data.forumUserId + "  " + data.forumDate + "  1楼</span>     "
+												 +"         <span class='mui-h5'>" + data.forumtitle.forumUserId + "  " + data.forumtitle.forumDate + "  1楼</span>     "
 												 +"     </div>                                                             "
 												 +" </div>  ";
 								ur.appendChild(li);
@@ -52,13 +52,11 @@
 								var content = document.createElement('div');
 								content.innerHTML = " <li class='mui-table-view-cell mui-media mui-col-xs-12'>                 "
 													+" 	   <div class='mui-input-row mui-text-left' style='margin: 10px 5px;'>  "
-													+"			  <span class='mui-h5'>" + data.forumContent + "</span>                                  "
+													+"			  <span class='mui-h5'>" + data.forumtitle.forumContent + "</span>                                  "
 													+"		</div>                                                                "
 													+" </li>  ";
 								ur.appendChild(content);
 								
-								var url = boot.url.getForumInfoList + "?paramStr="+JSON.stringify(data);
-								console.log(url);
 								
 								var paramRsCom = {
 					                id: "2313",
@@ -70,7 +68,10 @@
 					            var data = {};
 					            data.page = 0;
 					            data.size = 100;
-					            data.param = JSON.stringify(param);
+					            data.param = JSON.stringify(paramRsCom);
+					            
+					            var url = boot.url.getForumCommt + "?paramStr="+JSON.stringify(data);
+								console.log(url);
             
 								mui.ajax(boot.url.getForumCommt, {
 									data:{paramStr: JSON.stringify(data)},
@@ -81,27 +82,20 @@
 										//服务器返回响应结果
 										console.log(JSON.stringify(data));
 										
-										mui('#refreshContainer').pullRefresh().endPullupToRefresh((data.param.length == 0)); //参数为true代表没有更多数据了。
-										var table = document.body.querySelector('.mui-table-view');
-										var cells = document.body.querySelectorAll('.mui-table-view-cell');
-										for (var i = cells.length, len = i + data.param.length, rsize = 0; i < len; i++, rsize++) {
-											var li = document.createElement('li');
-											li.className = 'mui-table-view-cell';
-											li.id = data.param[rsize].id;
-											li.addEventListener("tap", openComInfo);
-											li.innerHTML = " <div class='mui-table'> "
-															+"	<div class='mui-table-cell mui-col-xs-9'> "
-															+"	    <h4 class='mui-ellipsis'>" + data.param[rsize].forumTitle +"</h4> "
-															+"	    <h5>李四</h5> "
-															+"	    <p class='mui-h6 mui-ellipsis'>" + data.param[rsize].forumContent +"</p> "
-															+"	</div> "
-															+"	<div class='mui-table-cell mui-col-xs-2 mui-text-right'> "
-															+"	    <span class='mui-h5'>" + getSubDate(data.param[rsize].forumDate) +"</span> "
-															+"	</div> "
-														    +"</div> ";
-											table.appendChild(li);
+										for (var i = 0; i < data.param.length; i++) {
+											var reDiv = document.createElement('div');
+											reDiv.innerHTML =   " <li class='mui-table-view-cell mui-media mui-col-xs-12'>										"
+																+" 		<div class='mui-table-cell mui-col-xs-1 mui-text-center'>               "
+																+"        <span class='mui-h5'>" + data.param[i].userName + "  " + data.param[i].comtDate + " " + (i + 2) + "楼</span>   "
+																+"    </div>                                                                  "
+																+" </li>                                                                      "
+																+" <li class='mui-table-view-cell mui-media mui-col-xs-12'>                   "
+																+" 	   <div class='mui-input-row mui-text-left' style='margin: 10px 5px;'>    "
+																+"	  	<span class='mui-h5'>" + data.param[i].comtContent + "</span>                                  "
+																+"		</div>                                                                  "
+																+" </li>";
+											ur.appendChild(reDiv);
 										}
-										currentPage++;
 									},
 									error:function(xhr,type,errorThrown){
 										//异常处理；

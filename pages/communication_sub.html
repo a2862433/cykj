@@ -73,16 +73,16 @@
 								for (var i = cells.length, len = i + data.param.length, rsize = 0; i < len; i++, rsize++) {
 									var li = document.createElement('li');
 									li.className = 'mui-table-view-cell';
-									li.id = data.param[rsize].id;
+									li.id = data.param[rsize].forumtitle.id;
 									li.addEventListener("tap", openComInfo);
 									li.innerHTML = " <div class='mui-table'> "
 													+"	<div class='mui-table-cell mui-col-xs-9'> "
-													+"	    <h4 class='mui-ellipsis'>" + data.param[rsize].forumTitle +"</h4> "
-													+"	    <h5>李四</h5> "
-													+"	    <p class='mui-h6 mui-ellipsis'>" + data.param[rsize].forumContent +"</p> "
+													+"	    <h4 class='mui-ellipsis'>" + data.param[rsize].forumtitle.forumTitle +"</h4> "
+													+"	    <h5>" + data.param[rsize].user.trueName +"</h5> "
+													+"	    <p class='mui-h6 mui-ellipsis'>" + data.param[rsize].forumtitle.forumContent +"</p> "
 													+"	</div> "
 													+"	<div class='mui-table-cell mui-col-xs-2 mui-text-right'> "
-													+"	    <span class='mui-h5'>" + getSubDate(data.param[rsize].forumDate) +"</span> "
+													+"	    <span class='mui-h5'>" + getSubDate(data.param[rsize].forumtitle.forumDate) +"</span> "
 													+"	</div> "
 												    +"</div> ";
 									table.appendChild(li);
