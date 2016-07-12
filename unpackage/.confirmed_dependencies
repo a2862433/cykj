@@ -4,7 +4,9 @@
 			"images/527X412leader2.jpg",
 			"js/mui.min.js",
 			"css/mui.min.css",
-			"images/527X412leader1.jpg"
+			"images/527X412leader1.jpg",
+			"js/mui.js",
+			"css/mui.css"
 		],
 		"refer": [
 			"login.html",
@@ -96,7 +98,9 @@
 			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
 			"images/touxiang_ruanmeizhi.jpg",
 			"css/cqsp_css/user.css",
-			"images/add.png"
+			"images/add.png",
+			"js/mui.js",
+			"css/mui.css"
 		]
 	},
 	"pages/home.html": {
@@ -131,7 +135,9 @@
 			"fonts/mui.ttf",
 			"js/mui.min.js",
 			"css/mui.min.css",
-			"images/touxiang_ruanmeizhi.jpg"
+			"images/touxiang_ruanmeizhi.jpg",
+			"js/mui.js",
+			"css/mui.css"
 		]
 	},
 	"pages/creativeDesign_main.html": {
@@ -139,7 +145,9 @@
 			"pages/creativeDesign_sub.html",
 			"js/mui.min.js",
 			"fonts/mui.ttf",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"js/mui.js",
+			"css/mui.css"
 		],
 		"refer": [
 			"pages/creativeDesign_sub.html"
@@ -157,7 +165,10 @@
 	},
 	"pages/communication_main.html": {
 		"resources": [
-			"pages/communication_sub.html"
+			"pages/communication_sub.html",
+			"js/mui.js",
+			"css/mui.css",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"pages/communication_sub.html"
@@ -167,6 +178,27 @@
 		"resources": [
 			"js/mui.min.js",
 			"css/mui.min.css",
+			"fonts/mui.ttf",
+			"css/cqsp_css/communication.css",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"js/mui.js",
+			"css/mui.css",
+			"js/boot.js"
+		],
+		"refer": [
+			"pages/communicationinfo.html"
+		]
+	},
+	"pages/communicationinfo.html": {
+		"resources": [
+			"css/fontstyle.css",
+			"fonts/icomoon.woff",
+			"js/boot.js",
+			"js/mui.js",
+			"css/mui.css",
+			"css/time-line.css",
+			"css/cqsp_css/communication.css",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
 			"fonts/mui.ttf"
 		]
 	}

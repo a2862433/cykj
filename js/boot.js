@@ -34,7 +34,7 @@ nWaiting = nWaiting || {
 	}
 }
 base = base || {
-	_path: 'http://10.101.0.126:8081',
+	_path: 'http://192.168.0.186:8080',
 	//_path: 'http://10.101.0.123:8080/web',
 	_userId: '',
 	_orgId: '',
@@ -62,18 +62,12 @@ boot = boot || {
 	url: { // 请求统一管理
 		//登录
 		login:base._path + '/siims/app/sys/userLoginForApp.jspx',
-		myproject:base._path + '/siims/jzzljd/mobile/getProjectInfoByApp.jspx',
-		projectInfo:base._path + '/siims/jzzljd/mobile/showProjectManageByApp.jspx',
-		shootList:base._path + '/siims/jzzljd/mobile/getShootsByApp.jspx',
-		shootImg:base._path + '/siims/jzzljd/mobile/getPointImgsByApp.jspx',
-		userInfo:base._path + '/siims/jzzljd/mobile/getUserInfoByApp.jspx',
-		editeUser:base._path + '/siims/jzzljd/mobile/editeUserByApp.jspx',
-		personIconUpload:base._path + '/siims/jzzljd/mobile/personIconUploadByApp.jspx',
-		personIconShow:base._path + '/siims/jzzljd/mobile/getPersonImgByApp.jspx',
-		shootImgUpload:base._path + '/siims/jzzljd/mobile/shootImgUpload.jspx',
-		getshootList:base._path + '/siims/jzzljd/mobile/queryShootByUserForApp.jspx',
-		shootImgShowByApp:base._path + '/siims/jzzljd/mobile/shootImgShowByApp.jspx',
-		viewImageByApp:base._path + '/siims/jzzljd/mobile/viewImageByApp.jspx'
+		//获取论坛标题
+		getForumInfoList:base._path + '/cykj/v1/m/getForumInfoList',
+		//获取论坛详细
+		getForumInfo:base._path + '/cykj/v1/m/getForumInfo',
+		//获取论坛回复
+		getForumCommt:base._path + '/cykj/v1/m/getForumCommt'
 	},
 	/**
 	 * 作者：administrator
@@ -88,7 +82,7 @@ boot = boot || {
 	 * 参数：
 	 * 	url：请求地址（格式如：'http://192.168.0.107:8081/siims/app/test/toLogin.jspx?name=administrator&pass=123456'）
 	 */
-	xhrCreate: function(url, callback) {
+	xhrCreate : function(url, callback) {
 		var obj = this;
 		if (obj._xhr) {
 			console.log("已发送请求");
@@ -100,7 +94,8 @@ boot = boot || {
 		console.log("创建请求：");
 		mui.plusReady(function() {
 			obj._xhr = new plus.net.XMLHttpRequest();
-		});console.log(obj._xhr);
+		});
+		console.log(obj._xhr);
 		obj._xhr.onreadystatechange = function() {
 			switch (obj._xhr.readyState) {
 				case 0:

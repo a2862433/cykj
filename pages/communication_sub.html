@@ -8,7 +8,8 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/mui.css">
+		<link rel="stylesheet" href="../css/cqsp_css/communication.css" />
 	</head>
 
 	<body>
@@ -21,73 +22,82 @@
 		    </ul>
 		  </div>
 		</div>
-		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.js"></script>
+		<script src="../js/boot.js"></script>
 		<script>
+			var currentPage = 0;
+			var pageSize = 6;
 			mui.init({
 				pullRefresh: {
 					container: '#refreshContainer',
-					down: {
-						callback: pulldownRefresh
-					},
 					up: {
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh
 					}
 				}
 			});
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = " <div class='mui-table'> "
-										+"	<div class='mui-table-cell mui-col-xs-9'>"
-										+"	    <h4 class='mui-ellipsis'>交流标题</h4>"
-										+"	    <h5>李四</h5>"
-										+"	    <p class='mui-h6 mui-ellipsis'>Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>"
-										+"	</div>"
-										+"	<div class='mui-table-cell mui-col-xs-2 mui-text-right'>"
-										+"	    <span class='mui-h5'>11:12:25</span>"
-										+"	</div>"
-									    +"</div>";
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
-			}
+			
 			var count = 0;
+			
 			/**
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
 				setTimeout(function() {
-					mui('#refreshContainer').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = " <div class='mui-table'> "
-										+"	<div class='mui-table-cell mui-col-xs-9'> "
-										+"	    <h4 class='mui-ellipsis'>交流标题</h4> "
-										+"	    <h5>李四</h5> "
-										+"	    <p class='mui-h6 mui-ellipsis'>Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p> "
-										+"	</div> "
-										+"	<div class='mui-table-cell mui-col-xs-2 mui-text-right'> "
-										+"	    <span class='mui-h5'>11:12:25</span> "
-										+"	</div> "
-									    +"</div> ";
-						table.appendChild(li);
-					}
+						var param = {
+			                id: "2313",
+			                forumTitle: "",
+			                forumContent: "",
+			                forumUserflag: -1,
+			            };
+			            var data = {};
+			            data.page = currentPage;
+			            data.size = pageSize;
+			            data.param = JSON.stringify(param);
+	        
+	        			var url = boot.url.getForumInfoList + "?paramStr="+JSON.stringify(data);
+						console.log(url);
+						
+						mui.ajax(boot.url.getForumInfoList, {
+							data:{paramStr: JSON.stringify(data)},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:14000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应结果
+								console.log(JSON.stringify(data));
+								
+								mui('#refreshContainer').pullRefresh().endPullupToRefresh((data.param.length == 0)); //参数为true代表没有更多数据了。
+								var table = document.body.querySelector('.mui-table-view');
+								var cells = document.body.querySelectorAll('.mui-table-view-cell');
+								for (var i = cells.length, len = i + data.param.length, rsize = 0; i < len; i++, rsize++) {
+									var li = document.createElement('li');
+									li.className = 'mui-table-view-cell';
+									li.id = data.param[rsize].id;
+									li.addEventListener("tap", openComInfo);
+									li.innerHTML = " <div class='mui-table'> "
+													+"	<div class='mui-table-cell mui-col-xs-9'> "
+													+"	    <h4 class='mui-ellipsis'>" + data.param[rsize].forumTitle +"</h4> "
+													+"	    <h5>李四</h5> "
+													+"	    <p class='mui-h6 mui-ellipsis'>" + data.param[rsize].forumContent +"</p> "
+													+"	</div> "
+													+"	<div class='mui-table-cell mui-col-xs-2 mui-text-right'> "
+													+"	    <span class='mui-h5'>" + getSubDate(data.param[rsize].forumDate) +"</span> "
+													+"	</div> "
+												    +"</div> ";
+									table.appendChild(li);
+								}
+								currentPage++;
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log("请求失败：" + JSON.stringify(xhr));
+							}
+						});
+						
 				}, 1500);
 			}
-			if (mui.os.plus) {
+		/*	if (mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {
 						mui('#pullrefresh').pullRefresh().pullupLoading();
@@ -98,6 +108,30 @@
 				mui.ready(function() {
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				});
+			}*/
+			
+			pullupRefresh();
+			
+			function openComInfo(){
+				var id = this.getAttribute("id");
+				var listPage = mui.preload({
+                    url:'communicationinfo.html',
+                    id:'communicationinfo.html'//默认使用当前页面的url作为id
+                });
+				 //传值给详情页面，通知加载新数据
+				mui.fire(listPage,'comId',{
+				    id:id
+				});
+				//打开详情页面          
+				mui.openWindow(listPage);
+			}
+			
+			/**截取时间格式
+			 * @param {Object} dataStr
+			 */
+			function getSubDate(dataStr){
+				dataStr = dataStr.substring(dataStr.indexOf(" "), dataStr.length);
+				return dataStr;
 			}
 		</script>
 	</body>

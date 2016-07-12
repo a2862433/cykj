@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.js"></script>
+		<script src="../js/boot.js"></script>
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link href="../css/fontstyle.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/time-line.css" />
+		
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			
+			mui.plusReady(function(){
+				window.addEventListener('comId', function(event) {
+					var comId = event.detail.id;
+					console.log("id : " + comId);
+					
+					if(comId){
+						//var param = {id: 3};
+	        			var url = boot.url.getForumInfo + "?id="+comId;
+						console.log(url);
+						
+						mui.ajax(boot.url.getForumInfo, {
+							data:{id: comId},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:14000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应结果
+								console.log(JSON.stringify(data));
+								
+								var ur = document.getElementById("commInfo");
+								ur.innerHTML = "";
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell mui-media mui-col-xs-12';
+								li.innerHTML = 	 " <div class='mui-table'>                                                "
+												 +"     <div class='mui-table-cell mui-col-xs-4 mui-text-left'>            "
+												 +"         <span class='mui-h5' style='color: #4D4D4E'> " + data.forumTitle + "</span>   "
+												 +"     </div>                                                             "
+												 +" </div>                                                                 "
+												 +"  <div class='mui-table'>                                               "
+												 +"     <div class='mui-table-cell mui-col-xs-1 mui-text-center'>          "
+												 +"         <span class='mui-h5'>" + data.forumUserId + "  " + data.forumDate + "  1楼</span>     "
+												 +"     </div>                                                             "
+												 +" </div>  ";
+								ur.appendChild(li);
+								
+								var content = document.createElement('div');
+								content.innerHTML = " <li class='mui-table-view-cell mui-media mui-col-xs-12'>                 "
+													+" 	   <div class='mui-input-row mui-text-left' style='margin: 10px 5px;'>  "
+													+"			  <span class='mui-h5'>" + data.forumContent + "</span>                                  "
+													+"		</div>                                                                "
+													+" </li>  ";
+								ur.appendChild(content);
+								
+								var url = boot.url.getForumInfoList + "?paramStr="+JSON.stringify(data);
+								console.log(url);
+								
+								var paramRsCom = {
+					                id: "2313",
+					                forumId: comId,
+					                comtContent: "",
+					                sysOpreaflag: 1,
+					            };
+					            
+					            var data = {};
+					            data.page = 0;
+					            data.size = 100;
+					            data.param = JSON.stringify(param);
+            
+								mui.ajax(boot.url.getForumCommt, {
+									data:{paramStr: JSON.stringify(data)},
+									dataType:'json',//服务器返回json格式数据
+									type:'post',//HTTP请求类型
+									timeout:14000,//超时时间设置为10秒；
+									success:function(data){
+										//服务器返回响应结果
+										console.log(JSON.stringify(data));
+										
+										mui('#refreshContainer').pullRefresh().endPullupToRefresh((data.param.length == 0)); //参数为true代表没有更多数据了。
+										var table = document.body.querySelector('.mui-table-view');
+										var cells = document.body.querySelectorAll('.mui-table-view-cell');
+										for (var i = cells.length, len = i + data.param.length, rsize = 0; i < len; i++, rsize++) {
+											var li = document.createElement('li');
+											li.className = 'mui-table-view-cell';
+											li.id = data.param[rsize].id;
+											li.addEventListener("tap", openComInfo);
+											li.innerHTML = " <div class='mui-table'> "
+															+"	<div class='mui-table-cell mui-col-xs-9'> "
+															+"	    <h4 class='mui-ellipsis'>" + data.param[rsize].forumTitle +"</h4> "
+															+"	    <h5>李四</h5> "
+															+"	    <p class='mui-h6 mui-ellipsis'>" + data.param[rsize].forumContent +"</p> "
+															+"	</div> "
+															+"	<div class='mui-table-cell mui-col-xs-2 mui-text-right'> "
+															+"	    <span class='mui-h5'>" + getSubDate(data.param[rsize].forumDate) +"</span> "
+															+"	</div> "
+														    +"</div> ";
+											table.appendChild(li);
+										}
+										currentPage++;
+									},
+									error:function(xhr,type,errorThrown){
+										//异常处理；
+										console.log("请求失败：" + JSON.stringify(xhr));
+									}
+								});
+										
+								/*var responComm = document.createElement('div');
+								responComm.innerHTML = " <li class='mui-table-view-cell mui-media mui-col-xs-12'>                 "
+													+" 	   <div class='mui-input-row mui-text-left' style='margin: 10px 5px;'>  "
+													+"			  <span class='mui-h5'>" + data.forumContent + "</span>                                  "
+													+"		</div>                                                                "
+													+" </li>  ";
+								ur.appendChild(responComm);*/
+								
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log("请求失败：" + JSON.stringify(xhr));
+							}
+						});
+					}else{
+						var body = document.querySelector("body");
+						body.innerHTML="<div style='text-align: center;margin-top: 20px;'>未选择项目，请选择<br/><button id='goToProject'>选择项目</button></div>";
+						//imgLoaded();
+						//plus.nativeUI.closeWaiting();
+					}
+				});
+			});
+			
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">帖子详情</h1>
+		</header>
+		
+		<div class="container" style="margin-top: 45px;">
+		    <ul id="commInfo" class="mui-table-view mui-grid-view">
+		    	<!--<li class="mui-table-view-cell mui-media mui-col-xs-12">
+		       	    <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+		                    <span class="mui-h5" style="color: #4D4D4E"> 帖子标题</span>
+		                </div>
+		            </div>
+		             <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-1 mui-text-center">
+		                    <span class="mui-h5">张三  2016-07-05 10:08:11  1楼</span>
+		                </div>
+		            </div>
+		       </li>-->
+		       
+		     <!--  <div>
+			       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+			       	   <div class="mui-input-row mui-text-left" style="margin: 10px 5px;">
+							  <span class="mui-h5">帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容
+							  帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容
+							  帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容</span>
+						</div>
+			       </li>
+			       
+			       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+			       		<div class="mui-table-cell mui-col-xs-1 mui-text-center">
+		                    <span class="mui-h5">李四  2016-07-05 10:08:11  2楼</span>
+		                </div>
+			       </li>
+		       
+			       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+			       	   <div class="mui-input-row mui-text-left" style="margin: 10px 5px;">
+							  <span class="mui-h5">帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容
+							  帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容
+							  帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容</span>
+						</div>
+			       </li>
+			       
+			         <li class="mui-table-view-cell mui-media mui-col-xs-12">
+			       		<div class="mui-table-cell mui-col-xs-1 mui-text-center">
+		                    <span class="mui-h5">王五  2016-07-05 10:08:11  3楼</span>
+		                </div>
+			       </li>
+		       
+			       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+			       	   <div class="mui-input-row mui-text-left" style="margin: 10px 5px;">
+							  <span class="mui-h5">帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容
+							  帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容
+							  帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容</span>
+						</div>
+			       </li>
+			    </div>   -->
+		    </ul>
+		</div>
+	</body>
+</html>
