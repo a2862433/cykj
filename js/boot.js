@@ -35,6 +35,7 @@ nWaiting = nWaiting || {
 }
 base = base || {
 	_path: 'http://192.168.0.186:8080',
+	_project_name: 'cykj',
 	//_path: 'http://10.101.0.123:8080/web',
 	_userId: '',
 	_orgId: '',
@@ -60,14 +61,41 @@ var boot = null;
 boot = boot || {
 	_xhr: null,
 	url: { // 请求统一管理
-		//登录
-		login:base._path + '/siims/app/sys/userLoginForApp.jspx',
+		//获取技术悬赏列表
+		getInvitInfoList:base._path + '/' + base._project_name + '/v1/m/getInvitInfoList',
+		 //获取技术悬赏详情
+        getinvitInfoByIdURL: base._path + '/' + base._project_name + '/v1/m/getInvitInfoById',
+         //保存技术悬赏
+        saveInvitInfoURL: base._path + '/' + base._project_name + "/v1/m/saveInvitInfo",
+        //获取创意组团列表
+        getGroupInfoURL: base._path + '/' + base._project_name + '/v1/m/getGroupList',
+        //获取创意组团详情
+        getGroupInfoByIdURL: base._path + '/' + base._project_name + '/v1/m/getGroupInfoById',
+        //保存创意组团
+        saveGroupInfoURL: base._path + '/' + base._project_name + "/v1/m/saveGroup",
+        //获取创意设计列表
+        getDesignInfoURL: base._path + '/' + base._project_name + '/v1/m/getDesignList',
+        //获取创意设计详情
+        getDesignInfoByIdURL: base._path + '/' + base._project_name + '/v1/m/getDesignInfoById',
+        //保存创意设计
+        saveDesignInfoURL: base._path + '/' + base._project_name + "/v1/m/saveDesign",
+		//获取王婆卖瓜推荐人
+		getWpmgInfoList:base._path + '/' + base._project_name + '/v1/m/getWpmgInfoList',
 		//获取论坛标题
-		getForumInfoList:base._path + '/cykj/v1/m/getForumInfoList',
+		getForumInfoList:base._path + '/' + base._project_name + '/v1/m/getForumInfoList',
 		//获取论坛详细
-		getForumInfo:base._path + '/cykj/v1/m/getForumInfo',
+		getForumInfo:base._path + '/' + base._project_name + '/v1/m/getForumInfo',
 		//获取论坛回复
-		getForumCommt:base._path + '/cykj/v1/m/getForumCommt'
+		getForumCommt:base._path + '/' + base._project_name + '/v1/m/getForumCommt',
+		//登陆
+	    getLoginURL: base._path + '/' + base._project_name + '/v1/m/login',
+        getloginUserURL: base._path + '/' + base._project_name + '/v1/m/loginUser',
+        //登出
+        getloginOutURL: base._path + '/' + base._project_name + '/v1/m/loginOut',
+       
+        addGroupContractURL: base._path + '/' + base._project_name + "/v1/m/addGroupContract",
+        addInvitContractURL: base._path + '/' + base._project_name + "/v1/m/addInvitContract",
+        getUserInfoURL: base._path + '/' + base._project_name + '/v1/m/getUserInfo'
 	},
 	/**
 	 * 作者：administrator
@@ -122,6 +150,10 @@ boot = boot || {
 		}
 		obj._xhr.open("POST", url);
 		obj._xhr.send();
+	},
+	xgetImgPath : function(imgPath){
+		imgPath = base._path + "/" + base._project_name + "/" + imgPath;
+		return imgPath;
 	},
 	xhrAbort: function() {
 		var obj = this;
