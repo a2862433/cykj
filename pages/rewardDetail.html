@@ -14,6 +14,16 @@
 			html,body {
 				background-color: #efeff4;
 			}
+			.mui-popover{
+				top: 15%;
+			}
+			.mui-popover::before {
+			 border-bottom: 0px;
+			 border-left: 0px;
+			}
+			.mui-popover .mui-table-view{
+				max-height: 350px;
+			}
 		</style>
 		<script type="application/javascript">
 			mui.init();
@@ -87,7 +97,7 @@
 							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
 						</a>
 			       </li>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size">
+			       <li id="addLi" class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size">
 			       	<a href="#" id="+id+">
 	                    <img  class="mui-media-object user-top-img"  src="../images/add.png" ></img>
 	                    <div class="mui-media-body"><p class="font-black">申请加入</p></div>
@@ -101,49 +111,33 @@
 	               </div>
 		        </li>
 		        
-		       	<div>
+		       	<div id="auditDiv">
 			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
 							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body" style="height: 20px">
-								<button type="button" class="mui-btn mui-btn-success" style="padding: 1px 2px;font-size: 12px;">邀请</button>
-								<button type="button" class="mui-btn mui-btn-primary" style="padding: 1px 2px;font-size: 12px;">拒绝</button>
-
-							</div>						
+												
 				       	</a>
 			       </li>
 			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
 							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body" style="height: 20px">
-								<button type="button" class="mui-btn mui-btn-success" style="padding: 1px 2px;font-size: 12px;">邀请</button>
-								<button type="button" class="mui-btn mui-btn-primary" style="padding: 1px 2px;font-size: 12px;">拒绝</button>
-
-							</div>						
+												
 				       	</a>
 			       </li>
 			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
 							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body" style="height: 20px">
-								<button type="button" class="mui-btn mui-btn-success" style="padding: 1px 2px;font-size: 12px;">邀请</button>
-								<button type="button" class="mui-btn mui-btn-primary" style="padding: 1px 2px;font-size: 12px;">拒绝</button>
-
-							</div>						
+												
 				       	</a>
 			       </li>
 			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
 							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body" style="height: 20px">
-								<button type="button" class="mui-btn mui-btn-success" style="padding: 1px 2px;font-size: 12px;">邀请</button>
-								<button type="button" class="mui-btn mui-btn-primary" style="padding: 1px 2px;font-size: 12px;">拒绝</button>
-
-							</div>						
+												
 				       	</a>
 			       </li>
 		       </div>
@@ -154,12 +148,98 @@
 </div>
 <div id="popover" class="mui-popover">
   <ul class="mui-table-view">
-    <li class="mui-table-view-cell"><a href="#">Item1</a></li>
-    <li class="mui-table-view-cell"><a href="#">Item2</a></li>
-    <li class="mui-table-view-cell"><a href="#">Item3</a></li>
-    <li class="mui-table-view-cell"><a href="#">Item4</a></li>
-    <li class="mui-table-view-cell"><a href="#">Item5</a></li>
+    <li class="mui-table-view-cell">
+						<div>
+							<form>
+								<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
+									申请加入
+								</div>
+								<div class="mui-input-row">
+									<input type="text" class="mui-input-clear" placeholder="姓名" style="margin-bottom: 7px;">
+								</div>
+								<div class="mui-input-row">
+									<input type="text" class="mui-input-clear" placeholder="电话" style="margin-bottom: 7px;">
+								</div>
+								<div class="mui-input-row">
+									<input type="text" class="mui-input-clear" placeholder="qq" style="margin-bottom: 7px;">
+								</div>
+								<div class="mui-input-row">
+									<textarea rows="2" placeholder="备注"></textarea>
+								</div>
+								<div class="mui-button-row">
+									<button class="mui-btn mui-btn-green" type="button" onclick="return false;">申请加入</button>
+								</div>
+							</form>
+						</div>
+					</li>
   </ul>
 </div>
+<div id="popover1" class="mui-popover">
+  <div class="mui-content-padded">
+    	    <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+		       	<div class="mui-table">
+		       	<a href="#" id="+id+" class="user-top-a-img">
+					<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
+				</a>
+				</div>
+		       </li>
+		        <li class="mui-table-view-cell mui-media mui-col-xs-12">
+		       	    <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5" style="color: #4D4D4E">姓名：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
+		                    <span class="mui-h5">张三</span>
+		                </div>
+		            </div>
+		             <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5" style="color: #4D4D4E">电话：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
+		                    <span class="mui-h5">13112345678</span>
+		                </div>
+		            </div>
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5" style="color: #4D4D4E">QQ：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
+		                    <span class="mui-h5">2000-01-02</span>
+		                </div>
+		            </div>
+
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5" style="color: #4D4D4E">备注：</span>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
+		                    <span class="mui-h5">大幅度对方的方法的反对反对反对法的反对法地方地方</span>
+		                </div>
+		            </div>
+		            
+		            <div class="mui-table" style="margin-top: 15px;">
+		                <div class="mui-table-cell mui-col-xs-5 mui-text-right">
+		                    <button class="mui-btn mui-btn-green" >邀请</button>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-1"></div>
+		                <div class="mui-table-cell mui-col-xs-5 mui-text-left">
+		                    <button class="mui-btn mui-btn-primary" >拒绝</button>
+		                </div>
+		            </div>
+		       </li>       		       
+		       </ul>
+		       </div>
+</div>
+<script>
+    document.getElementById("addLi").addEventListener('tap', function() {
+				mui('#popover').popover('toggle');
+		});
+	
+	mui("#auditDiv").on('tap','.mui-table-view-cell',function(){
+		mui('#popover1').popover('toggle');
+	})
+    </script>
 </body>
 </html>
