@@ -202,7 +202,7 @@
 					for (var i = 0; i < data.param.length; i++) {
 						var groupLi = document.createElement('li');
 						groupLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
-						groupLi.style.marginTop = "26px"; 
+						groupLi.style.marginTop = "26px";
 						groupLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
 											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
 											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].groupTitle +" </p></div>                           "
@@ -253,6 +253,8 @@
 						var desginLi = document.createElement('li');
 						desginLi.className = "mui-table-view-cell mui-media mui-col-xs-6";
 						desginLi.style.marginTop = "26px"; 
+						desginLi.id = data.param[i].id; 
+						desginLi.addEventListener("tap", openDesigninfo);
 						desginLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
 											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
 											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].desinTitle +" </p></div>                           "
@@ -272,6 +274,20 @@
 			if(str.length > 22)
 					str = str.substring(0, 22);
 			return str;
+		}
+		
+		function openDesigninfo(){
+			var id = this.getAttribute("id");
+			var listPage = mui.preload({
+                url:'creativeDesign_info.html',
+                id:'creativeDesign_info.html'//默认使用当前页面的url作为id
+            });
+			 //传值给详情页面，通知加载新数据
+			mui.fire(listPage,'infoId',{
+			    id:id
+			});
+			//打开详情页面          
+			mui.openWindow(listPage);
 		}
 		
 		/*function loadData(){
