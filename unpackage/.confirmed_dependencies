@@ -145,6 +145,9 @@
 			"js/mui.js",
 			"css/mui.css",
 			"js/boot.js"
+		],
+		"refer": [
+			"pages/creativeDesign_info.html"
 		]
 	},
 	"pages/creativeDesign_main.html": {
@@ -216,7 +219,8 @@
 	"pages/originalitylist_main.html": {
 		"resources": [
 			"js/mui.min.js",
-			"pages/originalitylist_sub.html"
+			"pages/originalitylist_sub.html",
+			"css/mui.min.css"
 		],
 		"refer": [
 			"pages/originalitylist_sub.html"
@@ -225,6 +229,10 @@
 	"pages/originalitylist_sub.html": {
 		"refer": [
 			"pages/originalityGroupDetail.html"
+		],
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf"
 		]
 	},
 	"pages/addoriginalitygroup.html": {
@@ -252,6 +260,26 @@
 		"resources": [
 			"js/mui.min.js",
 			"fonts/mui.ttf"
+		],
+		"refer": [
+			"pages/rewardDetail.html"
+		]
+	},
+	"pages/rewardDetail.html": {
+		"resources": [
+			"js/mui.js"
+		]
+	},
+	"pages/creativeDesign_info.html": {
+		"resources": [
+			"js/mui.js",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"images/add.png",
+			"fonts/mui.ttf",
+			"images/touxiang_ruanmeizhi.jpg",
+			"css/cqsp_css/user.css",
+			"css/mui.css",
+			"js/boot.js"
 		]
 	}
 }

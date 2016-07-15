@@ -29,6 +29,9 @@
 			mui.init({
 				pullRefresh: {
 					container: '#refreshContainer',
+					down: {
+						callback: pulldownRefresh
+					},
 					up: {
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh
@@ -37,6 +40,17 @@
 			});
 			
 			var count = 0;
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					window.location.reload(true);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			
+			}
+			
 			/**
 			 * 上拉加载具体业务实现
 			 */
@@ -55,7 +69,7 @@
 		            data.param = JSON.stringify(param);
 		            
 		            var url = boot.url.getDesignInfoURL + "?paramStr="+JSON.stringify(data);
-						console.log(url);
+					console.log(url);
 						
 					mui.ajax(boot.url.getDesignInfoURL, {
 						data:{paramStr: JSON.stringify(data)},
@@ -73,7 +87,7 @@
 								var li = document.createElement('li');
 								li.className = 'mui-table-view-cell  mui-media mui-col-xs-6';
 								li.id = data.param[rsize].id;
-								//li.addEventListener("tap", openComInfo);
+								li.addEventListener("tap", openDesigninfo);
 								li.innerHTML = " <a href='#'> "
 											  +"	<img class='mui-media-object project-img-choose' src='" + boot.xgetImgPath(data.param[rsize].photoUrl) + "'> "
 											  +"	<div class='mui-media-body'><p class='font-black'>" + data.param[rsize].desinTitle +" </p></div> "
@@ -92,18 +106,20 @@
 			}
 			
 			pullupRefresh();
-		/*	if (mui.os.plus) {
-				mui.plusReady(function() {
-					setTimeout(function() {
-						mui('#pullrefresh').pullRefresh().pullupLoading();
-					}, 1000);
-
+			
+			function openDesigninfo(){
+				var id = this.getAttribute("id");
+				var listPage = mui.preload({
+                    url:'creativeDesign_info.html',
+                    id:'creativeDesign_info.html'//默认使用当前页面的url作为id
+                });
+				 //传值给详情页面，通知加载新数据
+				mui.fire(listPage,'infoId',{
+				    id:id
 				});
-			} else {
-				mui.ready(function() {
-					mui('#pullrefresh').pullRefresh().pullupLoading();
-				});
-			}*/
+				//打开详情页面          
+				mui.openWindow(listPage);
+			}
 		</script>
 	</body>
 

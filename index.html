@@ -83,48 +83,6 @@
 				//更改当前活跃的选项卡
 				activeTab = targetTab;
 			});
-			function addTapProjectLineTime(id){
-				var tabAll = document.querySelectorAll('.mui-tab-item');
-				var projectInfo = tabAll[0];
-				addClass(projectInfo, "mui-active");
-				removeClass(tabAll[1], "mui-active");
-				var targetTab = projectInfo.getAttribute('href');
-				if (targetTab == activeTab) {
-					return;
-				} 
-				//更改选项卡header内容
-				document.getElementById("titleContent").innerHTML = projectInfo.getElementsByTagName("span")[1].innerHTML;
-				//先隐藏当前的
-				
-				plus.webview.hide(activeTab);
-				//再显示目标
-				plus.webview.show(targetTab, 'auto', '5000');
-				var targetCW = plus.webview.getWebviewById(targetTab);
-				plus.storage.setItem("projectId", id);
-				targetCW.evalJS("load('"+id+"')");
-				//更改当前活跃的选项卡
-				activeTab = targetTab;
-			}
-			
-		/*	function queryProject(){
-				var tabAll = document.querySelectorAll('.mui-tab-item');
-				var myproject = tabAll[1];
-				addClass(myproject, "mui-active");
-				removeClass(tabAll[0], "mui-active");
-				var targetTab = myproject.getAttribute('href');
-				if (targetTab == activeTab) {
-					return;
-				} 
-				//更改选项卡header内容
-				document.getElementById("titleContent").innerHTML = myproject.getElementsByTagName("span")[1].innerHTML;
-				//先隐藏当前的
-				plus.webview.hide(activeTab);
-				//再显示目标
-				plus.webview.show(targetTab, "auto", '1500');
-				var targetCW = plus.webview.getWebviewById(targetTab);
-				//更改当前活跃的选项卡
-				activeTab = targetTab;
-			};*/
 			
 			/*function refresh(){
 				window.location.reload();

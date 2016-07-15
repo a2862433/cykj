@@ -7,15 +7,15 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link rel="stylesheet" href="../css/mui.css">
+		<link rel="stylesheet" href="../css/mui.min.css">
 	</head>
 
 	<body>
 		<header></header>
 		<div class="mui-content"></div>
 	</body>
-	<script src="../js/mui.js"></script>
-	<script type="text/javascript">
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript"> 
 		//启用双击监听
 		mui.init({
 			gestureConfig:{
@@ -33,7 +33,7 @@
 	
 		var contentWebview = null;
 		document.querySelector('header').addEventListener('doubletap',function () {
-			if(contentWebview == null){
+			if(contentWebview==null){
 				contentWebview = plus.webview.currentWebview().children()[0];
 			}
 			contentWebview.evalJS("mui('#refreshContainer').pullRefresh().scrollTo(0,0,100)");
