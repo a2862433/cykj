@@ -22,63 +22,76 @@
 		  </div>
 		</div>
 		<script src="../js/mui.js"></script>
+		<script src="../js/boot.js"></script>
 		<script>
+			var currentPage = 0;
+			var pageSize = 6;
 			mui.init({
 				pullRefresh: {
 					container: '#refreshContainer',
-					down: {
-						callback: pulldownRefresh
-					},
 					up: {
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh
 					}
 				}
 			});
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell  mui-media mui-col-xs-6';
-						li.innerHTML = " <a href='#' id='1'> "
-									  +"	<img class='mui-media-object project-img-choose' src='../images/touxiang_ruanmeizhi.jpg'> "
-									  +"	<div class='mui-media-body'><p class='font-black'>创意人 </p></div> "
-								      +"	<div class='mui-media-body'><p class='font-size-13'>平面设计师</p></div> "
-									  +" </a>";
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
-			}
+			
 			var count = 0;
 			/**
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
 				setTimeout(function() {
-					mui('#refreshContainer').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell  mui-media mui-col-xs-6';
-						li.innerHTML = " <a href='#' id='1'> "
-									  +"	<img class='mui-media-object project-img-choose' src='../images/touxiang_ruanmeizhi.jpg'> "
-									  +"	<div class='mui-media-body'><p class='font-black'>创意人 </p></div> "
-								      +"	<div class='mui-media-body'><p class='font-size-13'>平面设计师</p></div> "
-									  +" </a>";
-						table.appendChild(li);
-					}
+					var param = {
+		                userId: "2313",
+		                desinTitle: "",
+		                desinIntro: "invitIntro",
+		                desinContent: "invitContent",
+		                desinState: 1,
+		            };
+		            var data = {};
+		            data.page = currentPage;
+		            data.size = pageSize;
+		            data.param = JSON.stringify(param);
+		            
+		            var url = boot.url.getDesignInfoURL + "?paramStr="+JSON.stringify(data);
+						console.log(url);
+						
+					mui.ajax(boot.url.getDesignInfoURL, {
+						data:{paramStr: JSON.stringify(data)},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:14000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应结果
+							console.log(JSON.stringify(data));
+							
+							mui('#refreshContainer').pullRefresh().endPullupToRefresh((data.param.length == 0)); //参数为true代表没有更多数据了。
+							var table = document.body.querySelector('.mui-table-view');
+							var cells = document.body.querySelectorAll('.mui-table-view-cell');
+							for (var i = cells.length, len = i + data.param.length, rsize = 0; i < len; i++, rsize++) {
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell  mui-media mui-col-xs-6';
+								li.id = data.param[rsize].id;
+								//li.addEventListener("tap", openComInfo);
+								li.innerHTML = " <a href='#'> "
+											  +"	<img class='mui-media-object project-img-choose' src='" + boot.xgetImgPath(data.param[rsize].photoUrl) + "'> "
+											  +"	<div class='mui-media-body'><p class='font-black'>" + data.param[rsize].desinTitle +" </p></div> "
+										      +"	<div class='mui-media-body'><p class='font-size-13'>" + data.param[rsize].desinContent +"</p></div> "
+											  +" </a>";
+								table.appendChild(li);
+							}
+							currentPage++;
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log("请求失败：" + JSON.stringify(xhr));
+						}
+					});
 				}, 1500);
 			}
 			
-			pulldownRefresh();
+			pullupRefresh();
 		/*	if (mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {

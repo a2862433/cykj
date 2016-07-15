@@ -102,6 +102,11 @@
 			"js/mui.js",
 			"css/mui.css",
 			"data:image/svg+xml;utf8,%3Csvg%20xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027%20width\u003d\u0027100%\u0027%20height\u003d\u00271\u0027%3E%3Crect%20fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e"
+		],
+		"refer": [
+			"pages/addoriginalitygroup.html",
+			"pages/addoriginalityDesign.html",
+			"pages/addreward.html"
 		]
 	},
 	"pages/home.html": {
@@ -138,7 +143,8 @@
 			"css/mui.min.css",
 			"images/touxiang_ruanmeizhi.jpg",
 			"js/mui.js",
-			"css/mui.css"
+			"css/mui.css",
+			"js/boot.js"
 		]
 	},
 	"pages/creativeDesign_main.html": {
@@ -162,6 +168,10 @@
 			"js/boot.js",
 			"js/mui.js",
 			"css/cqsp_css/discoverDesign.css"
+		],
+		"refer": [
+			"pages/originalitylist_main.html",
+			"pages/rewardlist_main.html"
 		]
 	},
 	"pages/communication_main.html": {
@@ -200,6 +210,47 @@
 			"css/time-line.css",
 			"css/cqsp_css/communication.css",
 			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"fonts/mui.ttf"
+		]
+	},
+	"pages/originalitylist_main.html": {
+		"resources": [
+			"js/mui.min.js",
+			"pages/originalitylist_sub.html"
+		],
+		"refer": [
+			"pages/originalitylist_sub.html"
+		]
+	},
+	"pages/originalitylist_sub.html": {
+		"refer": [
+			"pages/originalityGroupDetail.html"
+		]
+	},
+	"pages/addoriginalitygroup.html": {
+		"resources": [
+			"css/mui.min.css",
+			"js/mui.min.js",
+			"images/touxiang_ruanmeizhi.jpg"
+		]
+	},
+	"pages/addreward.html": {
+		"resources": [
+			"fonts/mui.ttf"
+		]
+	},
+	"pages/rewardlist_main.html": {
+		"resources": [
+			"pages/rewardlist_sub.html",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"pages/rewardlist_sub.html"
+		]
+	},
+	"pages/rewardlist_sub.html": {
+		"resources": [
+			"js/mui.min.js",
 			"fonts/mui.ttf"
 		]
 	}
