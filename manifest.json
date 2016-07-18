@@ -334,7 +334,9 @@
 					"images/touxiang_ruanmeizhi.jpg",
 					"images/yuantiao.jpg"
 				],
-				"refer": [],
+				"refer": [
+					"pages/creativeDesign_info.html"
+				],
 				"priority": 0
 			},
 			"pages/communication.html": {
@@ -503,6 +505,13 @@
 					"css/cqsp_css/user.css",
 					"css/mui.css",
 					"js/boot.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/addoriginalityDesign.html": {
+				"resources": [
+					"js/mui.min.js"
 				],
 				"refer": [],
 				"priority": 0

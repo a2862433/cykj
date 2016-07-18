@@ -89,6 +89,7 @@ boot = boot || {
 		getForumCommt:base._path + '/' + base._project_name + '/v1/m/getForumCommt',
 		//登陆
 	    getLoginURL: base._path + '/' + base._project_name + '/v1/m/login',
+	    //获取当前登陆人信息
         getloginUserURL: base._path + '/' + base._project_name + '/v1/m/loginUser',
         //登出
         getloginOutURL: base._path + '/' + base._project_name + '/v1/m/loginOut',
@@ -166,6 +167,49 @@ boot = boot || {
 		} else {
 			console.log("未发送请求");
 		}
+	},
+	/**
+	 * 用户登陆
+	 */
+	loginIn : function(loginInfo, callback){
+		var resLoginInfo = {};
+		resLoginInfo.success = false;
+		resLoginInfo.data = ""; 
+		var userName = loginInfo.loginName;
+		var password = loginInfo.loginPass;
+		if(userName == null || userName == "" || userName == undefined){
+			resLoginInfo.data = "用户名不能为空!";
+			callback(resLoginInfo);
+		}else if(password == null || password == "" || password == undefined){
+			resLoginInfo.data = "密码不能为空!";
+			callback(resLoginInfo);
+		}else{
+			var url = boot.url.getLoginURL + "?paramStr="+JSON.stringify(loginInfo);
+			console.log(url);
+			mui.ajax(boot.url.getLoginURL, {
+				data:{paramStr: JSON.stringify(loginInfo)},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					//服务器返回响应结果
+					console.log(JSON.stringify(data));
+					if(data.state == 1){
+						resLoginInfo.success = true;
+						resLoginInfo.data = data.desc;
+						resLoginInfo.userId = data.userId;
+					}else{
+						resLoginInfo.data = data.desc;
+					}
+					callback(resLoginInfo);
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
+		
 	},
 	/**
 	 * 作者：administrator

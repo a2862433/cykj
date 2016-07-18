@@ -123,6 +123,9 @@
 			"css/cqsp_css/home.css",
 			"images/touxiang_ruanmeizhi.jpg",
 			"images/yuantiao.jpg"
+		],
+		"refer": [
+			"pages/creativeDesign_info.html"
 		]
 	},
 	"pages/communication.html": {
@@ -280,6 +283,11 @@
 			"css/cqsp_css/user.css",
 			"css/mui.css",
 			"js/boot.js"
+		]
+	},
+	"pages/addoriginalityDesign.html": {
+		"resources": [
+			"js/mui.min.js"
 		]
 	}
 }

@@ -22,79 +22,112 @@
 		</style>
 		<script type="application/javascript">
 			mui.init();
-		/*	function callback(xhr){
-	  			if (xhr.status == 200) {
-	  				console.log("请求成功：" + xhr.responseText);
-					var jo = eval("("+xhr.responseText+")");
-					var iconPath = jo.iconPath;
-					console.log(base._path + iconPath);
-					document.getElementsByTagName("form")[0].setAttribute("id",jo.id);
-					document.getElementById("name").setAttribute("value",jo.name);
-					document.getElementById("email").setAttribute("value",jo.email);						
-					document.getElementById("tel").setAttribute("value",jo.tel);					
-					document.getElementById("mobile").setAttribute("value",jo.mobile);
-					document.getElementById("remark").setAttribute("value",jo.remark);
-					if(iconPath == null || iconPath == undefined){
-						document.getElementById("personIcon").setAttribute("src","../images/touxiang_moren.jpg");
-					}else{
-						document.getElementById("personIcon").setAttribute("src",base._path + iconPath);
-					}
-				} else {
-					console.log("请求失败：" + xhr.responseText);
-					var content = document.querySelector("body");
-					content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请从新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
+			
+			function loginAfter(resLoginInfo){
+				if(resLoginInfo.success){
+					plus.storage.setItem("userId", resLoginInfo.userId + "");
+					mui.toast('登陆成功！');
+					mui('#popover').popover('hide');
+					console.log(resLoginInfo.userId);
+					
+					var userId = plus.storage.getItem("userId");
+					console.log(userId);
+					initUser();
+				}else{
+					mui.toast(resLoginInfo.data);
 				}
-				plus.nativeUI.closeWaiting();
-      		};
-      		
-      		
-      		function submitUser(){
-      			var form = document.getElementsByTagName("form")[0];
-      			var xmlhttp = new XMLHttpRequest();
-      			var url = boot.url.editeUser;
-      			xmlhttp.open("post",url,false);
-      			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      			var id = form.getAttribute("id");
-      			var name =	document.getElementById("name").value;
-				var email = document.getElementById("email").value;			
-				var tel = document.getElementById("tel").value;			
-				var mobile = document.getElementById("mobile").value;
-				var remark = document.getElementById("remark").value;
-				xmlhttp.send("id="+id+"&email="+email+"&tel="+tel+"&mobile="+mobile+"&remark="+remark);
-      			if(xmlhttp.responseText == "1")alert("修改成功！");
-      		};
-      		
+			}
 			
 			mui.plusReady(function() {
 				plus.nativeUI.showWaiting( "正在加载数据..." );
-				var userId = plus.storage.getItem("userId");
-				var url = boot.url.userInfo + "?userId=" + userId;
-				boot.xhrCreate(url, callback);  
-				document.getElementById("popoverCancel").addEventListener('tap', function(e) {
-					mui('.mui-popover').popover('toggle');
-				});
+				initUser();
+				plus.nativeUI.closeWaiting();
 			});
 			
 			function loadData(){
-				boot.xhrCreate(boot.url.userInfo, callback);
+				mui('#popover').popover('toggle');
+			//	boot.xhrCreate(boot.url.userInfo, callback);
 			}
 			
 			function refresh(){
 				plus.nativeUI.showWaiting( "正在刷新..." );
 				window.location.reload();
-			}*/
+			}
+			
+			function loginIn(){
+				var userName = document.getElementById("userName");
+				var password = document.getElementById("password");
+				var loginInfo = {};
+				loginInfo.loginName = userName.value;
+				loginInfo.loginPass = password.value;
+				
+				boot.loginIn(loginInfo, loginAfter);
+			}
+			
+			function initUser(){
+				var userId = plus.storage.getItem("userId");
+				console.log(userId);
+				if(userId == null){
+					var loginDiv = document.getElementById("loginDiv");
+					document.getElementById("loginDiv").style.visibility="visible";//显示  
+					mui('#popover').popover('toggle');
+				}else{
+					document.getElementById("dataContent").style.visibility="visible";//显示
+					
+					var url = boot.url.getloginUserURL + "?id=" + userId;
+					console.log(url);
+					
+					mui.ajax(boot.url.getloginUserURL, {
+						data:{id: userId},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:14000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应结果
+							console.log(JSON.stringify(data));
+								
+							document.getElementById("userImg").src = boot.xgetImgPath(data.photoUrl);
+							document.getElementById("userName").innerText = data.trueName;
+							if(data.sex == 0)document.getElementById("sex").innerText = "男";
+							else if(data.sex == 1)document.getElementById("sex").innerText = "女";
+							document.getElementById("birthday").innerText = data.userBornYear == null ? "" : data.userBornYear 
+							+ "-" +  data.userBornMonth == null ? "" : data.userBornMonth;
+							document.getElementById("workTime").innerText = data.userWorklong;
+							
+							var degreeName = "";
+							if(data.userDegree == 0 || data.userDegree == null)degreeName = "未填写";
+							else if(data.userDegree == 1)degreeName = "初中及以下";
+                            else if(data.userDegree == 2)degreeName = "高中(职高,中专,技校)";
+                            else if(data.userDegree == 3)degreeName = "大专(大学专科)";
+                            else if(data.userDegree == 4)degreeName = "大本(大学本科)";
+                            else if(data.userDegree == 5)degreeName = "硕士(硕士研究生)";
+                            else if(data.userDegree == 6)degreeName = "博士(博士研究生)";
+							document.getElementById("degree").innerText = degreeName;
+							
+							document.getElementById("workintro").innerText = data.userWorkintro;
+							document.getElementById("introContent").innerText = data.introContent;
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log("请求失败：" + JSON.stringify(xhr));
+						}
+					});
+				}
+			}
+			
+		
 		</script>
 	</head>
 
 	<body>
 
 <div class="mui-content">
-    <div class="mui-content-padded">
+    <div id="dataContent" class="mui-content-padded" style="visibility: hidden;"  >
         <form class="mui-input-group">
-    	    <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+    	    <ul id="userShowInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
 		       <li class="mui-table-view-cell mui-media mui-col-xs-4" style="margin-left: 10px;">
-		       	<a href="#" id="+id+" class="user-top-a-img">
-					<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
+		       	<a href="#"  class="user-top-a-img">
+					<img id="userImg" class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
 				</a>
 		       </li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-7">
@@ -103,7 +136,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">真实姓名：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">张三</span>
+		                    <span class="mui-h5" id="userName"></span>
 		                </div>
 		            </div>
 		             <div class="mui-table">
@@ -111,7 +144,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">性别：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">女</span>
+		                    <span class="mui-h5" id="sex"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -119,7 +152,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">出生年月：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">2000-01-02</span>
+		                    <span class="mui-h5" id="birthday"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -127,7 +160,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">工作时间：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">1年</span>
+		                    <span class="mui-h5" id="workTime"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -135,7 +168,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">学历：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">大学本科</span>
+		                    <span class="mui-h5" id="degree"></span>
 		                </div>
 		            </div>
 		       </li>
@@ -148,7 +181,7 @@
 		            </div>
 		             <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">XXXXXXXXXXXXXXXXXXXXXX</span>
+		                    <span class="mui-h5" id="introContent"></span>
 		                </div>
 		            </div>
 		       </li>
@@ -161,7 +194,7 @@
 		            </div>
 		             <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">XXXXXXXXXXXXXXXXXXXXXXX</span>
+		                    <span class="mui-h5" id="workintro"></span>
 		                </div>
 		            </div>
 		       </li>
@@ -175,7 +208,7 @@
 	                </div>
 		        </li>
 		        
-		       	<div>
+		       	<div id="myDesgin">
 			       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
@@ -208,7 +241,7 @@
 	                </div>
 		        </li>
 		        
-		       	<div>
+		       	<div id="myGroup">
 			       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
@@ -241,7 +274,7 @@
 	                </div>
 		        </li>
 		        
-		       	<div>
+		       	<div id="myInvi">
 			       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
 				       	<a href="#" id="+id+">
 							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
@@ -277,8 +310,40 @@
 			</div>
         </form>
     </div>
+    
+    <div id="loginDiv" class="mui-content-padded" style="visibility: hidden;"  >
+    	<div style="text-align: center;margin-top: 30px;">
+    		<a>用户未登陆，请点击重新登陆</a>
+    	</div>
+    	<div style="text-align: center;margin-top: 30px;">
+    		<button onclick="loadData();">用户登陆</button>
+    	</div>
+    </div>
+    
+    <div id="popover" class="mui-popover">
+	  <ul class="mui-table-view">
+	    <li class="mui-table-view-cell">
+				<div>
+					<form>
+						<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
+							请选登陆
+						</div>
+						<div class="mui-input-row">
+							<input type="text" id="userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
+						</div>
+						<div class="mui-input-row">
+							<input type="password" id="password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
+						</div>
+						<div class="mui-button-row">
+							<button class="mui-btn mui-btn-green" type="button" onclick="loginIn()">登陆</button>
+						</div>
+					</form>
+				</div>
+			</li>
+	    </ul>
+	</div>
 </div>
-<script type="text/javascript">
+	<script type="text/javascript">
 		document.getElementById("designDiv").addEventListener('tap', function() {
 				mui.openWindow({
 					url: 'addoriginalityDesign.html',

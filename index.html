@@ -82,6 +82,9 @@
 				plus.webview.show(targetTab);
 				//更改当前活跃的选项卡
 				activeTab = targetTab;
+				//每次点击刷新页面
+				plus.webview.getWebviewById(targetTab).reload();
+				plus.webview.show(targetTab,"slide-in-right",300);
 			});
 			
 			/*function refresh(){
