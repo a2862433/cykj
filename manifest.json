@@ -315,7 +315,8 @@
 				"refer": [
 					"pages/addoriginalitygroup.html",
 					"pages/addoriginalityDesign.html",
-					"pages/addreward.html"
+					"pages/addreward.html",
+					"pages/creativeDesign_info.html"
 				],
 				"priority": 0
 			},

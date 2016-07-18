@@ -64,9 +64,70 @@
 				boot.loginIn(loginInfo, loginAfter);
 			}
 			
+			function openDesigninfo(){
+				var id = this.getAttribute("id");
+				var listPage = mui.preload({
+	                url:'creativeDesign_info.html',
+	                id:'creativeDesign_info.html'//默认使用当前页面的url作为id
+	            });
+				 //传值给详情页面，通知加载新数据
+				mui.fire(listPage,'infoId',{
+				    id:id
+				});
+				//打开详情页面          
+				mui.openWindow(listPage);
+			}
+			
+				//初始化创意设计
+			function initDesign(){
+				var myDesgin = document.getElementById("myDesgin");
+				myDesgin.innerHTML = "";
+				var userId = plus.storage.getItem("userId");
+				
+				var param4 = {
+	                userId: userId,
+	                desinTitle: "",
+	                desinIntro: "invitIntro",
+	                desinContent: "invitContent",
+	                desinState: 1,
+	            };
+	            var data4 = {};
+	            data4.page = 0;
+	            data4.size = 3;
+	            data4.param = JSON.stringify(param4);
+	            
+	            var url = boot.url.getDesignInfoURL + "?paramStr="+JSON.stringify(data4);
+				console.log(url);
+				mui.ajax(boot.url.getDesignInfoURL, {
+					data:{paramStr: JSON.stringify(data4)},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data));
+						
+						for (var i = 0; i < data.param.length; i++) {
+							var desginLi = document.createElement('li');
+							desginLi.className = "mui-table-view-cell mui-media mui-col-xs-4 li-top-size";
+							desginLi.id = data.param[i].id; 
+							desginLi.addEventListener("tap", openDesigninfo);
+							desginLi.innerHTML =  " <a href='#' id='+id+'>                                                                        "
+												+"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>   "
+												+"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].desinTitle +" </p></div>                       "
+												+"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].desinIntro +"</p></div>                      "
+												+"	</a>   ";
+							myDesgin.appendChild(desginLi);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
+					}
+				});
+			}
+			
 			function initUser(){
 				var userId = plus.storage.getItem("userId");
-				console.log(userId);
 				if(userId == null){
 					var loginDiv = document.getElementById("loginDiv");
 					document.getElementById("loginDiv").style.visibility="visible";//显示  
@@ -112,6 +173,8 @@
 							console.log("请求失败：" + JSON.stringify(xhr));
 						}
 					});
+					
+					initDesign();
 				}
 			}
 			
@@ -209,28 +272,7 @@
 		        </li>
 		        
 		       	<div id="myDesgin">
-			       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">创意描述</p></div>
-						</a>
-			       </li>
-			        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">创意描述</p></div>
-						</a>
-			       </li>
-			        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">创意描述</p></div>
-						</a>
-			       </li>
-		       </div>
+		        </div>
 		       
 		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
 		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
