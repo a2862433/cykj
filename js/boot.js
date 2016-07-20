@@ -65,6 +65,12 @@ boot = boot || {
 		getInvitInfoList:base._path + '/' + base._project_name + '/v1/m/getInvitInfoList',
 		 //获取技术悬赏详情
         getinvitInfoByIdURL: base._path + '/' + base._project_name + '/v1/m/getInvitInfoById',
+        //根据技术悬赏成员ID，查询成员信息
+        getJsxsUserInfoURL: base._path + '/' + base._project_name + '/v1/m/getJsxsUserInfo',
+        //根据技术悬赏ID，查询成员信息
+        getJsxsUserListURL: base._path + '/' + base._project_name + '/v1/m/getJsxsUserList',
+         //根据技术悬赏id，状态值，修改技术悬赏成员状态
+        getChangeJsxsContactURL: base._path + '/' + base._project_name + '/v1/m/changeJsxsContact',
          //保存技术悬赏
         saveInvitInfoURL: base._path + '/' + base._project_name + "/v1/m/saveInvitInfo",
         //获取创意组团列表
