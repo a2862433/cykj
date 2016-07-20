@@ -90,6 +90,7 @@
 				});
 			}
 			
+			//初始化创意组团详情
 			function initGroupInfo(){
 				var url = boot.url.getGroupInfoByIdURL + "?Id=" + infoId;
 				console.log(url);
@@ -105,7 +106,6 @@
 						document.getElementById("groupImg").src = boot.xgetImgPath(data.photoUrl);
 						document.getElementById("groupRes").innerText = data.userName + "|" + data.groupCredate;
 						document.getElementById("groupIntro").innerText = data.groupIntro;
-						document.getElementById("groupContent").innerText = data.groupContent;
 					},
 					error:function(xhr,type,errorThrown){
 						//异常处理；
@@ -114,6 +114,7 @@
 				});
 			}
 			
+			//初始化已经加入成员
 			function initHasAddPersonInfo(){
 				var hasAddPerson = document.getElementById("hasAddPerson");
 				hasAddPerson.innerHTML = "";
@@ -159,49 +160,50 @@
 				});
 			}
 			
+			//初始化已经审核成员
 			function initAuditPersonInfo(){
 				var auditDiv = document.getElementById("auditDiv");
-						auditDiv.innerHTML = "";
-						
-						var param1 = {
-			                groupId: infoId,
-			                contractFlag: 0,
-			            };
-			            var data1 = {};
-			            data1.page = 0;
-			            data1.size = 4;
-			            data1.param = JSON.stringify(param1);
-						
-						var url = boot.url.getCyztUserListURL + "?paramStr="+JSON.stringify(data1);
-						console.log(url);
-						
-						mui.ajax(boot.url.getCyztUserListURL, {
-							data:{paramStr: JSON.stringify(data1)},
-							dataType:'json',//服务器返回json格式数据
-							type:'post',//HTTP请求类型
-							timeout:14000,//超时时间设置为10秒；
-							success:function(data){
-								//服务器返回响应结果
-								console.log(JSON.stringify(data));
-								for (var i = 0; i < data.param.length; i++) {
-									var auditLi = document.createElement('li');
-									auditLi.className = "mui-table-view-cell mui-media mui-col-xs-3 li-top-size";
-									auditLi.id = data.param[i].id; 
-									auditLi.addEventListener("tap", showAuditPersonInfo);
-									auditLi.innerHTML =  	" <a href='#'>				"
-														+" 	<img class='mui-media-object user-top-img' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'> "
-														+" 	<div class='mui-media-body'>                                                        "
-														+" 		<p class='font-black'>"+ data.param[i].contractName +" </p>                                               "
-														+" 	</div>                                                                              "
-														+" </a>  ";
-									auditDiv.appendChild(auditLi);
-								}
-							},
-							error:function(xhr,type,errorThrown){
-								//异常处理；
-								console.log("请求失败：" + JSON.stringify(xhr));
-							}
-						});
+				auditDiv.innerHTML = "";
+				
+				var param1 = {
+	                groupId: infoId,
+	                contractFlag: 0,
+	            };
+	            var data1 = {};
+	            data1.page = 0;
+	            data1.size = 4;
+	            data1.param = JSON.stringify(param1);
+				
+				var url = boot.url.getCyztUserListURL + "?paramStr="+JSON.stringify(data1);
+				console.log(url);
+				
+				mui.ajax(boot.url.getCyztUserListURL, {
+					data:{paramStr: JSON.stringify(data1)},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						//服务器返回响应结果
+						console.log(JSON.stringify(data));
+						for (var i = 0; i < data.param.length; i++) {
+							var auditLi = document.createElement('li');
+							auditLi.className = "mui-table-view-cell mui-media mui-col-xs-3 li-top-size";
+							auditLi.id = data.param[i].id; 
+							auditLi.addEventListener("tap", showAuditPersonInfo);
+							auditLi.innerHTML =  	" <a href='#'>				"
+												+" 	<img class='mui-media-object user-top-img' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'> "
+												+" 	<div class='mui-media-body'>                                                        "
+												+" 		<p class='font-black'>"+ data.param[i].contractName +" </p>                                               "
+												+" 	</div>                                                                              "
+												+" </a>  ";
+							auditDiv.appendChild(auditLi);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
+					}
+				});
 			}
 			
 			//点击邀请成员
@@ -271,11 +273,8 @@
 			}
 
 			mui.plusReady(function() {
-				console.log("--------------------");
-				console.log(3333);
 				window.addEventListener('infoId', function(event) {
 					infoId = event.detail.id;
-					console.log(infoId);
 					if(infoId) {
 						initGroupInfo();
 						initHasAddPersonInfo();
@@ -283,7 +282,6 @@
 					}
 				});
 				
-				console.log(infoId);
 				if(infoId) {
 					initGroupInfo();
 					initHasAddPersonInfo();
@@ -310,7 +308,7 @@
 		<div class="mui-content">
 			<div class="mui-content-padded">
 				<form class="mui-input-group">
-					<ul id="creativeDesignInfo" class="mui-table-view mui-grid-view">
+					<ul class="mui-table-view mui-grid-view">
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-10">
 								<h4 class="mui-ellipsis mui-text-left" style="margin: 20px 0px 0px 10px;">创意组团 </h4>
@@ -334,12 +332,12 @@
 							</div>
 							<div class="mui-table">
 								<div class="mui-table-cell mui-col-xs-4 mui-text-left">
-									<span class="mui-h5" style="color: #4D4D4E" id="groupIntro"></span>
+												<span class="mui-h5" style="color: #4D4D4E">组团简介</span>
 								</div>
 							</div>
 							<div class="mui-table">
 								<div class="mui-table-cell mui-col-xs-4 mui-text-left">
-									<span class="mui-h5" id="groupContent"></span>
+									<span class="mui-h5" id="groupIntro"></span>
 								</div>
 							</div>
 						</li>
@@ -366,7 +364,7 @@
 		</div>
 		<div id="popover" class="mui-popover">
 			<div class="mui-content-padded">
-				<ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+				<ul class="mui-table-view mui-grid-view" style="margin-top: 0px;">
 					<li class="mui-table-view-cell mui-media mui-col-xs-12">
 						<div class="mui-table">
 							<a href="#" id="+id+" class="user-top-a-img">
@@ -414,7 +412,7 @@
 		</div>
 		<div id="popover1" class="mui-popover">
 			<div class="mui-content-padded">
-				<ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+				<ul class="mui-table-view mui-grid-view" style="margin-top: 0px;">
 					<li class="mui-table-view-cell mui-media mui-col-xs-12">
 						<input id="auditPersonId" type="text" hidden/>
 						<div class="mui-table">

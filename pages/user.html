@@ -98,8 +98,8 @@
 			function openInivInfo(){
 				var id = this.getAttribute("id");
 				var listPage = mui.preload({
-	                url:'creativeDesign_info.html',
-	                id:'creativeDesign_info.html'//默认使用当前页面的url作为id
+	                url:'MyInivDetail.html',
+	                id:'MyInivDetail.html'//默认使用当前页面的url作为id
 	            });
 				 //传值给详情页面，通知加载新数据
 				mui.fire(listPage,'infoId',{
@@ -206,7 +206,7 @@
 				});
 			}
 				
-				//初始化技术悬赏
+			//初始化技术悬赏
 			function initIniv(){
 				var myIniv = document.getElementById("myIniv");
 				myIniv.innerHTML = "";

@@ -108,7 +108,8 @@
 			"pages/addoriginalityDesign.html",
 			"pages/addreward.html",
 			"pages/creativeDesign_info.html",
-			"pages/MyGroupDetail.html"
+			"pages/MyGroupDetail.html",
+			"pages/MyInivDetail.html"
 		]
 	},
 	"pages/home.html": {
@@ -336,6 +337,18 @@
 	"pages/wpmglist_sub.html": {
 		"refer": [
 			"pages/wpmgDetail.html"
+		]
+	},
+	"pages/MyInivDetail.html": {
+		"resources": [
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"images/add.png",
+			"images/touxiang_ruanmeizhi.jpg",
+			"css/cqsp_css/user.css",
+			"js/mui.js",
+			"css/mui.css",
+			"fonts/mui.ttf",
+			"js/boot.js"
 		]
 	}
 }
