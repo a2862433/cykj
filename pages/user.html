@@ -55,11 +55,11 @@
 			}
 			
 			function loginIn(){
-				var userName = document.getElementById("userName");
-				var password = document.getElementById("password");
+				var login_userName = document.getElementById("login_userName");
+				var login_password = document.getElementById("login_password");
 				var loginInfo = {};
-				loginInfo.loginName = userName.value;
-				loginInfo.loginPass = password.value;
+				loginInfo.loginName = login_userName.value;
+				loginInfo.loginPass = login_password.value;
 				
 				boot.loginIn(loginInfo, loginAfter);
 			}
@@ -457,10 +457,10 @@
 							请选登陆
 						</div>
 						<div class="mui-input-row">
-							<input type="text" id="userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
+							<input type="text" id="login_userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
 						</div>
 						<div class="mui-input-row">
-							<input type="password" id="password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
+							<input type="password" id="login_password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
 						</div>
 						<div class="mui-button-row">
 							<button class="mui-btn mui-btn-green" type="button" onclick="loginIn()">登陆</button>
