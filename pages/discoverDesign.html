@@ -9,64 +9,239 @@
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <link href="../css/cqsp_css/home.css" rel="stylesheet"></link>
     <link href="../css/cqsp_css/discoverDesign.css" rel="stylesheet"></link>
-    <script type="text/javascript" charset="utf-8">
+    <script>
       	mui.init();
-   /*   	function callback(xhr){
-  			if (xhr.status == 200) {
-				var ja = eval("("+xhr.responseText+")");
-				console.log("请求成功：" + xhr.responseText);
-				for(var i = 0;i < ja[0].length;i++){
-					var id = ja[0][i].id;
-					var projectName = ja[0][i].projectName;
-					var cycleName = ja[0][i].cycleName;
-					if(cycleName == null || cycleName == undefined){
-						cycleName = "";		
-					}
-					cycleName = "当前：" + cycleName;
-					
-					var commonProject = document.getElementById("commonProject"); 
-					var liNode = document.createElement("li");
-					liNode.setAttribute("class","mui-table-view-cell mui-media mui-col-xs-6");
-					var html = "";
-					var defaultProject =plus.storage.getItem("defaultProject");
-					if(defaultProject!=null&&defaultProject == id){
-						html = "<a href='#' id="+id+">"
-							+"  <div class='mui-icon mui-icon-pengyouquan project-choose'></div>"
-							+" 	<img class='mui-media-object project-img-choose'  src='../p_img/160X160proj-02.png'>"
-							+"  <div class='mui-media-body'><p>" + projectName + "</p></div>"
-							+" 	<div class='mui-media-body'><p>" + cycleName + "</p></div>"
-							+"</a>";
-					}else{
-						html = "<a href='#' id="+id+">"
-							+" 	<img class='mui-media-object project-img-border'  src='../p_img/160X160proj-02.png'>"
-							+"  <div class='mui-media-body'><p>" + projectName + "</p></div>"
-							+" 	<div class='mui-media-body'><p>" + cycleName + "</p></div>"
-							+"</a>";
-					}
-					
-					liNode.innerHTML = html;				 
-					commonProject.appendChild(liNode);
-				}
-			} else {
-			//	var content = document.querySelector("body");
-			//	content.innerHTML="<div style='text-align: center;margin-top: 30px;'><a>网络未连接，请重新加载</a></div><div style='text-align: center;margin-top: 30px;'><button onclick='loadData();'>重新加载</button></div>";
-			}
-			plus.nativeUI.closeWaiting();
-      	}
-      	*/
   		mui.plusReady(function() {
-  			/*plus.nativeUI.showWaiting( "数据等待中..." );
-  			var userId = plus.storage.getItem("userId");
-  			var _url=boot.url.myproject+"?userId="+userId;
-  			console.log("213"+_url);*/
-  			
-		//	boot.xhrCreate(_url, callback);
+  			plus.nativeUI.showWaiting( "数据等待中..." );
+  			initIniv();
+  			initGroup();
+  			initWPMG();
+  			plus.nativeUI.closeWaiting();
 		});
 		
-		/*function loadData(){
-			plus.nativeUI.showWaiting( "数据等待中..." );
-			boot.xhrCreate(boot.url.myproject, callback);
-		}*/
+		//初始化技术悬赏
+		function initIniv(){
+			var technologyInfo = document.getElementById("technologyInfo");
+			technologyInfo.innerHTML = "";
+			
+			var param2 = {
+                userId: "2313",
+                desinTitle: "",
+                desinIntro: "invitIntro",
+                desinContent: "invitContent",
+                desinState: 1,
+            };
+            var data2 = {};
+            data2.page = 0;
+            data2.size = 3;
+            data2.param = JSON.stringify(param2);
+            
+            var url = boot.url.getInvitInfoList + "?paramStr="+JSON.stringify(data2);
+			console.log(url);
+			mui.ajax(boot.url.getInvitInfoList, {
+				data:{paramStr: JSON.stringify(data2)},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					var hTitleDiv = document.createElement('div');
+					hTitleDiv.className = "mui-table";
+					hTitleDiv.innerHTML = "<div class='mui-table-cell mui-col-xs-10'>" 
+	                     + "<h4 class='mui-ellipsis mui-text-left list-top-dis'>技术悬赏</h4>"	                    
+	                     + "</div>";
+	                var moreDiv = document.createElement('div');
+	                moreDiv.className = "mui-table-cell";
+	                moreDiv.innerHTML ="<span class='mui-h5 list-top-dis-r'>更多</span>";
+	                moreDiv.addEventListener('tap',rewardDivTap);
+	                hTitleDiv.appendChild(moreDiv);
+					technologyInfo.appendChild(hTitleDiv);
+			
+					console.log(JSON.stringify(data));
+					for (var i = 0; i < data.param.length; i++) {
+						var invitLi = document.createElement('li');
+						invitLi.className = "mui-table-view-cell mui-media mui-col-xs-4 li-top-size";
+						invitLi.style.marginTop = "26px"; 
+						invitLi.id = data.param[i].id;
+						invitLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
+											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
+											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].invitTitle +" </p></div>                           "
+											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].invitIntro +"</p></div>                      "
+											 +"	 </a> ";
+						invitLi.addEventListener("tap",toRewardDetailPage);
+						technologyInfo.appendChild(invitLi);
+						
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
+		
+		//初始化创意组团
+		function initGroup(){
+			var creativeGroupInfo = document.getElementById("originalityInfo");
+			creativeGroupInfo.innerHTML = "";
+			
+			var param3 = {
+                userId: "2313",
+                groupTitle: "",
+                groupRequire: "invitRequire",
+                groupIntro: "invitIntro",
+                groupContent: "invitContent",
+                groupState: 1,
+            };
+            var data3 = {};
+            data3.page = 0;
+            data3.size = 3;
+            data3.param = JSON.stringify(param3);
+            
+            var url = boot.url.getGroupInfoURL + "?paramStr="+JSON.stringify(data3);
+			console.log(url);
+			mui.ajax(boot.url.getGroupInfoURL, {
+				data:{paramStr: JSON.stringify(data3)},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					var hTitleDiv = document.createElement('div');
+					hTitleDiv.className = "mui-table";
+					hTitleDiv.innerHTML = "<div class='mui-table-cell mui-col-xs-10'>" 
+	                     + "<h4 class='mui-ellipsis mui-text-left list-top-dis'>创意组团</h4>"	                    
+	                     + "</div>";
+	                var moreDiv = document.createElement('div');
+	                moreDiv.className = "mui-table-cell";
+	                moreDiv.innerHTML ="<span class='mui-h5 list-top-dis-r'>更多</span>";
+	                moreDiv.addEventListener('tap',originalityDivTap);
+	                hTitleDiv.appendChild(moreDiv);
+					creativeGroupInfo.appendChild(hTitleDiv);
+					
+					console.log(JSON.stringify(data));
+					for (var i = 0; i < data.param.length; i++) {
+						var groupLi = document.createElement('li');
+						groupLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
+						groupLi.style.marginTop = "26px"; 
+						groupLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
+											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
+											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].groupTitle +" </p></div>                           "
+											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].groupIntro +"</p></div>                      "
+											 +"	 </a> ";
+						creativeGroupInfo.appendChild(groupLi);
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
+
+		function initWPMG(){
+			var wpmgInfo = document.getElementById("wpmgInfo");
+			wpmgInfo.innerHTML = "";
+			
+			var param3 = {
+                userId: "",
+                nichenName: "",
+                introContent: "",
+                userWpisflag: -1,
+            };
+            var data3 = {};
+            data3.page = 0;
+            data3.size = 3;
+            data3.param = JSON.stringify(param3);
+            
+            var url = boot.url.getWpmgInfoList + "?paramStr="+JSON.stringify(data3);
+			console.log(url);
+			mui.ajax(boot.url.getWpmgInfoList, {
+				data:{paramStr: JSON.stringify(data3)},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					var hTitleDiv = document.createElement('div');
+					hTitleDiv.className = "mui-table";
+					hTitleDiv.innerHTML = "<div class='mui-table-cell mui-col-xs-10'>" 
+	                     + "<h4 class='mui-ellipsis mui-text-left list-top-dis'>王婆卖瓜</h4>"	                    
+	                     + "</div>";
+	                var moreDiv = document.createElement('div');
+	                moreDiv.className = "mui-table-cell";
+	                moreDiv.innerHTML ="<span class='mui-h5 list-top-dis-r'>更多</span>";
+	                moreDiv.addEventListener('tap',wpmgDivTap);
+	                hTitleDiv.appendChild(moreDiv);
+					wpmgInfo.appendChild(hTitleDiv);
+			 
+					console.log(JSON.stringify(data));
+					for (var i = 0; i < data.param.length; i++) {
+						var groupLi = document.createElement('li');
+						groupLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
+						groupLi.style.marginTop = "26px"; 
+						groupLi.id = data.param[i].id;
+						groupLi.innerHTML =  "  <a href='#'>                                                                      "
+											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
+											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].trueName +" </p></div>                           "
+											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].userWorkintro +"</p></div>                      "
+											 +"	 </a> ";
+						groupLi.addEventListener("tap", toWPMGDetailPage);
+						wpmgInfo.appendChild(groupLi);
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
+		
+		function rewardDivTap() {
+				mui.openWindow({
+					url: 'rewardlist_main.html',
+					id:'rewardlist_main.html'
+				});
+		}
+		
+		function toRewardDetailPage(){
+			var itemId = this.getAttribute("id");
+			var detailPage = mui.preload({
+	            url: 'rewardDetail.html',
+				id:'rewardDetail.html'
+	        });
+				 //传值给详情页面，通知加载新数据
+			mui.fire(detailPage,'itemId',{
+				    id:itemId
+			});
+				//打开详情页面          
+			mui.openWindow(detailPage);
+		}
+		
+		function originalityDivTap() {
+				mui.openWindow({
+					url: 'originalitylist_main.html',
+					id:'originalitylist_main.html'
+				});
+		}
+		
+		function wpmgDivTap() {
+				mui.openWindow({
+					url: 'wpmglist_main.html',
+					id:'wpmglist_main.html'
+				});
+		}
+		
+		function toWPMGDetailPage(){
+			var itemId = this.getAttribute("id");
+			var detailPage = mui.preload({
+	                url: 'wpmgDetail.html',
+					id:'wpmgDetail.html'
+	            });
+				 //传值给详情页面，通知加载新数据
+				mui.fire(detailPage,'itemId',{
+				    id:itemId
+				});
+				//打开详情页面          
+				mui.openWindow(detailPage);
+		}
     </script>
 </head>
 <body>
@@ -105,7 +280,7 @@
 	       </li>
 	    </ul>
 	    
-	    <ul id="mpmgInfo" class="mui-table-view mui-grid-view">
+	    <ul id="originalityInfo" class="mui-table-view mui-grid-view">
 	            <div class="mui-table">
 	                <div class="mui-table-cell mui-col-xs-10">
 	                    <h4 class="mui-ellipsis mui-text-left list-top-dis">创意组团</h4>                 
@@ -138,7 +313,7 @@
 	       </li>
 	    </ul>
 	    
-	        <ul id="technologyInfo" class="mui-table-view mui-grid-view">
+	    <ul id="wpmgInfo" class="mui-table-view mui-grid-view">
 	            <div class="mui-table">
 	                <div class="mui-table-cell mui-col-xs-10">
 	                    <h4 class="mui-ellipsis mui-text-left list-top-dis">王婆卖瓜</h4>	                    
@@ -176,44 +351,4 @@
 		<div>asd</div>
 	</div>-->
 </body>
-	<script type="text/javascript">
-/*		mui('.mui-content').on('tap', 'a', function(e) {
-			document.createElement("div"); 
-			var defualtP=document.querySelector(".project-img-choose");
-			var defualtIcon=document.querySelector(".mui-icon-pengyouquan");
-			if(defualtP!=null){
-				removeClass(defualtP,"project-img-choose");
-				addClass(defualtP,"project-img-border");
-				defualtIcon.remove();
-			}
-			var img = this.querySelector("img");
-			removeClass(img,"project-img-border");
-			addClass(img,"project-img-choose");
-			var div=document.createElement("div");  
-			div.setAttribute("class","mui-icon mui-icon-pengyouquan project-choose");
-			this.appendChild(div); 
-			plus.storage.setItem("defaultProject",this.getAttribute("id"));
-			var cw = plus.webview.currentWebview();
-			var p_cw = cw.parent();
-			p_cw.evalJS("addTapProjectLineTime('"+this.getAttribute("id")+"')");
-		});*/
-		document.getElementById("rewardDiv").addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'rewardlist_main.html',
-					id:'rewardlist_main.html'
-				});
-		});
-		document.getElementById("originalityDiv").addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'originalitylist_main.html',
-					id:'originalitylist_main.html'
-				});
-		});
-		document.getElementById("wpmgDiv").addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'wpmglist_main.html',
-					id:'wpmglist_main.html'
-				});
-		});
-	</script>
 </html>

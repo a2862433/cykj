@@ -22,6 +22,41 @@
 		</style>
 		<script type="application/javascript">
 			mui.init();
+			mui.plusReady(function() {
+  			plus.nativeUI.showWaiting( "数据等待中..." );
+			window.addEventListener('itemId', function(event) {
+				var itemId = event.detail.id;
+				initWPMGDetail(itemId);
+  			});
+  			plus.nativeUI.closeWaiting();
+		});
+		function initWPMGDetail(itemId){
+            var url = boot.url.getUserInfoURL + "?id="+itemId;
+			console.log(url);
+			mui.ajax(boot.url.getUserInfoURL, {
+				data:{id: itemId},
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					document.getElementById("avatar").src = boot.xgetImgPath(data.photoUrl);
+					document.getElementById("userName").innerHTML=data.loginName;
+					document.getElementById("trueName").innerHTML=data.trueName;
+					document.getElementById("sex").innerHTML=data.sex;
+					document.getElementById("birthday").innerHTML=data.userBornYear;
+					document.getElementById("workYears").innerHTML=data.userWorklong;
+					document.getElementById("degree").innerHTML=data.userDegree;
+					document.getElementById("workExperience").innerHTML=data.userWorkintro;
+					document.getElementById("speciality").innerHTML=data.userSpecialty;
+					
+
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
 		</script>
 	</head>
 
@@ -35,7 +70,7 @@
     	    <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
 		       <li class="mui-table-view-cell mui-media mui-col-xs-4" style="margin-left: 10px;">
 		       	<a href="#" id="+id+" class="user-top-a-img">
-					<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
+					<img id="avatar" class="mui-media-object user-top-img" src="">
 				</a>
 		       </li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-7">
@@ -44,7 +79,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">会员昵称：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">user1</span>
+		                    <span id="userName" class="mui-h5"></span>
 		                </div>
 		            </div>
 		       	    <div class="mui-table">
@@ -52,7 +87,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">真实姓名：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">张三</span>
+		                    <span id="trueName" class="mui-h5"></span>
 		                </div>
 		            </div>
 		             <div class="mui-table">
@@ -60,7 +95,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">性别：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">女</span>
+		                    <span id="sex" class="mui-h5"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -68,15 +103,15 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">出生年月：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">2000-01-02</span>
+		                    <span id="birthday" class="mui-h5"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
-		                    <span class="mui-h5" style="color: #4D4D4E">工作时间：</span>
+		                    <span  class="mui-h5" style="color: #4D4D4E">工作时间：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">1年</span>
+		                    <span id="workYears" class="mui-h5"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -84,7 +119,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">学历：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">大学本科</span>
+		                    <span id="degree" class="mui-h5"></span>
 		                </div>
 		            </div>
 		       </li>
@@ -97,7 +132,7 @@
 		            </div>
 		             <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">XXXXXXXXXXXXXXXXXXXXXX</span>
+		                    <span id="workExperience" class="mui-h5"></span>
 		                </div>
 		            </div>
 		       </li>
@@ -110,7 +145,7 @@
 		            </div>
 		             <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5">XXXXXXXXXXXXXXXXXXXXXXX</span>
+		                    <span id="speciality" class="mui-h5"></span>
 		                </div>
 		            </div>
 		       </li>
