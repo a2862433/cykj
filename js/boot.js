@@ -34,7 +34,8 @@ nWaiting = nWaiting || {
 	}
 }
 base = base || {
-	_path: 'http://192.168.0.186:8080',
+	//_path: 'http://192.168.0.186:8080',
+	_path: 'http://192.168.0.122:8081',
 	_project_name: 'cykj',
 	//_path: 'http://10.101.0.123:8080/web',
 	_userId: '',
