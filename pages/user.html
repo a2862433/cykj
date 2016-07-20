@@ -64,6 +64,7 @@
 				boot.loginIn(loginInfo, loginAfter);
 			}
 			
+			//打开创意设计详情
 			function openDesigninfo(){
 				var id = this.getAttribute("id");
 				var listPage = mui.preload({
@@ -78,7 +79,37 @@
 				mui.openWindow(listPage);
 			}
 			
-				//初始化创意设计
+			//打开创意组团详情
+			function openGroupInfo(){
+				var id = this.getAttribute("id");
+				var listPage = mui.preload({
+	                url:'MyGroupDetail.html',
+	                id:'MyGroupDetail.html'//默认使用当前页面的url作为id
+	            });
+				 //传值给详情页面，通知加载新数据
+				mui.fire(listPage,'infoId',{
+				    id:id
+				});
+				//打开详情页面          
+				mui.openWindow(listPage);
+			}
+			
+			//打开技术悬赏
+			function openInivInfo(){
+				var id = this.getAttribute("id");
+				var listPage = mui.preload({
+	                url:'creativeDesign_info.html',
+	                id:'creativeDesign_info.html'//默认使用当前页面的url作为id
+	            });
+				 //传值给详情页面，通知加载新数据
+				mui.fire(listPage,'infoId',{
+				    id:id
+				});
+				//打开详情页面          
+				mui.openWindow(listPage);
+			}
+			
+			//初始化创意设计
 			function initDesign(){
 				var myDesgin = document.getElementById("myDesgin");
 				myDesgin.innerHTML = "";
@@ -126,19 +157,117 @@
 				});
 			}
 			
+			//初始化创意组团
+			function initGroup(){
+				var myGroup = document.getElementById("myGroup");
+				myGroup.innerHTML = "";
+				
+				var userId = plus.storage.getItem("userId");
+				
+				var param3 = {
+	                userId: userId,
+	                groupTitle: "",
+	                groupRequire: "invitRequire",
+	                groupIntro: "invitIntro",
+	                groupContent: "invitContent",
+	                groupState: 1,
+	            };
+	            var data3 = {};
+	            data3.page = 0;
+	            data3.size = 3;
+	            data3.param = JSON.stringify(param3);
+	            
+	            var url = boot.url.getGroupInfoURL + "?paramStr="+JSON.stringify(data3);
+				console.log(url);
+				mui.ajax(boot.url.getGroupInfoURL, {
+					data:{paramStr: JSON.stringify(data3)},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data));
+						for (var i = 0; i < data.param.length; i++) {
+							var groupLi = document.createElement('li');
+							groupLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
+							groupLi.id = data.param[i].id; 
+							groupLi.addEventListener("tap", openGroupInfo);
+							groupLi.innerHTML =  "  <a href='#' id='+id+'>                                                                     "
+												 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
+												 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].groupTitle +" </p></div>                           "
+												 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].groupIntro +"</p></div>                      "
+												 +"	 </a> ";
+							myGroup.appendChild(groupLi);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
+					}
+				});
+			}
+				
+				//初始化技术悬赏
+			function initIniv(){
+				var myIniv = document.getElementById("myIniv");
+				myIniv.innerHTML = "";
+				var userId = plus.storage.getItem("userId");
+				
+				var param2 = {
+	                userId: userId,
+	                desinTitle: "",
+	                desinIntro: "invitIntro",
+	                desinContent: "invitContent",
+	                desinState: 1,
+	            };
+	            var data2 = {};
+	            data2.page = 0;
+	            data2.size = 3;
+	            data2.param = JSON.stringify(param2);
+	            
+	            var url = boot.url.getInvitInfoList + "?paramStr="+JSON.stringify(data2);
+				console.log(url);
+				mui.ajax(boot.url.getInvitInfoList, {
+					data:{paramStr: JSON.stringify(data2)},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data));
+						for (var i = 0; i < data.param.length; i++) {
+							var invitLi = document.createElement('li');
+							invitLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
+							invitLi.id = data.param[i].id; 
+							invitLi.addEventListener("tap", openInivInfo);
+							invitLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
+												 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
+												 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].invitTitle +" </p></div>                           "
+												 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].invitIntro +"</p></div>                      "
+												 +"	 </a> ";
+							myIniv.appendChild(invitLi);
+							
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
+					}
+				});
+			}
+			
+			//用户信息初始化
 			function initUser(){
 				var userId = plus.storage.getItem("userId");
 				if(userId == null){
 					var loginDiv = document.getElementById("loginDiv");
-					document.getElementById("loginDiv").style.visibility="visible";//显示  
+					document.getElementById("loginDiv").style.display="block";//显示  
 					mui('#popover').popover('toggle');
 				}else{
-					document.getElementById("dataContent").style.visibility="visible";//显示
+					document.getElementById("dataContent").style.display="block";//显示
 					
-					var url = boot.url.getloginUserURL + "?id=" + userId;
+					var url = boot.url.getUserInfoURL + "?id=" + userId;
 					console.log(url);
 					
-					mui.ajax(boot.url.getloginUserURL, {
+					mui.ajax(boot.url.getUserInfoURL, {
 						data:{id: userId},
 						dataType:'json',//服务器返回json格式数据
 						type:'post',//HTTP请求类型
@@ -175,6 +304,8 @@
 					});
 					
 					initDesign();
+					initGroup();
+					initIniv();
 				}
 			}
 			
@@ -185,12 +316,12 @@
 	<body>
 
 <div class="mui-content">
-    <div id="dataContent" class="mui-content-padded" style="visibility: hidden;"  >
+    <div id="dataContent" class="mui-content-padded"  style="display: none;" >
         <form class="mui-input-group">
     	    <ul id="userShowInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
 		       <li class="mui-table-view-cell mui-media mui-col-xs-4" style="margin-left: 10px;">
 		       	<a href="#"  class="user-top-a-img">
-					<img id="userImg" class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
+					<img id="userImg" class="mui-media-object user-top-img">
 				</a>
 		       </li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-7">
@@ -271,8 +402,7 @@
 	                </div>
 		        </li>
 		        
-		       	<div id="myDesgin">
-		        </div>
+		       	<div id="myDesgin"></div>
 		       
 		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
 		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
@@ -283,29 +413,7 @@
 	                </div>
 		        </li>
 		        
-		       	<div id="myGroup">
-			       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">组团标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">组团描述</p></div>
-						</a>
-			       </li>
-			        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">组团标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">组团描述</p></div>
-						</a>
-			       </li>
-			        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">组团标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">组团描述</p></div>
-						</a>
-			       </li>
-		       </div>
+		       	<div id="myGroup"></div>
 		       
 		        <li class="mui-table-view-cell mui-media mui-col-xs-12">
 		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
@@ -316,29 +424,7 @@
 	                </div>
 		        </li>
 		        
-		       	<div id="myInvi">
-			       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">悬赏标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">悬赏描述</p></div>
-						</a>
-			       </li>
-			        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">悬赏标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">悬赏描述</p></div>
-						</a>
-			       </li>
-			        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">悬赏标题 </p></div>
-							<div class="mui-media-body"><p class="font-size-13">悬赏描述</p></div>
-						</a>
-			       </li>
-		       </div>
+		       	<div id="myIniv"></div>
 		       
 		    </ul>
             <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom">
@@ -353,7 +439,7 @@
         </form>
     </div>
     
-    <div id="loginDiv" class="mui-content-padded" style="visibility: hidden;"  >
+    <div id="loginDiv" class="mui-content-padded"   style="display: none;">
     	<div style="text-align: center;margin-top: 30px;">
     		<a>用户未登陆，请点击重新登陆</a>
     	</div>

@@ -107,7 +107,8 @@
 			"pages/addoriginalitygroup.html",
 			"pages/addoriginalityDesign.html",
 			"pages/addreward.html",
-			"pages/creativeDesign_info.html"
+			"pages/creativeDesign_info.html",
+			"pages/MyGroupDetail.html"
 		]
 	},
 	"pages/home.html": {
@@ -178,7 +179,8 @@
 		],
 		"refer": [
 			"pages/originalitylist_main.html",
-			"pages/rewardlist_main.html"
+			"pages/rewardlist_main.html",
+			"pages/wpmglist_main.html"
 		]
 	},
 	"pages/communication_main.html": {
@@ -236,7 +238,8 @@
 		],
 		"resources": [
 			"js/mui.min.js",
-			"fonts/mui.ttf"
+			"fonts/mui.ttf",
+			"images/touxiang_ruanmeizhi.jpg"
 		]
 	},
 	"pages/addoriginalitygroup.html": {
@@ -248,7 +251,8 @@
 	},
 	"pages/addreward.html": {
 		"resources": [
-			"fonts/mui.ttf"
+			"fonts/mui.ttf",
+			"js/mui.min.js"
 		]
 	},
 	"pages/rewardlist_main.html": {
@@ -289,6 +293,49 @@
 	"pages/addoriginalityDesign.html": {
 		"resources": [
 			"js/mui.min.js"
+		]
+	},
+	"pages/originalityGroupDetail.html": {
+		"resources": [
+			"js/mui.js",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"images/add.png",
+			"css/cqsp_css/user.css",
+			"css/mui.css"
+		]
+	},
+	"pages/MyGroupDetail.html": {
+		"resources": [
+			"images/touxiang_ruanmeizhi.jpg",
+			"js/mui.js",
+			"data:image/svg+xml;utf8,\u003csvg xmlns\u003d\u0027http://www.w3.org/2000/svg\u0027 width\u003d\u0027100%\u0027 height\u003d\u00271\u0027\u003e\u003crect fill\u003d\u0027#c8c7cc\u0027 x\u003d\u00270\u0027 y\u003d\u00270\u0027 width\u003d\u0027100%\u0027 height\u003d\u00270.5\u0027/\u003e\u003c/svg\u003e",
+			"images/add.png",
+			"css/cqsp_css/user.css",
+			"css/mui.css",
+			"js/boot.js",
+			"fonts/mui.ttf"
+		]
+	},
+	"pages/wpmglist_main.html": {
+		"resources": [
+			"js/mui.min.js",
+			"pages/wpmglist_sub.html"
+		],
+		"refer": [
+			"pages/wpmglist_sub.html"
+		]
+	},
+	"pages/wpmgDetail.html": {
+		"resources": [
+			"js/app.js",
+			"js/uploadIcon.js",
+			"js/boot.js",
+			"js/mui.js"
+		]
+	},
+	"pages/wpmglist_sub.html": {
+		"refer": [
+			"pages/wpmgDetail.html"
 		]
 	}
 }

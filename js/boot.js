@@ -77,6 +77,12 @@ boot = boot || {
         getDesignInfoURL: base._path + '/' + base._project_name + '/v1/m/getDesignList',
         //获取创意设计详情
         getDesignInfoByIdURL: base._path + '/' + base._project_name + '/v1/m/getDesignInfoById',
+        //获取创意组团所属成员的信息
+        getCyztUserListURL: base._path + '/' + base._project_name + '/v1/m/getCyztUserList',
+        //根据创意组团成员ID，查询成员信息
+        getCyztUserInfoURL: base._path + '/' + base._project_name + '/v1/m/getCyztUserInfo',
+        //根据id，状态值，修改创意组团成员状态
+        getChangeCyztContactURL: base._path + '/' + base._project_name + '/v1/m/changeCyztContact',
         //保存创意设计
         saveDesignInfoURL: base._path + '/' + base._project_name + "/v1/m/saveDesign",
 		//获取王婆卖瓜推荐人
