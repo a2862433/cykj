@@ -86,20 +86,6 @@
 						}
 					});
 				}
-      			
-      			/*var form = document.getElementsByTagName("form")[0];
-      			var xmlhttp = new XMLHttpRequest();
-      			var url = boot.url.editeUser;
-      			xmlhttp.open("post",url,false);
-      			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      			var id = form.getAttribute("id");
-      			var name =	document.getElementById("name").value;
-				var email = document.getElementById("email").value;			
-				var tel = document.getElementById("tel").value;			
-				var mobile = document.getElementById("mobile").value;
-				var remark = document.getElementById("remark").value;
-				xmlhttp.send("id="+id+"&email="+email+"&tel="+tel+"&mobile="+mobile+"&remark="+remark);
-      			if(xmlhttp.responseText == "1")alert("修改成功！");*/
       		};
       		
 			function loadImg(imgPath){
@@ -143,7 +129,7 @@
 							</div>
 							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
 								<div class="mui-input-row">
-									<input id="desinTitle" type="text" class="mui-input-clear" placeholder="请输入创意标题">
+									<input id="desinTitle" type="text" class="mui-input-clear" placeholder="请输入创意标题...">
 								</div>
 							</div>
 						</div>
@@ -156,7 +142,7 @@
 							</div>
 							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
 								<div class="mui-input-row">
-									<input id="desinIntro" type="text" class="mui-input-clear" placeholder="请输入创意简介">
+									<input id="desinIntro" type="text" class="mui-input-clear" placeholder="请输入创意简介...">
 								</div>
 							</div>
 						</div>
@@ -167,14 +153,14 @@
 								</div>
 							</div>
 							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
-								<textarea id="desinContent" rows="3" placeholder="请输入创意简介创意详情"></textarea>
+								<textarea id="desinContent" rows="3" placeholder="请输入创意详情..."></textarea>
 							</div>
 						</div>
 					 </div>
 					 <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom" style="background: white;">
 						<ul class="dlist">
-							<li class="ditem" onclick="appendByCamera(3)">拍照添加文件</li>
-							<li class="ditem" onclick="appendByGallery(3)">相册添加文件</li>
+							<li class="ditem" onclick="appendByCamera(3, 'addoriginalityDesign.html')">拍照添加文件</li>
+							<li class="ditem" onclick="appendByGallery(3, 'addoriginalityDesign.html')">相册添加文件</li>
 						</ul>
 						<div style="width:100%;padding: 1em;">
 							<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
