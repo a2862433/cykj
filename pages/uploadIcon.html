@@ -8,42 +8,52 @@
     <script src="../js/boot.js"></script>
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <script type="text/javascript" charset="utf-8">
-  			var files={key:'',path:''};
+  			var files={key:'',path:'', type:0};
     		mui.init({
 				swipeBack:true //启用右滑关闭功能
 			});
       		mui.plusReady(function(){
       				var wb = plus.webview.currentWebview();
-      				document.getElementById("imgModel").src=wb.path;
-      				files.key="uploadkey";
-      				files.path=wb.path;
+      				document.getElementById("imgModel").src = wb.path;
+      				files.key = "uploadkey";
+      				files.path = wb.path;
+      				files.type = wb.type;
 	      	});
-      		function quit(){
+      		function quit(responseObj){
       			var wc = plus.webview.currentWebview();
-      			var wb = plus.webview.getWebviewById("user.html");
-				wb.evalJS('refresh();');
+      			var wb = null;
+      			switch(files.type){
+      				case 3 : wb = plus.webview.getWebviewById("addoriginalityDesign.html");break;
+      			/*	case 4 : wb = plus.webview.getWebviewById("addoriginalityDesign.html");break;
+      				case 5 : wb = plus.webview.getWebviewById("addoriginalityDesign.html");break;*/
+      			}
+      			if(wb != null){
+      				if(responseObj.success){
+      					wb.evalJS("loadImg('" + responseObj.data +"');");
+      				}
+      			//	wb.evalJS('refresh();');
+      			}
       			wc.close();
       		}
-//      		var server = "http://192.168.2.101:8081/siims/app/jzzljd/myTestAdd.jspx";
 			// 上传文件
 			function upload(){
 				var userId = plus.storage.getItem("userId");
-				var server = boot.url.personIconUpload + "?userId=" + userId;
-				var task=plus.uploader.createUpload(server,
-					{method:"POST"},
+				var server = boot.url.getIconUploadURL + "?type=" + files.type;
+				var task = plus.uploader.createUpload(server, {method:"POST"},
 					function(t,status){ //上传完成
-						if(status==200){
+						if(status == 200){
 							alert("上传完成");
+							var responseObj = eval("("+t.responseText+")"); 
 							wt.close();
-							quit();
+							quit(responseObj);
 						}else{
 							wt.close();
-							quit();
+							quit(responseObj);
 						}
 					}
 				);
-				var filePath = files.path.substring(files.path.indexOf(".")+1,files.path.length);	
-				filePath = filePath.toLocaleLowerCase();
+				/*var filePath = files.path.substring(files.path.indexOf(".") + 1, files.path.length);	
+				filePath = filePath.toLocaleLowerCase();*/
 			/*	if(filePath != "jpg"){
 					alert("仅支持后缀名为jpg的图片！");
 				}else{*/

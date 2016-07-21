@@ -34,8 +34,8 @@ nWaiting = nWaiting || {
 	}
 }
 base = base || {
-	//_path: 'http://192.168.0.186:8080',
-	_path: 'http://192.168.0.122:8081',
+	_path: 'http://192.168.0.186:8080',
+	//_path: 'http://192.168.0.122:8081',
 	_project_name: 'cykj',
 	//_path: 'http://10.101.0.123:8080/web',
 	_userId: '',
@@ -106,10 +106,14 @@ boot = boot || {
         getloginUserURL: base._path + '/' + base._project_name + '/v1/m/loginUser',
         //登出
         getloginOutURL: base._path + '/' + base._project_name + '/v1/m/loginOut',
-       
+       //添加组团联系人
         addGroupContractURL: base._path + '/' + base._project_name + "/v1/m/addGroupContract",
+        //添加技术悬赏联系人
         addInvitContractURL: base._path + '/' + base._project_name + "/v1/m/addInvitContract",
-        getUserInfoURL: base._path + '/' + base._project_name + '/v1/m/getUserInfo'
+        //获取用户信息
+        getUserInfoURL: base._path + '/' + base._project_name + '/v1/m/getUserInfo',
+        //图片上传
+        getIconUploadURL: base._path + '/' + base._project_name + '/upload/upload'
 	},
 	/**
 	 * 作者：administrator

@@ -34,25 +34,25 @@ function upload(){
 	task.start();
 }
 // 拍照添加文件
-function appendByCamera(){
+function appendByCamera(type){
 	mui('.mui-popover').popover('toggle');
 	plus.camera.getCamera().captureImage(function(p){
 		plus.io.resolveLocalFileSystemURL( p, function ( entry ) {
-			displayFile( entry );
+			displayFile(entry, type);
 		}, function ( e ) {
 		} );
-		});	
+	});	
 }
 // 从相册添加文件
-function appendByGallery(){
+function appendByGallery(type){
 	mui('.mui-popover').popover('toggle');
 	plus.gallery.pick(function(p){
-		displayFile(p);
+		displayFile(p, type);
     });
 }
 // 添加文件
 
-function displayFile( entry ) {
+function displayFile(entry, type) {
 	var url;
 	if((typeof entry)=='object'){
 		url=entry.toLocalURL();
@@ -61,7 +61,8 @@ function displayFile( entry ) {
 		url=entry;
 	}
 	var uploader = plus.webview.create("uploadIcon.html", "uploadIcon.html",null,{
-		"path":url
+		"path" : url,
+		"type" : type
 	});
 	uploader.show( "slide-in-right", 300 );
 }

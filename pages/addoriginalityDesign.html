@@ -3,40 +3,115 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/uploadIcon.js" ></script>
+		<script src="../js/boot.js"></script> 
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="../css/mui.min.css">
-		<!--App自定义的css-->
-		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		<link rel="stylesheet" href="../css/shoot/shoot.css">
 		<style>
 			h5 {
 				margin: 5px 7px;
 			}
+			
 			label {
 				font-weight: bold;
 			}
-			.mui-table-cell{
-				vertical-align:middle;
+			
+			.mui-table-cell {
+				vertical-align: middle;
 			}
-			.mui-table{
+			
+			.mui-table {
 				position: relative;
 			}
-			.mui-table::after{
-				position:absolute;
-				right:0;
-				bottom:0;
-				left:15px;
-				height:1px;
-				content:'';
-				-webkit-transform:scaleY(.5);
-				transform:scaleY(.5);
-				background-color:#c8c7cc;
-				}
+			
+			.mui-table::after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
 		</style>
+		<script type="application/javascript">
+			mui.init();
+			var photoUrl = null;
+      		
+      		function submitDesgin(){
+      			var userId = plus.storage.getItem("userId");
+				if(userId == null) alert("请先登录！");
+				else if(photoUrl == null)alert("请先上传图片！");
+				else if(document.getElementById("desinTitle").value == "")alert("请先输入标题！");
+				else if(document.getElementById("desinIntro").value == "")alert("请先输入简介！");
+				else if(document.getElementById("desinContent").value == "")alert("请先输入内容！");
+				else{
+					var data = {};
+		            data.userId = userId;
+		            data.desinTitle = document.getElementById("desinTitle").value;
+		            data.desinIntro = document.getElementById("desinIntro").value;
+		            data.desinContent = document.getElementById("desinContent").value;
+		            data.photoUrl = photoUrl;
+		            
+		            var url = boot.url.saveDesignInfoURL + "?paramStr="+JSON.stringify(data);
+					console.log(url);
+					mui.ajax(boot.url.saveDesignInfoURL, {
+						data:{paramStr: JSON.stringify(data)},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:14000,//超时时间设置为10秒；
+						success:function(data){
+							console.log(JSON.stringify(data));
+							if(data.state == 1){
+								mui.toast("保存成功！");
+								var wb = plus.webview.currentWebview();
+								var parentWb = plus.webview.getWebviewById("pages/user.html");
+								wb.close();
+								parentWb.evalJS("initUser();");
+							}else{
+								mui.toast("保存失败！");
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log("请求失败：" + JSON.stringify(xhr));
+						}
+					});
+				}
+      			
+      			/*var form = document.getElementsByTagName("form")[0];
+      			var xmlhttp = new XMLHttpRequest();
+      			var url = boot.url.editeUser;
+      			xmlhttp.open("post",url,false);
+      			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      			var id = form.getAttribute("id");
+      			var name =	document.getElementById("name").value;
+				var email = document.getElementById("email").value;			
+				var tel = document.getElementById("tel").value;			
+				var mobile = document.getElementById("mobile").value;
+				var remark = document.getElementById("remark").value;
+				xmlhttp.send("id="+id+"&email="+email+"&tel="+tel+"&mobile="+mobile+"&remark="+remark);
+      			if(xmlhttp.responseText == "1")alert("修改成功！");*/
+      		};
+      		
+			function loadImg(imgPath){
+				photoUrl = imgPath;
+				document.getElementById("designImg").src = boot.xgetImgPath(imgPath);
+			}
+			
+			function refresh(){
+				plus.nativeUI.showWaiting( "正在刷新..." );
+				window.location.reload();
+			}
+		</script>
 	</head>
 
 	<body>
@@ -47,65 +122,70 @@
 		<div class="mui-content">
 			<div class="mui-content-padded" style="margin: 5px;">
 				<form class="mui-input-group">
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-							<div style="margin-left: 15px;">
-								<label>创意封面</label>
+					<div>
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+								<div style="margin-left: 15px;">
+									<label>创意封面</label>
+								</div>
 							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <a href="#" id="+id+">
-				<img src="../images/touxiang_ruanmeizhi.jpg" style="max-height: 120px;margin: 10px 15px 5px 18px;">
-				</a>
-		                </div>
-					</div>
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                    <div style="margin-left: 15px;">
-								<label>创意标题</label>
+							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+								<a href="#flagged">
+									<img id="designImg" src="../images/u18.png" style="max-height: 120px;margin: 10px 15px 5px 18px;">
+								</a>
 							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <div class="mui-input-row">
-							<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-					</div>
-		                </div>
-					</div>
-					
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                    <div style="margin-left: 15px;">
-								<label>创意简介</label>
+						</div>
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+								<div style="margin-left: 15px;">
+									<label>创意标题</label>
+								</div>
 							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <div class="mui-input-row">
-							<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-					</div>
-		                </div>
-					</div>
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-							<div style="margin-left: 15px;">
-		                    <label>创意详情</label>
-		                   </div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <textarea rows="3" placeholder="带清除按钮的输入框"></textarea>
-		                </div>
+							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+								<div class="mui-input-row">
+									<input id="desinTitle" type="text" class="mui-input-clear" placeholder="请输入创意标题">
+								</div>
+							</div>
+						</div>
+	
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+								<div style="margin-left: 15px;">
+									<label>创意简介</label>
+								</div>
+							</div>
+							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+								<div class="mui-input-row">
+									<input id="desinIntro" type="text" class="mui-input-clear" placeholder="请输入创意简介">
+								</div>
+							</div>
+						</div>
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+								<div style="margin-left: 15px;">
+									<label>创意详情</label>
+								</div>
+							</div>
+							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+								<textarea id="desinContent" rows="3" placeholder="请输入创意简介创意详情"></textarea>
+							</div>
+						</div>
+					 </div>
+					 <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom" style="background: white;">
+						<ul class="dlist">
+							<li class="ditem" onclick="appendByCamera(3)">拍照添加文件</li>
+							<li class="ditem" onclick="appendByGallery(3)">相册添加文件</li>
+						</ul>
+						<div style="width:100%;padding: 1em;">
+							<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
+						</div>
 					</div>
 				</form>
 				<div class="mui-button-row">
-						<button type="button" class="mui-btn mui-btn-primary" style="margin: 15px 0px;width: 96%;font-size: 18px;" onclick="return false;">确认</button>					
+					<button type="button" class="mui-btn mui-btn-primary" style="margin: 15px 0px;width: 96%;font-size: 18px;" onclick="submitDesgin();">确认</button>
 				</div>
 			</div>
 		</div>
-		<script src="../js/mui.min.js"></script>
-		<script>
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
-		</script>
 	</body>
 
 </html>
