@@ -3,45 +3,117 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/uploadIcon.js"></script>
+		<script src="../js/boot.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="../css/mui.min.css">
-		<!--App自定义的css-->
-		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		<link rel="stylesheet" href="../css/shoot/shoot.css">
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+
 		<style>
 			h5 {
 				margin: 5px 7px;
 			}
+			
 			label {
 				font-weight: bold;
 			}
-			.mui-table-cell{
-				vertical-align:middle;
+			
+			.mui-table-cell {
+				vertical-align: middle;
 			}
-			.mui-table{
+			
+			.mui-table {
 				position: relative;
 			}
-			.mui-table::after{
-				position:absolute;
-				right:0;
-				bottom:0;
-				left:15px;
-				height:1px;
-				content:'';
-				-webkit-transform:scaleY(.5);
-				transform:scaleY(.5);
-				background-color:#c8c7cc;
-				}
+			
+			.mui-table::after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
 		</style>
+		<script type="application/javascript">
+			mui.init();
+			var photoUrl = null;
+
+			function submitinvit() {
+				var userId = plus.storage.getItem("userId");
+				if(userId == null) alert("请先登录！");
+				else if(photoUrl == null) alert("请先上传图片！");
+				else if(document.getElementById("invitTitle").value == "") alert("请先输入标题！");
+				else if(document.getElementById("invitRequire").value == "") alert("请先输入须知！");
+				else if(document.getElementById("invitIntro").value == "") alert("请先输入简介！");
+				else if(document.getElementById("invitContent").value == "") alert("请先输入内容！");
+				else {
+					var data = {};
+					data.userId = userId;
+					data.invitTitle = document.getElementById("invitTitle").value;
+					data.invitRequire = document.getElementById("invitRequire").value;
+					data.invitIntro = document.getElementById("invitIntro").value;
+					data.invitContent = document.getElementById("invitContent").value;
+					data.invitTermenddate = document.getElementById("invitTermstartdate").innerText + ":00";
+					data.invitTermstartdate = document.getElementById("invitTermstartdate").innerText + ":00";
+					data.photoUrl = photoUrl;
+
+					var url = boot.url.saveInvitInfoURL + "?paramStr=" + JSON.stringify(data);
+					console.log(url);
+					mui.ajax(boot.url.saveInvitInfoURL, {
+						data: {
+							paramStr: JSON.stringify(data)
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 14000, //超时时间设置为10秒；
+						success: function(data) {
+							console.log(JSON.stringify(data));
+							if(data.state == 1) {
+								mui.toast("保存成功！");
+								var wb = plus.webview.currentWebview();
+								var parentWb = plus.webview.getWebviewById("pages/user.html");
+								wb.close();
+								parentWb.evalJS("initUser();");
+							} else {
+								mui.toast("保存失败！");
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log("请求失败：" + JSON.stringify(xhr));
+						}
+					});
+				}
+			};
+
+			function loadImg(imgPath) {
+				photoUrl = imgPath;
+				document.getElementById("invitImg").src = boot.xgetImgPath(imgPath);
+			}
+
+			function refresh() {
+				plus.nativeUI.showWaiting("正在刷新...");
+				window.location.reload();
+			}
+		</script>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav" style="background: #1E1F20;">
-			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 20px;color: #fff;">添加技术悬赏</h1>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">添加技术悬赏</h1>
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded" style="margin: 5px;">
@@ -51,83 +123,130 @@
 							<div style="margin-left: 15px;">
 								<label>悬赏封面</label>
 							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <a href="#" id="+id+">
-				<img src="../images/touxiang_ruanmeizhi.jpg" style="max-height: 120px;margin: 10px 15px 5px 18px;">
-				</a>
-		                </div>
-					</div>
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                    <div style="margin-left: 15px;">
-								<label>悬赏标题</label>
-							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <div class="mui-input-row">
-							<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-					</div>
-		                </div>
-					</div>
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                   <div style="margin-left: 15px;">
-								<label>悬赏须知</label>
-							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <div class="mui-input-row">
-							<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-					</div>
-		                </div>
-					</div>
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                    <div style="margin-left: 15px;">
-								<label>开始日期</label>
-							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <div class="mui-input-row">
-							<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-					</div>
-		                </div>
-					</div>
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                    <div style="margin-left: 15px;">
-								<label>悬赏简介</label>
-							</div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <div class="mui-input-row">
-							<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-					</div>
-		                </div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<a href="#flagged">
+								<img id="invitImg" src="../images/u18.png" style="max-height: 120px;margin: 10px 15px 5px 18px;">
+							</a>
+						</div>
 					</div>
 					<div class="mui-table">
 						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
 							<div style="margin-left: 15px;">
-		                    <label>悬赏详细介绍</label>
-		                   </div>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9 mui-text-left">
-		                    <textarea rows="3" placeholder="带清除按钮的输入框"></textarea>
-		                </div>
+								<label>悬赏标题</label>
+							</div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<div class="mui-input-row">
+								<input id="invitTitle" type="text" class="mui-input-clear" placeholder="请输入悬赏标题...">
+							</div>
+						</div>
+					</div>
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+							<div style="margin-left: 15px;">
+								<label>悬赏须知</label>
+							</div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<div class="mui-input-row">
+								<input id="invitRequire" type="text" class="mui-input-clear" placeholder="请输入悬赏须知...">
+							</div>
+						</div>
+					</div>
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+							<div style="margin-left: 15px;">
+								<label>开始日期</label>
+							</div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<div class="mui-input-row">
+								<label id="invitTermstartdate" style="width: 190px;"></label>
+								<button id='invitTermstartdate_btn' data-options='{"value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}' class="btn mui-btn mui-btn-block">...</button>
+							</div>
+						</div>
+					</div>
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+							<div style="margin-left: 15px;">
+								<label>结束日期</label>
+							</div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<div class="mui-input-row">
+								<label id="invitTermenddate" style="width: 190px;"></label>
+								<button id='invitTermenddate_btn' data-options='{"value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}' class="btn mui-btn mui-btn-block">...</button>
+							</div>
+						</div>
+					</div>
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+							<div style="margin-left: 15px;">
+								<label>悬赏简介</label>
+							</div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<div class="mui-input-row">
+								<input id="invitIntro" type="text" class="mui-input-clear" placeholder="请输入悬赏简介...">
+							</div>
+						</div>
+					</div>
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-5 mui-text-left">
+							<div style="margin-left: 15px;">
+								<label>悬赏详细介绍</label>
+							</div>
+						</div>
+						<div class="mui-table-cell mui-col-xs-9 mui-text-left">
+							<textarea id="invitContent" rows="3" placeholder="请输入悬赏详细介绍..."></textarea>
+						</div>
+					</div>
+					<div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom" style="background: white;">
+						<ul class="dlist">
+							<li class="ditem" onclick="appendByCamera(4, 'addreward.html')">拍照添加文件</li>
+							<li class="ditem" onclick="appendByGallery(4, 'addreward.html')">相册添加文件</li>
+						</ul>
+						<div style="width:100%;padding: 1em;">
+							<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
+						</div>
 					</div>
 				</form>
 				<div class="mui-button-row">
-						<button type="button" class="mui-btn mui-btn-primary" style="margin: 15px 0px;width: 96%;font-size: 18px;" onclick="return false;">确认</button>					
+					<button type="button" class="mui-btn mui-btn-primary" style="margin: 15px 0px;width: 96%;font-size: 18px;" onclick="submitinvit();">确认</button>
 				</div>
 			</div>
 		</div>
-		<script src="../js/mui.min.js"></script>
 		<script>
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
+			(function($) {
+				$.init();
+				var invitTermstartdate = document.getElementById("invitTermstartdate");
+				var invitTermenddate = document.getElementById("invitTermenddate");
+				var btns = $('.btn');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						if(id == "invitTermstartdate_btn") {
+							var picker = new $.DtPicker(options);
+							picker.show(function(rs) {
+								invitTermstartdate.innerText = rs.text;
+								picker.dispose();
+							});
+						} else if(id == "invitTermenddate_btn") {
+							var picker = new $.DtPicker(options);
+							picker.show(function(rs) {
+								invitTermenddate.innerText = rs.text;
+								picker.dispose();
+							});
+						}
+
+					}, false);
+				});
+			})(mui);
 		</script>
+		</div>
 	</body>
 
 </html>
