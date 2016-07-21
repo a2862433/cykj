@@ -23,15 +23,15 @@
 		<script type="application/javascript">
 			mui.init();
 			
+			//登陆后回调
 			function loginAfter(resLoginInfo){
 				if(resLoginInfo.success){
 					plus.storage.setItem("userId", resLoginInfo.userId + "");
 					mui.toast('登陆成功！');
 					mui('#popover').popover('hide');
-					console.log(resLoginInfo.userId);
-					
+					document.getElementById("loginDiv").style.display="none";//不显示  
+					 
 					var userId = plus.storage.getItem("userId");
-					console.log(userId);
 					initUser();
 				}else{
 					mui.toast(resLoginInfo.data);
@@ -129,7 +129,7 @@
 	            
 	            var url = boot.url.getDesignInfoURL + "?paramStr="+JSON.stringify(data4);
 				console.log(url);
-				mui.ajax(boot.url.getDesignInfoURL, {
+				mui.ajax(boot.url.getDesignInfoURL, { 
 					data:{paramStr: JSON.stringify(data4)},
 					dataType:'json',//服务器返回json格式数据
 					type:'post',//HTTP请求类型
