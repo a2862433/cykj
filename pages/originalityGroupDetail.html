@@ -10,6 +10,8 @@
 		<link rel="stylesheet" href="../css/mui.css">
 		<link rel="stylesheet" href="../css/cqsp_css/user.css">
 		<script src="../js/mui.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/boot.js"></script> 
 		<style>
 			html,body {
 				background-color: #efeff4;
@@ -26,7 +28,197 @@
 			}
 		</style>
 		<script type="application/javascript">
-			mui.init();
+		var originalityId = null;
+		mui.init();
+		mui.plusReady(function() {
+  			plus.nativeUI.showWaiting( "数据等待中..." );
+			window.addEventListener('itemId', function(event) {
+				var itemId = event.detail.id;
+				originalityId = itemId;
+				clearPage();
+				initOriginalityDetail(itemId);
+				initOriginalityUserList(itemId);
+				initUnreviewedUserList(itemId);
+  			});
+  			plus.nativeUI.closeWaiting();
+  		});
+  		
+  		function clearPage()
+  		{
+  			document.getElementById("groupTitle").innerHTML = "";
+			document.getElementById("avatar").src = "";
+			document.getElementById("source").innerHTML="";
+			document.getElementById("intro").innerHTML= "";
+			document.getElementById("auditDiv").innerHTML = "";
+			document.getElementById("UnreviewedDiv").innerHTML = "";
+  		}
+  		
+  		function initOriginalityDetail(itemId){
+            var url = boot.url.getGroupInfoByIdURL + "?Id="+itemId;
+			console.log(url);
+			mui.ajax(boot.url.getGroupInfoByIdURL, {
+				data:{Id: itemId},
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					document.getElementById("groupTitle").innerHTML = data.groupTitle;
+					document.getElementById("avatar").src = boot.xgetImgPath(data.photoUrl);
+					document.getElementById("source").innerHTML=data.userName + " | " + data.groupCredate;
+					document.getElementById("intro").innerHTML=data.groupIntro;
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}	
+		
+		function initOriginalityUserList(itemId){
+			var auditDiv = document.getElementById("auditDiv");
+				auditDiv.innerHTML = "";
+            var param2 = {
+                groupId: itemId,
+                contractFlag : 1
+            };
+            var data2 = {};
+            data2.page = 0;
+            data2.size = 7;
+            data2.param = JSON.stringify(param2);
+            
+            var url = boot.url.getCyztUserListURL + "?paramStr="+JSON.stringify(data2);
+			console.log(url);
+			mui.ajax(boot.url.getCyztUserListURL, {
+				data:{paramStr: JSON.stringify(data2)},
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					console.log(JSON.stringify(data));
+						for (var i = 0; i < data.param.length; i++) {
+							var auditLi = document.createElement('li');
+							auditLi.className = "mui-table-view-cell mui-media mui-col-xs-3 li-top-size";
+							auditLi.id = data.param[i].id; 
+							auditLi.addEventListener("tap", showUserInfo);
+							auditLi.innerHTML =  	" <a href='#'>				"
+												+" 	<img class='mui-media-object user-top-img' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'> "
+												+" 	<div class='mui-media-body'>                                                        "
+												+" 		<p class='font-black'>"+ data.param[i].contractName +" </p>                                               "
+												+" 	</div>                                                                              "
+												+" </a>  ";
+							auditDiv.appendChild(auditLi);
+							
+						}
+						var addLi = document.createElement('li');
+							addLi.className = "mui-table-view-cell mui-media mui-col-xs-3 li-top-size";
+							addLi.addEventListener("tap", applyToGroup);
+							addLi.innerHTML =  	" <a href='#'>				"
+												+" 	<img class='mui-media-object user-top-img' src='../images/add.png'> "
+												+" 	<div class='mui-media-body'>                                                        "
+												+" 		<p class='font-black'>申请加入</p>                                               "
+												+" 	</div>                                                                              "
+												+" </a>  ";
+							auditDiv.appendChild(addLi);
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理； 
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
+		
+		function initUnreviewedUserList(itemId)
+		{
+			var UnreviewedDiv = document.getElementById("UnreviewedDiv");
+				UnreviewedDiv.innerHTML = "";
+            var param2 = {
+                groupId: itemId,
+                contractFlag : 0,
+            };
+            var data2 = {};
+            data2.page = 0;
+            data2.size = 7;
+            data2.param = JSON.stringify(param2);
+            
+            var url = boot.url.getCyztUserListURL + "?paramStr="+JSON.stringify(data2);
+			console.log(url);
+			mui.ajax(boot.url.getCyztUserListURL, {
+				data:{paramStr: JSON.stringify(data2)},
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:14000,//超时时间设置为10秒；
+				success:function(data){
+					console.log(JSON.stringify(data));
+						for (var i = 0; i < data.param.length; i++) {
+							var auditLi = document.createElement('li');
+							auditLi.className = "mui-table-view-cell mui-media mui-col-xs-3 li-top-size";
+							auditLi.id = data.param[i].id; 
+							auditLi.addEventListener("tap", showUserInfo);
+							auditLi.innerHTML =  	" <a href='#'>				"
+												+" 	<img class='mui-media-object user-top-img' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'> "
+												+" 	<div class='mui-media-body'>                                                        "
+												+" 		<p class='font-black'>"+ data.param[i].contractName +" </p>                                               "
+												+" 	</div>                                                                              "
+												+" </a>  ";
+							UnreviewedDiv.appendChild(auditLi);
+							
+						}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理； 
+					console.log("请求失败：" + JSON.stringify(xhr));
+				}
+			});
+		}
+		
+		function applyToGroup() {
+				var itemId = originalityId;
+				var detailPage = mui.preload({
+		            url: 'applyToOriginalityGroup.html',
+					id:'applyToOriginalityGroup.html'
+		        });
+					 //传值给详情页面，通知加载新数据
+				mui.fire(detailPage,'itemId',{
+					    id:itemId
+				});
+					//打开详情页面          
+				mui.openWindow(detailPage);
+		}
+		
+		function showUserInfo(){
+			var id = this.getAttribute("id");
+				var url = boot.url.getCyztUserInfoURL + "?id=" + id;
+				console.log(url);
+				mui('#popover1').popover('toggle');
+				mui.ajax(boot.url.getCyztUserInfoURL, {
+					data:{id: id},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						//服务器返回响应结果
+						console.log(JSON.stringify(data));
+						
+						document.getElementById("PersonImg").src = boot.xgetImgPath(data.photoUrl);
+						document.getElementById("ContractName").innerText = data.contractName;
+						document.getElementById("ContractTel").innerText = data.contractTel;
+						document.getElementById("ContractQq").innerText = data.contractQq;
+						document.getElementById("ContractBz").innerText = data.contractBz;
+						
+						
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
+					}
+				});
+		}
+		
+		function refreshPage()
+		{
+			initOriginalityUserList(originalityId);
+			initUnreviewedUserList(originalityId);
+		}
 		</script>
 	</head>
 
@@ -40,12 +232,12 @@
     	    <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view">
     	    	<div class="mui-table">
 	                <div class="mui-table-cell mui-col-xs-10">
-	                    <h4 class="mui-ellipsis mui-text-left" style="margin: 20px 0px 0px 10px;" >创意组团 </h4>	                    
+	                    <h4 id="groupTitle" class="mui-ellipsis mui-text-left" style="margin: 20px 0px 0px 10px;" >创意组团 </h4>	                    
 	                </div>
 	            </div>
 		       <li class="mui-table-view-cell mui-media mui-col-xs-4">
 		       	<a href="#" id="+id+">
-					<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
+					<img id="avatar" class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
 				</a>
 		       </li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-7" style="vertical-align: top">
@@ -56,7 +248,7 @@
 		            </div>
 		             <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5"> user1|2016-06-20 15:35:04</span>
+		                    <span id="source" class="mui-h5"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -66,7 +258,7 @@
 		            </div>
 		             <div class="mui-table">
 		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5"> 组团详细介绍组团详细介绍组团详细介绍组团详细介绍</span>
+		                    <span id="intro" class="mui-h5"></span>
 		                </div>
 		            </div>
 		       </li>
@@ -74,36 +266,10 @@
 		        <li class="mui-table-view-cell mui-media mui-col-xs-12">
 		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
 	                    <span class="mui-h5" style="color: #4D4D4E">已加入成员</span>
-	                </div>
-	                
+	               </div>
 		        </li>
 		        
-		       	<div>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-						</a>
-			       </li>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-						</a>
-			       </li>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-						</a>
-			       </li>
-			       <li id="addLi" class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size">
-			       	<a href="#" id="+id+">
-	                    <img  class="mui-media-object user-top-img"  src="../images/add.png" ></img>
-	                    <div class="mui-media-body"><p class="font-black">申请加入</p></div>
-	                   </a>
-	                </li>
-		       </div>
+		       	<div id="auditDiv"></div>
 		       
 		       <li class="mui-table-view-cell mui-media mui-col-xs-12" style="margin-top: 30px">
 		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
@@ -111,77 +277,19 @@
 	               </div>
 		        </li>
 		        
-		       	<div id="auditDiv">
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-												
-				       	</a>
-			       </li>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-												
-				       	</a>
-			       </li>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-												
-				       	</a>
-			       </li>
-			       <li class="mui-table-view-cell mui-media mui-col-xs-3 li-top-size" >
-				       	<a href="#" id="+id+">
-							<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
-							<div class="mui-media-body"><p class="font-black">创意标题 </p></div>
-												
-				       	</a>
-			       </li>
-		       </div>
+		       	<div id="UnreviewedDiv"></div>
 		       
 		    </ul>
         </form>
     </div>
 </div>
-<div id="popover" class="mui-popover">
-  <ul class="mui-table-view">
-    <li class="mui-table-view-cell">
-						<div>
-							<form>
-								<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
-									申请加入
-								</div>
-								<div class="mui-input-row">
-									<input type="text" class="mui-input-clear" placeholder="姓名" style="margin-bottom: 7px;">
-								</div>
-								<div class="mui-input-row">
-									<input type="text" class="mui-input-clear" placeholder="电话" style="margin-bottom: 7px;">
-								</div>
-								<div class="mui-input-row">
-									<input type="text" class="mui-input-clear" placeholder="qq" style="margin-bottom: 7px;">
-								</div>
-								<div class="mui-input-row">
-									<textarea rows="2" placeholder="备注"></textarea>
-								</div>
-								<div class="mui-button-row">
-									<button class="mui-btn mui-btn-green" type="button" onclick="return false;">申请加入</button>
-								</div>
-							</form>
-						</div>
-					</li>
-  </ul>
-</div>
 <div id="popover1" class="mui-popover">
-
   <div class="mui-content-padded">
     	    <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
 		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
 		       	<div class="mui-table">
 		       	<a href="#" id="+id+" class="user-top-a-img">
-					<img class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
+					<img id="PersonImg" class="mui-media-object user-top-img" src="../images/touxiang_ruanmeizhi.jpg">
 				</a>
 				</div>
 		       </li>
@@ -191,7 +299,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">姓名：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
-		                    <span class="mui-h5">张三</span>
+		                    <span id="ContractName" class="mui-h5"></span>
 		                </div>
 		            </div>
 		             <div class="mui-table">
@@ -199,7 +307,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">电话：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
-		                    <span class="mui-h5">13112345678</span>
+		                    <span id="ContractTel" class="mui-h5"></span>
 		                </div>
 		            </div>
 		            <div class="mui-table">
@@ -207,7 +315,7 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">QQ：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
-		                    <span class="mui-h5">2000-01-02</span>
+		                    <span id="ContractQq" class="mui-h5"></span>
 		                </div>
 		            </div>
 
@@ -216,31 +324,12 @@
 		                    <span class="mui-h5" style="color: #4D4D4E">备注：</span>
 		                </div>
 		                <div class="mui-table-cell mui-col-xs-6 mui-text-left">
-		                    <span class="mui-h5">大幅度对方的方法的反对反对反对法的反对法地方地方</span>
-		                </div>
-		            </div>
-		            
-		            <div class="mui-table" style="margin-top: 15px;">
-		                <div class="mui-table-cell mui-col-xs-5 mui-text-right">
-		                    <button class="mui-btn mui-btn-green" >邀请</button>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-1"></div>
-		                <div class="mui-table-cell mui-col-xs-5 mui-text-left">
-		                    <button class="mui-btn mui-btn-primary" >拒绝</button>
+		                    <span id="ContractBz" class="mui-h5"></span>
 		                </div>
 		            </div>
 		       </li>       		       
 		       </ul>
 		       </div>
 </div>
-<script>
-    document.getElementById("addLi").addEventListener('tap', function() {
-				mui('#popover').popover('toggle');
-		});
-	
-	mui("#auditDiv").on('tap','.mui-table-view-cell',function(){
-		mui('#popover1').popover('toggle');
-	})
-    </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav" style="background: #1E1F20;">
+		<header id="header" class="mui-bar mui-bar-nav" style="background: #1E1F20;">
 			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 20px;color: #fff;">首页</h1>
 		</header>
 
@@ -66,6 +66,23 @@
 					
 			});
 
+			var header = document.getElementById("header");
+			
+			var rightbtn = document.createElement('button');
+			rightbtn.className = 'mui-btn mui-btn-blue mui-btn-link mui-pull-right';
+			rightbtn.innerText = '新帖';
+			rightbtn.addEventListener('tap',addNewTopic);
+			function remove(selector) {
+				var elem = header.querySelector(selector);
+				if (elem) {
+					header.removeChild(elem);
+				}
+			}
+
+			function addNewTopic(){
+	
+			}
+
 			//当前激活选项，默认为第一个；
 			var activeTab = subpages[0];
 			//选项卡点击事件
@@ -74,6 +91,13 @@
 				if (targetTab == activeTab) {
 					return;
 				} 
+				if(targetTab == 'pages/communication_main.html'){
+					remove('.mui-pull-right');
+					header.appendChild(rightbtn);
+				}
+				else{
+					remove('.mui-pull-right');
+				}
 				//更改选项卡header内容
 				document.getElementById("titleContent").innerHTML = this.getElementsByTagName("span")[1].innerHTML;
 				//先隐藏当前的
@@ -86,6 +110,8 @@
 	/*			plus.webview.getWebviewById(targetTab).reload();
 				plus.webview.show(targetTab,"slide-in-right",300);*/
 			});
+			
+			
 			
 			/*function refresh(){
 				window.location.reload();

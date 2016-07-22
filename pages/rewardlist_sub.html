@@ -21,6 +21,7 @@
 			</div>
 		</div> 
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/boot.js"></script> 
 		<script>
 			mui.init({
 				pullRefresh: {
@@ -34,48 +35,106 @@
 					}
 				}
 			});
+			
+			var count = 0;
+			
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell mui-media mui-col-xs-4 li-top-size';
-						li.innerHTML = '<a href="#" id="+id+">'
-						+ '<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">'
-						+ '<div class="mui-media-body"><p class="font-black">创意人 </p></div>'
-						+ '<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div></a>';
-						//下拉刷新，新纪录插到最前面；
-						li.addEventListener("tap", toDetailPage);
-						table.insertBefore(li, table.firstChild);
+				var param2 = {
+                	userId: "",
+                	desinTitle: "",
+                	desinIntro: "",
+                	desinContent: "",
+                	desinState: 1,
+            	};
+            	var data2 = {};
+            	data2.page = 0;
+            	data2.size = 12;
+            	data2.param = JSON.stringify(param2);
+            
+	            var url = boot.url.getInvitInfoList + "?paramStr="+JSON.stringify(data2);
+				console.log(url);
+				mui.ajax(boot.url.getInvitInfoList, {
+					data:{paramStr: JSON.stringify(data2)},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						var table = document.body.querySelector('.mui-table-view');
+						table.innerHTML = "";
+						count = 1;
+						for (var i = 0, len = data.param.length; i < len; i++) {
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell mui-media mui-col-xs-4 li-top-size';
+							li.id = data.param[i].id;
+							li.innerHTML = '<a href="#" id="+id+">'
+							+ '<img class="mui-media-object project-img-choose" src="'+ boot.xgetImgPath(data.param[i].photoUrl) +'">'
+							+ '<div class="mui-media-body"><p class="font-black">' + data.param[i].invitTitle + '</p></div>'
+							+ '<div class="mui-media-body"><p class="font-size-13">' + data.param[i].invitIntro + '</p></div></a>';
+							li.addEventListener("tap", toDetailPage);
+							table.appendChild(li);
+						}
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+						if(data.param.length == 12){
+					    	mui('#pullrefresh').pullRefresh().refresh(true);
+					    }
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
 					}
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
+				});
 			}
-			var count = 0;
+			
 			/**
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell mui-media mui-col-xs-4 li-top-size';
-						li.innerHTML = '<a href="#" id="+id+">'
-						+ '<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">'
-						+ '<div class="mui-media-body"><p class="font-black">创意人 </p></div>'
-						+ '<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div></a>';
-						li.addEventListener("tap", toDetailPage);
-						table.appendChild(li);
+				var param2 = {
+                	userId: "",
+                	desinTitle: "",
+                	desinIntro: "",
+                	desinContent: "",
+                	desinState: 1,
+            	};
+            	var data2 = {};
+            	data2.page = count;
+            	data2.size = 12;
+            	data2.param = JSON.stringify(param2);
+            
+	            var url = boot.url.getInvitInfoList + "?paramStr="+JSON.stringify(data2);
+				console.log(url);
+				mui.ajax(boot.url.getInvitInfoList, {
+					data:{paramStr: JSON.stringify(data2)},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:14000,//超时时间设置为10秒；
+					success:function(data){
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh((data.param.length < 12 )); //参数为true代表没有更多数据了。
+						var table = document.body.querySelector('.mui-table-view');
+						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						for (var i = 0, len = data.param.length; i < len; i++) {
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell mui-media mui-col-xs-4 li-top-size';
+							li.id = data.param[i].id;
+							li.innerHTML = '<a href="#" id="+id+">'
+							+ '<img class="mui-media-object project-img-choose" src="'+ boot.xgetImgPath(data.param[i].photoUrl) +'">'
+							+ '<div class="mui-media-body"><p class="font-black">' + data.param[i].invitTitle + '</p></div>'
+							+ '<div class="mui-media-body"><p class="font-size-13">' + data.param[i].invitIntro + '</p></div></a>';
+							li.addEventListener("tap", toDetailPage);
+							table.appendChild(li);
+						}
+						count++;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log("请求失败：" + JSON.stringify(xhr));
 					}
-				}, 1500);
+				});
 			}
+			
 			if (mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {
@@ -90,10 +149,17 @@
 			}
 			
 			function toDetailPage(){
-				mui.openWindow({
-				url: 'rewardDetail.html',
-				id:'rewardDetail.html'
-			});
+				var itemId = this.getAttribute("id");
+				var detailPage = mui.preload({
+		            url: 'rewardDetail.html',
+					id:'rewardDetail.html'
+		        });
+					 //传值给详情页面，通知加载新数据
+				mui.fire(detailPage,'itemId',{
+					    id:itemId
+				});
+					//打开详情页面          
+				mui.openWindow(detailPage);
 			}
 		</script>
 	</body>

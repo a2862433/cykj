@@ -122,11 +122,13 @@
 						var groupLi = document.createElement('li');
 						groupLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
 						groupLi.style.marginTop = "26px"; 
+						groupLi.id = data.param[i].id;
 						groupLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
 											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
 											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].groupTitle +" </p></div>                           "
 											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].groupIntro +"</p></div>                      "
 											 +"	 </a> ";
+						groupLi.addEventListener("tap",toOriginalityDetailPage);
 						creativeGroupInfo.appendChild(groupLi);
 					}
 				},
@@ -222,6 +224,20 @@
 				});
 		}
 		
+		function toOriginalityDetailPage(){
+			var itemId = this.getAttribute("id");
+			var detailPage = mui.preload({
+	            url: 'originalityGroupDetail.html',
+				id:'originalityGroupDetail.html'
+	        });
+				 //传值给详情页面，通知加载新数据
+			mui.fire(detailPage,'itemId',{
+				    id:itemId
+			});
+				//打开详情页面          
+			mui.openWindow(detailPage);
+		}
+		
 		function wpmgDivTap() {
 				mui.openWindow({
 					url: 'wpmglist_main.html',
@@ -246,106 +262,9 @@
 </head>
 <body>
 	<div class="mui-content" style="background: white">
-		
-	    <ul id="technologyInfo" class="mui-table-view mui-grid-view">
-	            <div class="mui-table">
-	                <div class="mui-table-cell mui-col-xs-10">
-	                    <h4 class="mui-ellipsis mui-text-left list-top-dis">技术悬赏</h4>	                    
-	                </div>
-	                <div id="rewardDiv" class="mui-table-cell">
-	                    <span class="mui-h5 list-top-dis-r">更多</span>
-	                </div>
-	            </div>
-	       
-	       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	    </ul>
-	    
-	    <ul id="originalityInfo" class="mui-table-view mui-grid-view">
-	            <div class="mui-table">
-	                <div class="mui-table-cell mui-col-xs-10">
-	                    <h4 class="mui-ellipsis mui-text-left list-top-dis">创意组团</h4>                 
-	                </div>
-	                <div id="originalityDiv" class="mui-table-cell">
-	                    <span class="mui-h5 list-top-dis-r">更多</span>
-	                </div>
-	            </div>
-	       
-	       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	    </ul>
-	    
-	    <ul id="wpmgInfo" class="mui-table-view mui-grid-view">
-	            <div class="mui-table">
-	                <div class="mui-table-cell mui-col-xs-10">
-	                    <h4 class="mui-ellipsis mui-text-left list-top-dis">王婆卖瓜</h4>	                    
-	                </div>
-	                <div id="wpmgDiv" class="mui-table-cell">
-	                    <span class="mui-h5 list-top-dis-r">更多</span>
-	                </div>
-	            </div>
-	       
-	       <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	        <li class="mui-table-view-cell mui-media mui-col-xs-4 li-top-size" >
-	       	<a href="#" id="+id+">
-				<img class="mui-media-object project-img-choose" src="../images/touxiang_ruanmeizhi.jpg">
-				<div class="mui-media-body"><p class="font-black">创意人 </p></div>
-				<div class="mui-media-body"><p class="font-size-13">平面设计师</p></div>
-				</a>
-	       </li>
-	    </ul>
-	    
+	    <ul id="technologyInfo" class="mui-table-view mui-grid-view"></ul>  
+	    <ul id="originalityInfo" class="mui-table-view mui-grid-view"></ul>
+	    <ul id="wpmgInfo" class="mui-table-view mui-grid-view"></ul>  
 	</div>	
 	<!--<div style="position: absolute;width: 100%;height: 100%;background: rgba(11, 10, 10, 0.3);top: 0px;left: 0px;">
 		<div>asd</div>
