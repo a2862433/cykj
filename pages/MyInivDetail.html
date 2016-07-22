@@ -105,6 +105,7 @@
 						//服务器返回响应结果
 						console.log(JSON.stringify(data));
 						
+						document.getElementById("invitTitle").innerText = data.invitTitle;
 						document.getElementById("invitImg").src = boot.xgetImgPath(data.photoUrl);
 						document.getElementById("invitRes").innerText = data.userName + "|" + data.invitCredate;
 						document.getElementById("invitIntro").innerText = data.invitIntro;
@@ -314,7 +315,7 @@
 					<ul class="mui-table-view mui-grid-view">
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-10">
-								<h4 class="mui-ellipsis mui-text-left" style="margin: 20px 0px 0px 10px;">技术悬赏 </h4>
+								<h4 class="mui-ellipsis mui-text-left" style="margin: 20px 0px 0px 10px;" id="invitTitle"> </h4>
 							</div>
 						</div>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4">

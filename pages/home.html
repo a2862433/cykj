@@ -32,6 +32,19 @@
 			
 		});
 		
+		function showUserInfo(id){
+			var detailPage = mui.preload({
+                url: 'wpmgDetail.html',
+				id:'wpmgDetail.html'
+            });
+			 //传值给详情页面，通知加载新数据
+			mui.fire(detailPage,'itemId',{
+			    id:id
+			});
+			//打开详情页面          
+			mui.openWindow(detailPage);
+		}
+		
 		function initTop(){
 			var slider = document.getElementById("topslider");
   			slider.innerHTML = "";
@@ -64,12 +77,12 @@
 							var firstDiv = document.createElement('div');
 							firstDiv.setAttribute("class", "mui-slider-item mui-slider-item-duplicate");
 							firstDiv.innerHTML = "  <div class='mui-slider-item mui-slider-item-duplicate'>			 "		
-												+"  	<a href='#'>                                                      "
+												+"  	<a  href='#'>                                                      "
 												+"  		<img src='" + boot.xgetImgPath(data.param[0].photoUrl) + "' style='height: 100px;'/>       "
 												+"  		<p class='wp-name'>" + data.param[0].trueName + "</p>                                            "
 												+"  		<p class='wp-desc'>" + subStringContent(data.param[0].introContent) + "</p>  "
-												+"  		<div class=' wp-button'>                                        "
-												+"  			<span class='mui-btn mui-btn-success'>了解详情</span>       "
+												+"  		<div class='wp-button'>                                        "
+												+"  			<span onclick='showUserInfo(" + data.param[0].id + ")' class='mui-btn mui-btn-success'>了解详情</span>       "
 												+"  		</div>                                                                 "
 												+"  	</a>                                                               "
 												+"  </div> ";
@@ -82,7 +95,7 @@
 											  +"  		<p class='wp-name'>" + data.param[i].trueName + "</p>                                            "
 											  +"  		<p class='wp-desc'>" + subStringContent(data.param[i].introContent) + "</p>  "
 											  +"  		<div class=' wp-button'>                                               "
-											  +"  			<span class='mui-btn mui-btn-success'>了解详情</span>                "
+											  +"  			<span onclick='showUserInfo(" + data.param[i].id + ")' class='mui-btn mui-btn-success'>了解详情</span>                "
 											  +"  		</div>                                                                 "
 											  +" </a>  ";
 						slider.appendChild(innerDiv);
@@ -95,12 +108,15 @@
 												+"  		<p class='wp-name'>" + data.param[data.param.length - 1].trueName + "</p>                                            "
 												+"  		<p class='wp-desc'>" + subStringContent(data.param[data.param.length - 1].introContent) + "</p>  "
 												+"  		<div class=' wp-button'>                                               "
-												+"  			<span class='mui-btn mui-btn-success'>了解详情</span>                "
+												+"  			<span onclick='showUserInfo(" + data.param[data.param.length - 1].id + ")' class='mui-btn mui-btn-success'>了解详情</span>                "
 												+"  		</div>                                                                 "
 												+"  	</a>                                                                     "
 												+"	 </div> ";
 							slider.appendChild(endDiv);
 						}
+						/*mui(slider).on('tap','.mui-btn',function(){
+							showUserInfo(data.param[0].id);
+						})*/
 					}
 					
 					//获得slider插件对象
@@ -114,6 +130,20 @@
 					console.log("请求失败：" + JSON.stringify(xhr));
 				}
 			});
+		}
+		
+		
+		function showInivInfo(id){
+			var detailPage = mui.preload({
+	            url: 'rewardDetail.html',
+				id:'rewardDetail.html'
+	        });
+				 //传值给详情页面，通知加载新数据
+			mui.fire(detailPage,'itemId',{
+				    id:id
+			});
+				//打开详情页面          
+			mui.openWindow(detailPage);
 		}
 		
 		//初始化技术悬赏
@@ -151,7 +181,7 @@
 						var invitLi = document.createElement('li');
 						invitLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
 						invitLi.style.marginTop = "26px"; 
-						invitLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
+						invitLi.innerHTML =  "  <a href='#' onclick='showInivInfo(" + data.param[i].id + ")'>                                                                      "
 											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
 											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].invitTitle +" </p></div>                           "
 											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].invitIntro +"</p></div>                      "
@@ -165,6 +195,19 @@
 					console.log("请求失败：" + JSON.stringify(xhr));
 				}
 			});
+		}
+		
+		function showGroupInfo(id){
+			var detailPage = mui.preload({
+	            url: 'originalityGroupDetail.html',
+				id:'originalityGroupDetail.html'
+	        });
+				 //传值给详情页面，通知加载新数据
+			mui.fire(detailPage,'itemId',{
+				    id:id
+			});
+				//打开详情页面          
+			mui.openWindow(detailPage);
 		}
 		
 		//初始化创意组团
@@ -203,7 +246,7 @@
 						var groupLi = document.createElement('li');
 						groupLi.className = "mui-table-view-cell mui-media mui-col-xs-4";
 						groupLi.style.marginTop = "26px";
-						groupLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
+						groupLi.innerHTML =  "  <a href='#' onclick='showGroupInfo(" + data.param[i].id + ")'>                                                                      "
 											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
 											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].groupTitle +" </p></div>                           "
 											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].groupIntro +"</p></div>                      "
@@ -216,6 +259,19 @@
 					console.log("请求失败：" + JSON.stringify(xhr));
 				}
 			});
+		}
+		
+		function showDesignInfo(id){
+			var listPage = mui.preload({
+                url:'creativeDesign_info.html',
+                id:'creativeDesign_info.html'//默认使用当前页面的url作为id
+            });
+			 //传值给详情页面，通知加载新数据
+			mui.fire(listPage,'infoId',{
+			    id:id
+			});
+			//打开详情页面          
+			mui.openWindow(listPage);
 		}
 		
 		//初始化创意设计
@@ -255,7 +311,7 @@
 						desginLi.style.marginTop = "26px"; 
 						desginLi.id = data.param[i].id; 
 						desginLi.addEventListener("tap", openDesigninfo);
-						desginLi.innerHTML =  "  <a href='#' id='+id+'>                                                                      "
+						desginLi.innerHTML =  "  <a href='#' onclick='showDesignInfo(" + data.param[i].id + ")'>                                                                      "
 											 +"		<img class='mui-media-object project-img-choose' src='"+ boot.xgetImgPath(data.param[i].photoUrl) +"'>     "
 											 +"		<div class='mui-media-body'><p class='font-black'>"+ data.param[i].desinTitle +" </p></div>                           "
 											 +"		<div class='mui-media-body'><p class='font-size-13'>"+ data.param[i].desinIntro +"</p></div>                       "
