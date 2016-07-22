@@ -42,42 +42,48 @@
 			}
 		</style>
 		<script type="application/javascript">
-			var photoUrl = null;
-			var invitaionId = null;
 			mui.init();
-			mui.plusReady(function() {
-				window.addEventListener('itemId', function(event) {
-				invitaionId = event.detail.id;	
-	  			});
-  			});
-      		
+			Date.prototype.Format = function(fmt) 
+			{ //author: meizz 
+			  var o = { 
+			    "M+" : this.getMonth()+1,                 //月份 
+			    "d+" : this.getDate(),                    //日 
+			    "h+" : this.getHours(),                   //小时 
+			    "m+" : this.getMinutes(),                 //分 
+			    "s+" : this.getSeconds(),                 //秒 
+			    "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+			    "S"  : this.getMilliseconds()             //毫秒 
+			  }; 
+			  if(/(y+)/.test(fmt)) 
+			    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+			  for(var k in o) 
+			    if(new RegExp("("+ k +")").test(fmt)) 
+			  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+			  return fmt; 
+			}
+			
       		function submitApply(){
-      			var applyName = document.getElementById("applyName").value;
-		    	var applyPhone = document.getElementById("applyPhone").value;
-		    	var applyQQ = document.getElementById("applyQQ").value;
-		    	var applyRemark = document.getElementById("applyRemark").value;
-		    	if(photoUrl == null)alert("请先上传图片！");
-		    	if(applyName.length == 0){
-		    		mui.toast("姓名不能为空。");
+      			var userId = plus.storage.getItem("userId");
+      			var newTitle = document.getElementById("newTitle").value;
+		    	var newContent = document.getElementById("newContent").value;
+		    	if(newTitle.length == 0){
+		    		mui.toast("标题不能为空。");
 		    	}
-		    	if(applyPhone.length == 0){
-		    		mui.toast("电话不能为空。");
-		    	}
-		    	if(applyQQ.length == 0){
-		    		mui.toast("QQ不能为空。");
+		    	if(newContent.length == 0){
+		    		mui.toast("内容不能为空。");
 		    	}
 		    	
 		    	var param = {
-                contractBz: applyRemark,
-                contractName:applyName,
-                contractQq:applyQQ,
-                contractTel:applyPhone,
-                invitaionId:invitaionId,
-                photoUrl:photoUrl
-           };
-	    	var url = boot.url.addInvitContractURL + "?paramStr="+JSON.stringify(param);
+	                forumTitle: newTitle,
+	                forumContent:newContent,
+	                forumDate:(new Date()).Format("yyyy-MM-dd hh:mm:ss") ,
+	                forumUserId:userId,
+	                forumSysstate:1,
+	                forumUserflag:2
+           		};
+	    	var url = boot.url.getSaveContactURL + "?paramStr="+JSON.stringify(param);
 				console.log(url);
-				mui.ajax(boot.url.addInvitContractURL, {
+				mui.ajax(boot.url.getSaveContactURL, {
 					data:{paramStr: JSON.stringify(param)},
 					dataType:'json',//服务器返回json格式数据
 					type:'post',//HTTP请求类型
@@ -87,7 +93,7 @@
 							if(data.state == 1){
 								mui.toast("保存成功！");
 								var wb = plus.webview.currentWebview();
-								var parentWb = plus.webview.getWebviewById("rewardDetail.html");
+								var parentWb = plus.webview.getWebviewById("communication_sub.html");
 								wb.close();
 								parentWb.evalJS("refreshPage();");
 							}else{
@@ -101,28 +107,18 @@
 				});
       		};
       		
-			function loadImg(imgPath){
-				photoUrl = imgPath;
-				document.getElementById("designImg").src = boot.xgetImgPath(imgPath);
-			}
-			
-			function refresh(){
-				plus.nativeUI.showWaiting( "正在刷新..." );
-				window.location.reload();
-			}
 		</script>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav" style="background: #1E1F20;">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" ></a>
-			<h1 id="titleContent" class="mui-title" style="font-family: '微软雅黑';font-size: 20px;color: #fff;">新交流贴</h1>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">新交流贴</h1>
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded" style="margin: 5px;">
 				<form class="mui-input-group">
 					<div>
-						
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-5 mui-text-left">
 								<div style="margin-left: 15px;">
@@ -131,30 +127,21 @@
 							</div>
 							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
 								<div class="mui-input-row">
-									<input id="applyName" type="text" class="mui-input-clear" placeholder="请输入标题">
+									<input id="newTitle" type="text" class="mui-input-clear" placeholder="请输入标题">
 								</div>
 							</div>
 						</div>
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-5 mui-text-left">
 								<div style="margin-left: 15px;">
-									<label>备注</label>
+									<label>内容</label>
 								</div>
 							</div>
 							<div class="mui-table-cell mui-col-xs-9 mui-text-left">
-								<textarea id="applyRemark" rows="5" placeholder="请输入内容"></textarea>
+								<textarea id="newContent" rows="5" placeholder="请输入内容"></textarea>
 							</div>
 						</div>
 					 </div>
-					 <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom" style="background: white;">
-						<ul class="dlist">
-							<li class="ditem" onclick="appendByCamera(4,'applyToReward.html')">拍照添加文件</li>
-							<li class="ditem" onclick="appendByGallery(4,'applyToReward.html')">相册添加文件</li>
-						</ul>
-						<div style="width:100%;padding: 1em;">
-							<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
-						</div>
-					</div>
 				</form>
 				<div class="mui-button-row">
 					<button type="button" class="mui-btn mui-btn-primary" style="margin: 15px 0px;width: 96%;font-size: 18px;" onclick="submitApply();">确认</button>

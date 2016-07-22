@@ -10,16 +10,33 @@
 		<link href="../css/mui.css" rel="stylesheet" />
 		<link href="../css/fontstyle.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../css/time-line.css" />
-		
+		<style>
+			.mui-popover{
+				top: 15%;
+			}
+			.mui-popover::before {
+			 border-bottom: 0px;
+			 border-left: 0px;
+			}
+			.mui-popover .mui-table-view{
+				max-height: 350px;
+			}
+		</style>
 		<script type="text/javascript" charset="utf-8">
+			var comId = null;
 			mui.init();
-			
 			mui.plusReady(function(){
 				window.addEventListener('comId', function(event) {
-					var comId = event.detail.id;
+					comId = event.detail.id;
 					console.log("id : " + comId);
 					
-					if(comId){
+					loadForumInfo(comId);
+					});
+			});
+			
+			function loadForumInfo(comId)
+			{
+				if(comId){
 						//var param = {id: 3};
 	        			var url = boot.url.getForumInfo + "?id="+comId;
 						console.log(url);
@@ -59,7 +76,7 @@
 								
 								
 								var paramRsCom = {
-					                id: "2313",
+					                id: "",
 					                forumId: comId,
 					                comtContent: "",
 					                sysOpreaflag: 1,
@@ -123,9 +140,101 @@
 						//imgLoaded();
 						//plus.nativeUI.closeWaiting();
 					}
-				});
-			});
+				
+			}
 			
+			function openReply()
+			{
+				var userId = plus.storage.getItem("userId");
+				if(userId == null){
+					mui('#popover1').popover('toggle');
+					return;
+				}
+				document.getElementById("replyContent").value = "";
+				mui('#popover').popover('toggle');
+
+			}
+			
+			Date.prototype.Format = function(fmt) 
+			{ //author: meizz 
+			  var o = { 
+			    "M+" : this.getMonth()+1,                 //月份 
+			    "d+" : this.getDate(),                    //日 
+			    "h+" : this.getHours(),                   //小时 
+			    "m+" : this.getMinutes(),                 //分 
+			    "s+" : this.getSeconds(),                 //秒 
+			    "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+			    "S"  : this.getMilliseconds()             //毫秒 
+			  }; 
+			  if(/(y+)/.test(fmt)) 
+			    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+			  for(var k in o) 
+			    if(new RegExp("("+ k +")").test(fmt)) 
+			  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+			  return fmt; 
+			}
+			
+			function submitReply()
+			{
+				var userId = plus.storage.getItem("userId");
+				var replyContent = document.getElementById("replyContent").value;
+				if(replyContent.length == 0){
+					mui.toast("请输入评论内容");
+				}
+				else{
+			    	var param = {
+			    		forumId:comId,
+		                userId: userId,
+		                comtContent:replyContent,
+		                Date:(new Date()).Format("yyyy-MM-dd hh:mm:ss")
+	           		};
+		    		var url = boot.url.getSaveCommentURL + "?paramStr="+JSON.stringify(param);
+					console.log(url);
+					mui.ajax(boot.url.getSaveCommentURL, {
+						data:{paramStr: JSON.stringify(param)},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:14000,//超时时间设置为10秒；
+						success:function(data){
+							console.log(JSON.stringify(data));
+								if(data.state == 1){
+									mui.toast("保存成功！");
+									loadForumInfo(comId);
+									mui('#popover').popover('hide');
+								}else{
+									mui.toast("保存失败！");
+								}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log("请求失败：" + JSON.stringify(xhr));
+						}
+					});
+				}
+			}
+			
+			function loginIn(){
+				var login_userName = document.getElementById("login_userName");
+				var login_password = document.getElementById("login_password");
+				var loginInfo = {};
+				loginInfo.loginName = login_userName.value;
+				loginInfo.loginPass = login_password.value;
+				
+				boot.loginIn(loginInfo, loginAfter);
+			}
+			
+			//登陆后回调
+			function loginAfter(resLoginInfo){
+				if(resLoginInfo.success){
+					plus.storage.setItem("userId", resLoginInfo.userId + "");
+					mui.toast('登陆成功！');
+					mui('#popover1').popover('hide');document.getElementById("loginDiv").style.display="none";//不显示  
+					 
+					var userId = plus.storage.getItem("userId");
+				}else{
+					mui.toast(resLoginInfo.data);
+				}
+			}
 		</script>
 	</head>
 
@@ -133,6 +242,7 @@
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">帖子详情</h1>
+			<button onclick="openReply()" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">评论</button>
 		</header>
 		
 		<div class="container" style="margin-top: 45px;">
@@ -189,5 +299,46 @@
 			    </div>   -->
 		    </ul>
 		</div>
+		<div id="popover" class="mui-popover">
+			<div class="mui-content-padded">
+				<ul class="mui-table-view mui-grid-view" style="margin-top: 12px;">
+					<li class="mui-table-view-cell mui-media mui-col-xs-12">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-7 mui-text-right">
+								<textarea id="replyContent" rows="5" placeholder="请输入评论内容"></textarea>
+							</div>
+						</div>
+						
+						<div class="mui-table" >
+							<div class="mui-table-cell mui-col-xs-5 mui-text-center">
+								<button onclick="submitReply()" class="mui-btn mui-btn-green">评论</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="popover1" class="mui-popover">
+	  <ul class="mui-table-view">
+	    <li class="mui-table-view-cell">
+				<div>
+					<form>
+						<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
+							请选登陆
+						</div>
+						<div class="mui-input-row">
+							<input type="text" id="login_userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
+						</div>
+						<div class="mui-input-row">
+							<input type="password" id="login_password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
+						</div>
+						<div class="mui-button-row">
+							<button class="mui-btn mui-btn-green" type="button" onclick="loginIn()">登陆</button>
+						</div>
+					</form>
+				</div>
+			</li>
+	    </ul>
+	</div>
 	</body>
 </html>

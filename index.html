@@ -11,6 +11,21 @@
 		<script src="js/boot.js"></script>
 		<script type="text/javascript" charset="utf-8">
 		</script>
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.mui-popover{
+				top: 15%;
+			}
+			.mui-popover::before {
+			 border-bottom: 0px;
+			 border-left: 0px;
+			}
+			.mui-popover .mui-table-view{
+				max-height: 350px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -40,6 +55,28 @@
 				<span class="mui-tab-label">论坛</span>
 			</a>
 		</nav>
+		<div id="popover" class="mui-popover" style=" z-index:9999">
+		 	<ul class="mui-table-view">
+		    	<li class="mui-table-view-cell">
+					<div>
+						<form>
+							<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
+								请选登陆
+							</div>
+							<div class="mui-input-row">
+								<input type="text" id="login_userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
+							</div>
+							<div class="mui-input-row">
+								<input type="password" id="login_password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
+							</div>
+							<div class="mui-button-row">
+								<button class="mui-btn mui-btn-green" type="button" onclick="loginIn()">登陆</button>
+							</div>
+						</form>
+					</div>
+				</li>
+		    </ul>
+		</div>
 		<script type="text/javascript" charset="utf-8">
 			var subpages = ['pages/home.html','pages/creativeDesign_main.html','pages/discoverDesign.html','pages/user.html','pages/communication_main.html'];
 			var subpage_style = {
@@ -71,7 +108,6 @@
 			var rightbtn = document.createElement('button');
 			rightbtn.className = 'mui-btn mui-btn-blue mui-btn-link mui-pull-right';
 			rightbtn.innerText = '新帖';
-			rightbtn.addEventListener('tap',addNewTopic);
 			function remove(selector) {
 				var elem = header.querySelector(selector);
 				if (elem) {
@@ -80,7 +116,16 @@
 			}
 
 			function addNewTopic(){
-	
+				var userId = plus.storage.getItem("userId");
+				if(userId == null){
+					mui.toast("请先到个人中心登录！");
+				} 
+				else {
+					mui.openWindow({
+						url: 'pages/addNewTopic.html',
+						id:'pages/addNewTopic.html'	
+					});
+				}
 			}
 
 			//当前激活选项，默认为第一个；
@@ -94,6 +139,7 @@
 				if(targetTab == 'pages/communication_main.html'){
 					remove('.mui-pull-right');
 					header.appendChild(rightbtn);
+					document.querySelector('.mui-pull-right').addEventListener('tap',addNewTopic);
 				}
 				else{
 					remove('.mui-pull-right');

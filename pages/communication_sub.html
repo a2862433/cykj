@@ -43,7 +43,6 @@
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
-				setTimeout(function() {
 						var param = {
 			                id: "2313",
 			                forumTitle: "",
@@ -94,23 +93,19 @@
 								console.log("请求失败：" + JSON.stringify(xhr));
 							}
 						});
-						
-				}, 1500);
 			}
-		/*	if (mui.os.plus) {
+			if (mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {
-						mui('#pullrefresh').pullRefresh().pullupLoading();
+						mui('#refreshContainer').pullRefresh().pullupLoading();
 					}, 1000);
 
 				});
 			} else {
 				mui.ready(function() {
-					mui('#pullrefresh').pullRefresh().pullupLoading();
+					mui('#refreshContainer').pullRefresh().pullupLoading();
 				});
-			}*/
-			
-			pullupRefresh();
+			}
 			
 			function openComInfo(){
 				var id = this.getAttribute("id");
@@ -132,6 +127,14 @@
 			function getSubDate(dataStr){
 				dataStr = dataStr.substring(dataStr.indexOf(" "), dataStr.length);
 				return dataStr;
+			}
+			
+			function refreshPage()
+			{
+				currentPage = 0;
+				var table = document.body.querySelector('.mui-table-view');
+				table.innerHTML = "";
+				mui('#refreshContainer').pullRefresh().pullupLoading();
 			}
 		</script>
 	</body>
