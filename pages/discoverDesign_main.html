@@ -6,14 +6,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link href="../css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="../css/cqsp_css/communication.css"> 
+		<link rel="stylesheet" href="css/mui.min.css">
 	</head>
 
 	<body>
 		<header></header>
 		<div class="mui-content"></div>
-	</div>
 	</body>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
@@ -22,22 +20,22 @@
 			gestureConfig:{
 				doubletap:true
 			},
-			subpages:[{
-				url:'communication_sub.html',
-				id:'communication_sub.html',
+			subpages:[{ 
+				url:'discoverDesign_sub.html',
+				id:'discoverDesign_sub.html',
 				styles:{
 					top: '0px',
-					bottom: '0px',
+					bottom: '0px', 
 				}
-			}]
+			}] 
 		});
 	
 		var contentWebview = null;
 		document.querySelector('header').addEventListener('doubletap',function () {
-			if(contentWebview == null){
+			if(contentWebview==null){
 				contentWebview = plus.webview.currentWebview().children()[0];
 			}
-			contentWebview.evalJS("mui('#refreshContainer').pullRefresh().scrollTo(0,0,100)");
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
 		});
 	</script>
 
