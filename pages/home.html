@@ -9,7 +9,33 @@
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <link href="../css/cqsp_css/home.css" rel="stylesheet"></link>
     <script type="text/javascript" charset="utf-8">
-      	mui.init();
+  	   	mui.init({
+            swipeBack: false,
+            pullRefresh: {
+                container: '#pullrefresh',
+                down: {
+                    callback: pulldownRefresh
+                }
+            }
+        });
+        
+        //下拉刷新
+        function pulldownRefresh(){
+        	initAll();
+        	mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); 
+        }
+        
+        //数据初始化
+        function initAll(){
+        	//初始化头部轮播器
+  			initTop();
+  			//初始化技术悬赏
+			initIniv();
+			//初始化创意组团
+			initGroup();
+			//初始化创意设计
+			initDesign(); 
+        }
       	
   		mui.plusReady(function() {
   			/*plus.nativeUI.showWaiting( "数据等待中..." );
@@ -19,14 +45,7 @@
   			
   			plus.nativeUI.showWaiting( "数据等待中..." );
   			
-  			//初始化头部轮播器
-  			initTop();
-  			//初始化技术悬赏
-			initIniv();
-			//初始化创意组团
-			initGroup();
-			//初始化创意设计
-			initDesign(); 
+  			initAll();
 			
 			plus.nativeUI.closeWaiting();
 			
@@ -353,24 +372,29 @@
     </script>
 </head>
 <body>
-	<div class="mui-content" style="background: white">
-		<div  class="mui-slider">
-		  <div id="topslider" class="mui-slider-group mui-slider-loop">
-		  	
-		  </div> 
+	<!--下拉刷新容器-->
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content" style="background: white">
+				<div  class="mui-slider">
+				  <div id="topslider" class="mui-slider-group mui-slider-loop">
+				  	
+				  </div> 
+				</div>
+				
+			    <ul id="technologyInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+			    	
+			    </ul>
+			    
+			    <ul id="creativeGroupInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+			    </ul>
+			    
+			     <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+			    </ul>
+			    
+			</div>
 		</div>
-		
-	    <ul id="technologyInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
-	    	
-	    </ul>
-	    
-	    <ul id="creativeGroupInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
-	    </ul>
-	    
-	     <ul id="creativeDesignInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
-	    </ul>
-	    
-	</div>	
+	</div>
 	<!--<div style="position: absolute;width: 100%;height: 100%;background: rgba(11, 10, 10, 0.3);top: 0px;left: 0px;">
 		<div>asd</div>
 	</div>-->

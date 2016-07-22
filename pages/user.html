@@ -21,7 +21,16 @@
 			}
 		</style>
 		<script type="application/javascript">
-			mui.init();
+			mui.init({
+	            swipeBack: false,
+	            pullRefresh: {
+	                container: '#pullrefresh',
+	                down: {
+	                    callback: pulldownRefresh
+	                }
+	            }
+	        });
+	        
 			
 			//登陆后回调
 			function loginAfter(resLoginInfo){
@@ -37,6 +46,12 @@
 					mui.toast(resLoginInfo.data);
 				}
 			}
+			
+			 //下拉刷新
+	        function pulldownRefresh(){
+	        	initUser();
+	        	mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); 
+	        }
 			
 			mui.plusReady(function() {
 				plus.nativeUI.showWaiting( "正在加载数据..." );
@@ -314,163 +329,167 @@
 	</head>
 
 	<body>
-
-<div class="mui-content">
-    <div id="dataContent" class="mui-content-padded"  style="display: none;" >
-        <form class="mui-input-group">
-    	    <ul id="userShowInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
-		       <li class="mui-table-view-cell mui-media mui-col-xs-4" style="margin-left: 10px;">
-		       	<a href="#"  class="user-top-a-img">
-					<img id="userImg" class="mui-media-object user-top-img">
-				</a>
-		       </li>
-		        <li class="mui-table-view-cell mui-media mui-col-xs-7">
-		       	    <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
-		                    <span class="mui-h5" style="color: #4D4D4E">真实姓名：</span>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="userName"></span>
-		                </div>
-		            </div>
-		             <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
-		                    <span class="mui-h5" style="color: #4D4D4E">性别：</span>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="sex"></span>
-		                </div>
-		            </div>
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
-		                    <span class="mui-h5" style="color: #4D4D4E">出生年月：</span>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="birthday"></span>
-		                </div>
-		            </div>
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
-		                    <span class="mui-h5" style="color: #4D4D4E">工作时间：</span>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="workTime"></span>
-		                </div>
-		            </div>
-		            <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
-		                    <span class="mui-h5" style="color: #4D4D4E">学历：</span>
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="degree"></span>
-		                </div>
-		            </div>
-		       </li>
-		       
-		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
-		       	    <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" style="color: #4D4D4E">工作经历：</span>
-		                </div>
-		            </div>
-		             <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="introContent"></span>
-		                </div>
-		            </div>
-		       </li>
-		       
-		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
-		       	    <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" style="color: #4D4D4E">我的特长：</span>
-		                </div>
-		            </div>
-		             <div class="mui-table">
-		                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-		                    <span class="mui-h5" id="workintro"></span>
-		                </div>
-		            </div>
-		       </li>
-		       
-		        <li class="mui-table-view-cell mui-media mui-col-xs-12">
-		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-	                    <span class="mui-h5" style="color: #4D4D4E">我的创意设计：</span>
-	                </div>
-	                <div id="designDiv" class="mui-table-cell mui-col-xs-7 mui-text-left">
-	                    <img src="../images/add.png" class="img-add-postion"></img>
-	                </div>
-		        </li>
-		        
-		       	<div id="myDesgin"></div>
-		       
-		       <li class="mui-table-view-cell mui-media mui-col-xs-12">
-		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-	                    <span class="mui-h5" style="color: #4D4D4E">我的创意组团：</span>
-	                </div>
-	                <div id="groupDiv" class="mui-table-cell mui-col-xs-7 mui-text-left">
-	                    <img src="../images/add.png" class="img-add-postion"></img>
-	                </div>
-		        </li>
-		        
-		       	<div id="myGroup"></div>
-		       
-		        <li class="mui-table-view-cell mui-media mui-col-xs-12">
-		       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
-	                    <span class="mui-h5" style="color: #4D4D4E">我的技术悬赏：</span>
-	                </div>
-	                <div id="rewardDiv" class="mui-table-cell mui-col-xs-7 mui-text-left">
-	                    <img src="../images/add.png" class="img-add-postion"></img>
-	                </div>
-		        </li>
-		        
-		       	<div id="myIniv"></div>
-		       
-		    </ul>
-            <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom">
-				<ul class="dlist">
-					<li class="ditem" onclick="appendByCamera()">拍照添加文件</li>
-					<li class="ditem" onclick="appendByGallery()">相册添加文件</li>
-				</ul>
-				<div style="width:100%;padding: 1em;">
-					<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
+	<!--下拉刷新容器-->
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content">
+			    <div id="dataContent" class="mui-content-padded"  style="display: none;" >
+			        <form class="mui-input-group">
+			    	    <ul id="userShowInfo" class="mui-table-view mui-grid-view" style="margin-top: 0px;">
+					       <li class="mui-table-view-cell mui-media mui-col-xs-4" style="margin-left: 10px;">
+					       	<a href="#"  class="user-top-a-img">
+								<img id="userImg" class="mui-media-object user-top-img">
+							</a>
+					       </li>
+					        <li class="mui-table-view-cell mui-media mui-col-xs-7">
+					       	    <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+					                    <span class="mui-h5" style="color: #4D4D4E">真实姓名：</span>
+					                </div>
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="userName"></span>
+					                </div>
+					            </div>
+					             <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+					                    <span class="mui-h5" style="color: #4D4D4E">性别：</span>
+					                </div>
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="sex"></span>
+					                </div>
+					            </div>
+					            <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+					                    <span class="mui-h5" style="color: #4D4D4E">出生年月：</span>
+					                </div>
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="birthday"></span>
+					                </div>
+					            </div>
+					            <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+					                    <span class="mui-h5" style="color: #4D4D4E">工作时间：</span>
+					                </div>
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="workTime"></span>
+					                </div>
+					            </div>
+					            <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-center">
+					                    <span class="mui-h5" style="color: #4D4D4E">学历：</span>
+					                </div>
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="degree"></span>
+					                </div>
+					            </div>
+					       </li>
+					       
+					       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+					       	    <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" style="color: #4D4D4E">工作经历：</span>
+					                </div>
+					            </div>
+					             <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="introContent"></span>
+					                </div>
+					            </div>
+					       </li>
+					       
+					       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+					       	    <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" style="color: #4D4D4E">我的特长：</span>
+					                </div>
+					            </div>
+					             <div class="mui-table">
+					                <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+					                    <span class="mui-h5" id="workintro"></span>
+					                </div>
+					            </div>
+					       </li>
+					       
+					        <li class="mui-table-view-cell mui-media mui-col-xs-12">
+					       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+				                    <span class="mui-h5" style="color: #4D4D4E">我的创意设计：</span>
+				                </div>
+				                <div id="designDiv" class="mui-table-cell mui-col-xs-7 mui-text-left">
+				                    <img src="../images/add.png" class="img-add-postion"></img>
+				                </div>
+					        </li>
+					        
+					       	<div id="myDesgin"></div>
+					       
+					       <li class="mui-table-view-cell mui-media mui-col-xs-12">
+					       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+				                    <span class="mui-h5" style="color: #4D4D4E">我的创意组团：</span>
+				                </div>
+				                <div id="groupDiv" class="mui-table-cell mui-col-xs-7 mui-text-left">
+				                    <img src="../images/add.png" class="img-add-postion"></img>
+				                </div>
+					        </li>
+					        
+					       	<div id="myGroup"></div>
+					       
+					        <li class="mui-table-view-cell mui-media mui-col-xs-12">
+					       	    <div class="mui-table-cell mui-col-xs-4 mui-text-left">
+				                    <span class="mui-h5" style="color: #4D4D4E">我的技术悬赏：</span>
+				                </div>
+				                <div id="rewardDiv" class="mui-table-cell mui-col-xs-7 mui-text-left">
+				                    <img src="../images/add.png" class="img-add-postion"></img>
+				                </div>
+					        </li>
+					        
+					       	<div id="myIniv"></div>
+					       
+					    </ul>
+			            <div id="flagged" class="mui-popover mui-popover-action mui-popover-bottom">
+							<ul class="dlist">
+								<li class="ditem" onclick="appendByCamera()">拍照添加文件</li>
+								<li class="ditem" onclick="appendByGallery()">相册添加文件</li>
+							</ul>
+							<div style="width:100%;padding: 1em;">
+								<button style="width:100%;height: 40px;background: #CCCCCC;" id="popoverCancel">取消</button>
+							</div>
+						</div>
+			        </form>
+			    </div>
+			    
+			    <div id="loginDiv" class="mui-content-padded"   style="display: none;">
+			    	<div style="text-align: center;margin-top: 30px;">
+			    		<a>用户未登陆，请点击重新登陆</a>
+			    	</div>
+			    	<div style="text-align: center;margin-top: 30px;">
+			    		<button onclick="loadData();">用户登陆</button>
+			    	</div>
+			    </div>
+			    
+			    <div id="popover" class="mui-popover">
+				  <ul class="mui-table-view">
+				    <li class="mui-table-view-cell">
+							<div>
+								<form>
+									<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
+										请选登陆
+									</div>
+									<div class="mui-input-row">
+										<input type="text" id="login_userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
+									</div>
+									<div class="mui-input-row">
+										<input type="password" id="login_password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
+									</div>
+									<div class="mui-button-row">
+										<button class="mui-btn mui-btn-green" type="button" onclick="loginIn()">登陆</button>
+									</div>
+								</form>
+							</div>
+						</li>
+				    </ul>
 				</div>
 			</div>
-        </form>
-    </div>
-    
-    <div id="loginDiv" class="mui-content-padded"   style="display: none;">
-    	<div style="text-align: center;margin-top: 30px;">
-    		<a>用户未登陆，请点击重新登陆</a>
-    	</div>
-    	<div style="text-align: center;margin-top: 30px;">
-    		<button onclick="loadData();">用户登陆</button>
-    	</div>
-    </div>
-    
-    <div id="popover" class="mui-popover">
-	  <ul class="mui-table-view">
-	    <li class="mui-table-view-cell">
-				<div>
-					<form>
-						<div class="mui-button-row" style="border-bottom:2px solid #4cd964;margin-bottom: 20px;padding-bottom: 5px;font-weight: bold;">
-							请选登陆
-						</div>
-						<div class="mui-input-row">
-							<input type="text" id="login_userName" class="mui-input-clear" placeholder="用户名" style="margin-bottom: 7px;">
-						</div>
-						<div class="mui-input-row">
-							<input type="password" id="login_password" class="mui-input-clear" placeholder="密码" style="margin-bottom: 7px;">
-						</div>
-						<div class="mui-button-row">
-							<button class="mui-btn mui-btn-green" type="button" onclick="loginIn()">登陆</button>
-						</div>
-					</form>
-				</div>
-			</li>
-	    </ul>
+		</div>
 	</div>
-</div>
 	<script type="text/javascript">
 		document.getElementById("designDiv").addEventListener('tap', function() {
 				mui.openWindow({
