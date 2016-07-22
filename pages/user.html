@@ -277,6 +277,9 @@
 					document.getElementById("loginDiv").style.display="block";//显示  
 					mui('#popover').popover('toggle');
 				}else{
+					mui('#popover').popover('hide');
+					document.getElementById("loginDiv").style.display="none";//不显示  
+					
 					document.getElementById("dataContent").style.display="block";//显示
 					
 					var url = boot.url.getUserInfoURL + "?id=" + userId;
