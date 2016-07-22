@@ -100,6 +100,10 @@ boot = boot || {
 		getForumInfo:base._path + '/' + base._project_name + '/v1/m/getForumInfo',
 		//获取论坛回复
 		getForumCommt:base._path + '/' + base._project_name + '/v1/m/getForumCommt',
+		//论坛发表新帖
+        getSaveContactURL: base._path + '/' + base._project_name + '/v1/m/saveContact',
+         //论坛发表新回复
+        getSaveCommentURL: base._path + '/' + base._project_name + '/v1/m/saveComment',
 		//登陆
 	    getLoginURL: base._path + '/' + base._project_name + '/v1/m/login',
 	    //获取当前登陆人信息
