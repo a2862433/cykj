@@ -296,8 +296,9 @@
 								
 							document.getElementById("userImg").src = boot.xgetImgPath(data.photoUrl);
 							document.getElementById("userName").innerText = data.trueName;
-							if(data.sex == 0)document.getElementById("sex").innerText = "男";
-							else if(data.sex == 1)document.getElementById("sex").innerText = "女";
+							if(data.sex == 1)document.getElementById("sex").innerText = "男";
+							else if(data.sex == 2)document.getElementById("sex").innerText = "女";
+							else document.getElementById("sex").innerText = "未填写";
 							document.getElementById("birthday").innerText = data.userBornYear == null ? "" : data.userBornYear 
 							+ "-" +  data.userBornMonth == null ? "" : data.userBornMonth;
 							document.getElementById("workTime").innerText = data.userWorklong;
